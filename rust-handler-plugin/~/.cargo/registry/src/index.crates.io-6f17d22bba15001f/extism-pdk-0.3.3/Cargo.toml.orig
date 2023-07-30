@@ -1,0 +1,29 @@
+[package]
+name = "extism-pdk"
+version = "0.3.3"
+edition = "2021"
+authors = ["The Extism Authors", "oss@extism.org"]
+license = "BSD-3-Clause"
+homepage = "https://extism.org"
+repository = "https://github.com/extism/rust-pdk"
+description = "Extism Plug-in Development Kit (PDK) for Rust"
+
+[dependencies]
+anyhow = "1"
+serde = { version = "1", features = ["derive"] }
+serde_json = "1"
+extism-pdk-derive = {path = "./derive", version = "0.3.1"}
+extism-manifest = {version = "0.3.0", optional = true}
+rmp-serde = {version = "1", optional = true}
+base64 = "0.21.0"
+
+[features]
+default = ["http", "msgpack"]
+http = ["extism-manifest"]
+msgpack = ["rmp-serde"]
+
+[workspace]
+members = [
+  ".",
+  "derive"
+]

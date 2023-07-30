@@ -1,0 +1,25 @@
+[package]
+name = "extism-manifest"
+version = "0.3.0"
+edition = "2021"
+authors = ["The Extism Authors", "oss@extism.org"]
+license = "BSD-3-Clause"
+homepage = "https://extism.org"
+repository = "https://github.com/extism/extism"
+description = "Extism plug-in manifest crate"
+
+[dependencies]
+serde = {version = "1", features = ["derive"]}
+base64 = "0.21.0"
+schemars = {version = "0.8", optional=true}
+
+[features]
+json_schema = ["schemars"]
+
+[dev-dependencies]
+serde_json = "1"
+
+[[example]]
+name = "json_schema"
+required-features = ["json_schema"]
+

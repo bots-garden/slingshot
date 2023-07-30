@@ -1,0 +1,9 @@
+/home/ubuntu/workspaces/21-rust-handler-plugin/target/release/deps/autocfg-0ae002e9df78dab1.rmeta: /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/lib.rs /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/error.rs /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/version.rs
+
+/home/ubuntu/workspaces/21-rust-handler-plugin/target/release/deps/libautocfg-0ae002e9df78dab1.rlib: /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/lib.rs /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/error.rs /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/version.rs
+
+/home/ubuntu/workspaces/21-rust-handler-plugin/target/release/deps/autocfg-0ae002e9df78dab1.d: /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/lib.rs /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/error.rs /home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/version.rs
+
+/home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/lib.rs:
+/home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/error.rs:
+/home/ubuntu/workspaces/21-rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/autocfg-1.1.0/src/version.rs:

@@ -1,0 +1,17 @@
+[package]
+name = "extism-pdk-derive"
+version = "0.3.1"
+edition = "2021"
+authors = ["The Extism Authors", "oss@extism.org"]
+license = "BSD-3-Clause"
+homepage = "https://extism.org"
+description = "Helper package for the Extism Plug-in Development Kit (PDK) for Rust"
+
+[lib]
+proc-macro = true
+
+[dependencies]
+proc-macro2 = "1.0"
+quote = "1.0"
+syn = { version = "2.0", features = ["full", "extra-traits"] }
+

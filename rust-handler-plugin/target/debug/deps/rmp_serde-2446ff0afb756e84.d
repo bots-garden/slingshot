@@ -1,0 +1,8 @@
+/home/ubuntu/slingshot/rust-handler-plugin/target/debug/deps/rmp_serde-2446ff0afb756e84.rmeta: /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/lib.rs /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/config.rs /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/decode.rs /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/encode.rs
+
+/home/ubuntu/slingshot/rust-handler-plugin/target/debug/deps/rmp_serde-2446ff0afb756e84.d: /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/lib.rs /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/config.rs /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/decode.rs /home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/encode.rs
+
+/home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/lib.rs:
+/home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/config.rs:
+/home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/decode.rs:
+/home/ubuntu/slingshot/rust-handler-plugin/~/.cargo/registry/src/index.crates.io-6f17d22bba15001f/rmp-serde-1.1.2/src/encode.rs:

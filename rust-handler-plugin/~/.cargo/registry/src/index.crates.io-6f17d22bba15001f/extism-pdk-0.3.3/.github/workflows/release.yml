@@ -1,0 +1,48 @@
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+name: Release
+
+jobs:
+  publish-derive:
+    name: publish-derive
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Rust env
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+          target: wasm32-unknown-unknown
+
+      - name: Release Rust extism-pdk-derive
+        continue-on-error: true
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_API_TOKEN }}
+        run: cargo publish -p extism-pdk-derive
+  publish-pdk:
+    name: publish-pdk
+    needs: publish-derive
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Setup Rust env
+        uses: actions-rs/toolchain@v1
+        with:
+          toolchain: stable
+          profile: minimal
+          override: true
+          target: wasm32-unknown-unknown
+
+      - name: Release Rust extism-pdk
+        env:
+          CARGO_REGISTRY_TOKEN: ${{ secrets.CARGO_API_TOKEN }}
+        run: cargo publish -p extism-pdk

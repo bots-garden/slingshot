@@ -1,0 +1,7 @@
+node_modules
+*.wasm
+
+slingshot-v*
+extism.h
+libextism.so
+docker-xp
