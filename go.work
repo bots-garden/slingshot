@@ -1,8 +1,17 @@
 go 1.20
 
 use (
-  ./slingshot-server
+  ./slingshot-http-server
   ./go-handler-plugin
+  ./go-sdk
+  ./go-sdk/plugins/config
+  ./go-sdk/plugins/exit
+  ./go-sdk/plugins/fs
+  ./go-sdk/plugins/host
+  ./go-sdk/plugins/http
+  ./go-sdk/plugins/log
+  ./go-sdk/plugins/sleep
+  ./go-sdk/plugins/var
 )
 
 

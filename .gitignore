@@ -6,3 +6,6 @@ extism.h
 libextism.so
 docker-xp
 .DS_Store
+go-sdk
+
+go.work
