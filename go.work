@@ -1,18 +1,19 @@
 go 1.20
 
 use (
-  ./slingshot-http-server
-  ./go-handler-plugin
-  ./go-sdk
-  ./go-sdk/plugins/config
-  ./go-sdk/plugins/exit
-  ./go-sdk/plugins/fs
-  ./go-sdk/plugins/host
-  ./go-sdk/plugins/http
-  ./go-sdk/plugins/log
-  ./go-sdk/plugins/sleep
-  ./go-sdk/plugins/var
+	./forbidden-planet
+	./forbidden-planet/golang-monster
+	./go-handler-plugin
+	./go-sdk
+	./go-sdk/plugins/config
+	./go-sdk/plugins/exit
+	./go-sdk/plugins/fs
+	./go-sdk/plugins/host
+	./go-sdk/plugins/http
+	./go-sdk/plugins/log
+	./go-sdk/plugins/sleep
+	./go-sdk/plugins/var
+	./slingshot-http-server
 )
-
 
 // go work sync

@@ -1,7 +1,7 @@
 {
     "workbench.iconTheme": "material-icon-theme",
     "workbench.colorTheme": "Cobalt2",
-    "terminal.integrated.fontSize": 16,
+    "terminal.integrated.fontSize": 18,
     "editor.fontSize": 16,
     "files.autoSave": "afterDelay",
     "files.autoSaveDelay": 1000,

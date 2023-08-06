@@ -40,7 +40,7 @@ var memoryMap = map[string]string{
 }
 
 func main() {
-
+	
 	wasmFilePath := os.Args[1:][0]
 	wasmFunctionName := os.Args[1:][1]
 	httpPort := os.Args[1:][2]
