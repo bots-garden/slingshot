@@ -1,9 +1,11 @@
-import { setHandler } from "./core/receiver"
+import { callHandler } from "./core/receiver"
 
 // change this to `main`
 function handle() {
 	
-	setHandler(param => {
+	console.log("HELLO")
+
+	callHandler(param => {
 		let output = "param: " + param
 		let err = null
 

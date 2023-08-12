@@ -5,7 +5,7 @@ import (
 	"github.com/extism/go-pdk"
 )
 
-//go:wasm-module env
+
 //export hostMemoryGet
 func hostMemoryGet(offset uint64) uint64
 
@@ -37,20 +37,47 @@ func MemoryGet(key string) string {
 
 }
 
+//export hostPrint
+func hostPrint(offset uint64) uint64
+
+func Print(text string) {
+
+	// Call the host function
+	// 1- copy the text to the shared memory
+	memoryText := pdk.AllocateString(text)
+	// call the host function
+	// memoryKey.Offset() is the position and the length of memoryKey into the memory (2 values into only one value)
+	hostPrint(memoryText.Offset())
+
+}
+
 //export handle
 func handle() {
+	Print("🟣 this is the handle() function")
 
 	val1 := MemoryGet("hello")
 	val2 := MemoryGet("message")
 	
-	receiver.SetHandler(func(param []byte) ([]byte, error) {
+	receiver.CallHandler(func(param []byte) ([]byte, error) {
 		res := `{"message":"👋 Hello `+ string(param) + `", "number":42, "message":"`+ val1 + " - " + val2 +`"}`
 		return []byte(res), nil
 	})
 }
 
-func main() {
+/*
+TODO:
 
+- OnStart
+- OnStop
+
+*/
+
+func init() {
+	Print("🟠 this is the init() function")
+}
+
+func main() {
+	Print("🔵 this is the main() function")
 }
 
 // 👋 see this example:

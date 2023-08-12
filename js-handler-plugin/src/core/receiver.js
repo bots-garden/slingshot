@@ -1,4 +1,4 @@
-function setHandler(func) {
+function callHandler(func) {
 	// read function argument from the memory
 	let input = Host.inputString()
 
@@ -13,5 +13,5 @@ function setHandler(func) {
 	return 0
 }
 
-module.exports = {setHandler}
+module.exports = {callHandler}
 

@@ -5,7 +5,7 @@ import (
 )
 
 // Execute the function
-func SetHandler(function func(param []byte) ([]byte, error))  {
+func CallHandler(function func(param []byte) ([]byte, error))  {
 
 	functionParameters := pdk.Input()
 

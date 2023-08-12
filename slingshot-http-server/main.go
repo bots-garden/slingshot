@@ -2,11 +2,11 @@ package main
 
 import (
 	"context"
-	"errors"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"slingshot-http-server/slingshotplugin"
 	"sync"
 
 	"github.com/extism/extism"
@@ -16,23 +16,7 @@ import (
 	//"github.com/tetratelabs/wazero/sys"
 )
 
-// store all your plugins in a normal Go hash map, protected by a Mutex
-var m sync.Mutex
-var plugins = make(map[string]*extism.Plugin)
-
-func StorePlugin(plugin *extism.Plugin) {
-	// store all your plugins in a normal Go hash map, protected by a Mutex
-	plugins["code"] = plugin
-}
-
-func GetPlugin() (extism.Plugin, error) {
-
-	if plugin, ok := plugins["code"]; ok {
-		return *plugin, nil
-	} else {
-		return extism.Plugin{}, errors.New("🔴 no plugin")
-	}
-}
+var mutex sync.Mutex
 
 var memoryMap = map[string]string{
 	"hello":   "🖖 Hello World 🌍",
@@ -40,7 +24,7 @@ var memoryMap = map[string]string{
 }
 
 func main() {
-	
+
 	wasmFilePath := os.Args[1:][0]
 	wasmFunctionName := os.Args[1:][1]
 	httpPort := os.Args[1:][2]
@@ -48,17 +32,12 @@ func main() {
 	// this is for tests
 	var counter = 0
 
-	//ctx := extism.NewContext()
-	ctx := context.Background() // new
+	ctx := context.Background() 
 
-	//defer ctx.Free() // this will free the context and all associated plugins
-
-	// new
 	config := extism.PluginConfig{
 		ModuleConfig: wazero.NewModuleConfig().WithSysWalltime(),
 		EnableWasi:   true,
 	}
-	// end new
 
 	manifest := extism.Manifest{
 		Wasm: []extism.Wasm{
@@ -67,14 +46,29 @@ func main() {
 		},
 	}
 
-	/*
-		plugin, err := ctx.PluginFromManifest(manifest, []extism.Function{}, true)
-		if err != nil {
-			panic(err)
-		}
-	*/
+	print_string := extism.HostFunction{
+		Name:      "hostPrint",
+		Namespace: "env",
+		Callback: func(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
 
-	//plugin, err := ctx.PluginFromManifest(manifest, []extism.Function{}, true)
+			offset := stack[0]
+			bufferInput, err := plugin.ReadBytes(offset)
+
+			if err != nil {
+				fmt.Println("🥵", err.Error())
+				panic(err)
+			}
+
+			stringToDisplay := string(bufferInput)
+			fmt.Println(stringToDisplay)
+
+			plugin.Free(offset)
+
+			stack[0] = 0
+		},
+		Params:  []api.ValueType{api.ValueTypeI64},
+		Results: []api.ValueType{api.ValueTypeI64},
+	}
 
 	memory_get := extism.HostFunction{
 		Name:      "hostMemoryGet",
@@ -90,7 +84,7 @@ func main() {
 			}
 
 			keyStr := string(bufferInput)
-			fmt.Println("🟢 keyStr:", keyStr)
+			fmt.Println("🟢 keyStr:", keyStr) // this is for test
 
 			returnValue := memoryMap[keyStr]
 
@@ -109,6 +103,7 @@ func main() {
 
 	hostFunctions := []extism.HostFunction{
 		memory_get,
+		print_string,
 	}
 
 	pluginInst, err := extism.NewPlugin(ctx, manifest, config, hostFunctions) // new
@@ -118,7 +113,7 @@ func main() {
 		os.Exit(1)
 	}
 
-	StorePlugin(pluginInst)
+	slingshotplugin.StorePlugin("slingshotplug", pluginInst)
 
 	/*
 		app := fiber.New(fiber.Config{
@@ -134,21 +129,12 @@ func main() {
 
 		params := c.Body()
 
-		/*
-			plugin, err := ctx.PluginFromManifest(manifest, []extism.Function{}, true)
-			if err != nil {
-				//panic(err)
-				fmt.Println(err)
-				c.Status(http.StatusConflict)
-				return c.SendString(err.Error())
-			}
-		*/
-
-		m.Lock()
+		mutex.Lock()
 		// don't forget to release the lock on the Mutex, sometimes its best to `defer m.Unlock()` right after yout get the lock
-		defer m.Unlock()
+		defer mutex.Unlock()
 
-		plugin, err := GetPlugin()
+
+		plugin, err := slingshotplugin.GetPlugin("slingshotplug")
 
 		if err != nil {
 			log.Println("🔴 !!! Error when getting the plugin", err)

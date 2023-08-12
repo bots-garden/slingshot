@@ -11,6 +11,7 @@ use (
 	./go-sdk/plugins/log
 	./go-sdk/plugins/sleep
 	./go-sdk/plugins/var
+	./go-handler-plugin
 )
 
 // go work sync

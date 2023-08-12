@@ -27,7 +27,7 @@ var __toESM = (mod, isNodeMode, target) => (target = mod != null ? __create(__ge
 // src/core/receiver.js
 var require_receiver = __commonJS({
   "src/core/receiver.js"(exports2, module2) {
-    function setHandler2(func) {
+    function callHandler2(func) {
       let input = Host.inputString();
       let res = func(input);
       Host.outputString(JSON.stringify({
@@ -36,14 +36,15 @@ var require_receiver = __commonJS({
       }));
       return 0;
     }
-    module2.exports = { setHandler: setHandler2 };
+    module2.exports = { callHandler: callHandler2 };
   }
 });
 
 // src/index.js
 var import_receiver = __toESM(require_receiver());
 function handle() {
-  (0, import_receiver.setHandler)((param) => {
+  console.log("HELLO");
+  (0, import_receiver.callHandler)((param) => {
     let output = "param: " + param;
     let err = null;
     return [output, err];
