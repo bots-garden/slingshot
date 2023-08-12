@@ -1,4 +1,4 @@
-module slingshot-http-server
+module slingshot-server
 
 go 1.20
 
