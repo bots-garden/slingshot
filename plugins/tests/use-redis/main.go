@@ -184,7 +184,57 @@ func redis_del() int32 {
 	return 0
 }
 
+//export hostRedisFilter
+func hostRedisFilter(offset uint64) uint64
 
+func addRecord(key string, value string) {
+	// Prepare json argument
+	jsonStrArguments := `{"id":"redis-cli-wasm","key":"`+key+`","value":"`+value+`"}`
+	// Copy the string value to the shared memory
+	memoryJsonStr := pdk.AllocateString(jsonStrArguments)
+	// Call the host function with Json string argument
+	hostRedisSet(memoryJsonStr.Offset())
+}
 
+//export redis_filter
+func redis_filter() int32 {
+
+	addRecord("001", "Jane")
+	addRecord("002", "John")
+	addRecord("003", "Bob")
+
+	// Prepare json argument
+	jsonStrArguments := `{"id":"redis-cli-wasm","key":"00*"}`
+	// Copy the string value to the shared memory
+	memoryJsonStr := pdk.AllocateString(jsonStrArguments)
+
+	// Call the host function with Json string argument
+	offset := hostRedisFilter(memoryJsonStr.Offset())
+
+	// Read the result of the function in memory
+	memoryResult := pdk.FindMemory(offset)
+	buffJsonResult := make([]byte, memoryResult.Length())
+	memoryResult.Load(buffJsonResult)
+
+	JSONData, err := parser.ParseBytes(buffJsonResult)
+	//_, err := parser.ParseBytes(buffJsonResult)
+	if err != nil {
+		// Allocate space into the memory
+		mem := pdk.AllocateString(err.Error())
+		// copy output to host memory
+		pdk.OutputMemory(mem)
+	} else {
+		// Allocate space into the memory
+		mem := pdk.AllocateString(string(JSONData.GetStringBytes("success")))
+		// copy output to host memory
+		pdk.OutputMemory(mem)
+	}
+
+	/* Expected result
+	["003","001","002"]
+	*/
+
+	return 0
+}
 
 func main() {}

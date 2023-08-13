@@ -2,6 +2,7 @@ package callbacks
 
 import (
 	"context"
+	"encoding/json"
 	"log"
 	"slingshot-server/slingshot"
 	"sync"
@@ -195,5 +196,38 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 }
 
 func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
-	// foo
+	/* Expected
+	{ id: "", key: "*" }
+	*/
+	var result = slingshot.StringResult{}
+	var arguments RedisClientArguments
+
+	// Read data from the shared memory
+	err := slingshot.ReadJsonFromMemory(plugin, stack, &arguments)
+
+	// Construct the result
+	if err != nil {
+		result.Failure = err.Error()
+		result.Success = ""
+	} else {
+		//fmt.Println("🔵 RedisFilter", arguments)
+		redisCli := GetRedisClient(arguments.Id)
+
+		keys, err := redisCli.Keys(ctx, string(arguments.Key)).Result()
+		jsonArr, err := json.Marshal(keys)
+		if err != nil {
+			result.Failure = err.Error()
+			result.Success = ""
+		} else {
+			result.Failure = ""
+			result.Success = string(jsonArr)
+		}
+	}
+
+	// Copy the result to the memory
+	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+
+	if errResult != nil {
+		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+	}
 }

@@ -7,6 +7,7 @@ import (
 	"os"
 	"slingshot-server/callbacks"
 	"slingshot-server/slingshot"
+	"strings"
 	"testing"
 )
 
@@ -62,19 +63,18 @@ func initPluginForRedis(wasmFilePath string, pluginId string) {
 		"hostRedisDel",
 		callbacks.RedisDel,
 	)
-	/*
+
 	redis_filter := slingshot.DefineHostFunctionCallBack(
 		"hostRedisFilter",
 		callbacks.RedisFilter,
 	)
-	*/
 
 	slingshot.AppendHostFunction(get_env)
 	slingshot.AppendHostFunction(init_redis_cli)
 	slingshot.AppendHostFunction(redis_set)
 	slingshot.AppendHostFunction(redis_get)
 	slingshot.AppendHostFunction(redis_del)
-	//slingshot.AppendHostFunction(redis_filter)
+	slingshot.AppendHostFunction(redis_filter)
 
 	err := slingshot.InitializePluging(ctx, pluginId, manifest, config, slingshot.GetHostFunctions())
 	if err != nil {
@@ -88,7 +88,6 @@ func TestRedisInit(t *testing.T) {
 	wasmFilePath := "../plugins/tests/use-redis/use-redis.wasm"
 	wasmFunctionName := "init_redis_cli" // will return the id of the redis client
 	expected := "redis-cli-wasm"
-
 
 	fmt.Println("🟠", os.Getenv("REDIS_URI"))
 
@@ -111,7 +110,6 @@ func TestRedisInit(t *testing.T) {
 	}
 
 }
-
 
 func TestRedisSet(t *testing.T) {
 	wasmFilePath := "../plugins/tests/use-redis/use-redis.wasm"
@@ -208,6 +206,39 @@ func TestRedisDel(t *testing.T) {
 		t.Errorf("Result %q, Expected %q", result, expected)
 	} else {
 		fmt.Println("🟢", "TestRedisDel")
+	}
+
+}
+
+func TestRedisFilter(t *testing.T) {
+	wasmFilePath := "../plugins/tests/use-redis/use-redis.wasm"
+	expected := `["003","001","002"]`
+	//redisClientId := "redis-cli-wasm"
+
+	fmt.Println("🟠", os.Getenv("REDIS_URI"))
+
+	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
+
+	plugin, err := slingshot.GetPlugin("slingshotRedisplug")
+	if err != nil {
+		log.Println("🔴 !!! Error when getting the plugin", err)
+		os.Exit(1)
+	}
+	// First, initialize the Redis client
+	_, out, err := plugin.Call("init_redis_cli", nil)
+
+	result := string(out)
+	fmt.Println("🟠 init_redis_cli (redis client id):", result)
+
+	_, out, err = plugin.Call("redis_filter", nil)
+	result = string(out)
+	fmt.Println("🟠 redis_filter (keys):", result)
+
+	if strings.Contains(result, "001") && strings.Contains(result, "002") && strings.Contains(result, "003") {
+		fmt.Println("🟢", "TestRedisFilter")
+	} else {
+		fmt.Println("🔴", "TestRedisFilter")
+		t.Errorf("Result %q, Expected %q", result, expected)
 	}
 
 }
