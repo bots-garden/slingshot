@@ -9,3 +9,5 @@ docker-xp
 go-sdk
 
 go.work
+.env
+

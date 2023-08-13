@@ -1,1 +1,4 @@
 !some-functions.wasm 
+!read-env.wasm
+!use-redis.wasm
+

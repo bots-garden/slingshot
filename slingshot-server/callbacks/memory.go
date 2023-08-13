@@ -18,7 +18,7 @@ type memoryRecord struct {
 
 func MemorySet(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
 	/* Expected
-	{key: "", value: ""}
+	{ key: "", value: "" }
 	*/
 	var result = slingshot.StringResult{}
 	var record memoryRecord

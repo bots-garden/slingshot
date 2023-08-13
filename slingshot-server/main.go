@@ -1,5 +1,9 @@
 package main
 
+/*
+  Slingshot is an Extism plugins launcher
+*/
+
 import (
 	"context"
 	"fmt"
@@ -19,6 +23,9 @@ var mutex sync.Mutex
 - Download a plugin from a location
 - OnStart
 - OnStop
+- Certificats
+- Redis
+- improve CLI XP : https://dev.to/cherryramatis/bonzai-and-how-to-create-a-personal-cli-to-rule-them-all-1bnl
 */
 
 func main() {
@@ -60,11 +67,29 @@ func main() {
 		callbacks.MemoryGet,
 	)
 
+	get_env := slingshot.DefineHostFunctionCallBack(
+		"hostGetEnv",
+		callbacks.GetEnv,
+	)
+
+	init_redis_cli := slingshot.DefineHostFunctionCallBack(
+		"hostInitRedisClient",
+		callbacks.InitRedisClient,
+	)
+
+	redis_set := slingshot.DefineHostFunctionCallBack(
+		"hostRedisSet",
+		callbacks.RedisSet,
+	)
+
 	slingshot.AppendHostFunction(get_message)
 	slingshot.AppendHostFunction(print_string)
 	slingshot.AppendHostFunction(log_string)
 	slingshot.AppendHostFunction(memory_set)
 	slingshot.AppendHostFunction(memory_get)
+	slingshot.AppendHostFunction(get_env)
+	slingshot.AppendHostFunction(init_redis_cli)
+	slingshot.AppendHostFunction(redis_set)
 
 	err := slingshot.InitializePluging(ctx, "slingshotplug", manifest, config, slingshot.GetHostFunctions())
 	/*
