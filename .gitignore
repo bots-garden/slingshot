@@ -11,3 +11,5 @@ go-sdk
 go.work
 .env
 
+aiven.sh
+

@@ -17,8 +17,8 @@ type RedisClientRecord struct {
 }
 
 type RedisClientArguments struct {
-	Id  string `json:"id"`
-	Key string `json:"key"`
+	Id    string `json:"id"`
+	Key   string `json:"key"`
 	Value string `json:"value"`
 }
 
@@ -50,7 +50,6 @@ func CreateOrGetRedisClient(record RedisClientRecord) (*redis.Client, error) {
 	}
 	return redisDbCli, nil
 }
-
 
 func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
 	/* Expected
@@ -101,9 +100,10 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 		result.Failure = err.Error()
 		result.Success = ""
 	} else {
+		//fmt.Println("🔵 RedisSet", arguments)
 		redisCli := GetRedisClient(arguments.Id)
 
-		err = redisCli.Set(ctx, string(arguments.Key), string(arguments.Value), 0).Err() 
+		err = redisCli.Set(ctx, string(arguments.Key), string(arguments.Value), 0).Err()
 		if err != nil {
 			result.Failure = err.Error()
 			result.Success = ""
@@ -120,4 +120,80 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
 	}
 
+}
+
+func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+	/* Expected
+	{ id: "", key: "" }
+	*/
+	var result = slingshot.StringResult{}
+	var arguments RedisClientArguments
+
+	// Read data from the shared memory
+	err := slingshot.ReadJsonFromMemory(plugin, stack, &arguments)
+
+	// Construct the result
+	if err != nil {
+		result.Failure = err.Error()
+		result.Success = ""
+	} else {
+		//fmt.Println("🔵 RedisGet", arguments)
+		redisCli := GetRedisClient(arguments.Id)
+
+		value, err := redisCli.Get(ctx, string(arguments.Key)).Result()
+		if err != nil {
+			result.Failure = err.Error()
+			result.Success = ""
+		} else {
+			result.Failure = ""
+			result.Success = value
+		}
+	}
+
+	// Copy the result to the memory
+	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+
+	if errResult != nil {
+		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+	}
+}
+
+func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+	/* Expected
+	{ id: "", key: "" }
+	*/
+	var result = slingshot.StringResult{}
+	var arguments RedisClientArguments
+
+	// Read data from the shared memory
+	err := slingshot.ReadJsonFromMemory(plugin, stack, &arguments)
+
+	// Construct the result
+	if err != nil {
+		result.Failure = err.Error()
+		result.Success = ""
+	} else {
+		//fmt.Println("🔵 RedisDel", arguments)
+		redisCli := GetRedisClient(arguments.Id)
+
+		_, err := redisCli.Del(ctx, string(arguments.Key)).Result()
+		if err != nil {
+			result.Failure = err.Error()
+			result.Success = ""
+		} else {
+			result.Failure = ""
+			result.Success = arguments.Key
+		}
+	}
+
+	// Copy the result to the memory
+	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+
+	if errResult != nil {
+		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+	}
+}
+
+func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+	// foo
 }

@@ -23,7 +23,7 @@ var mutex sync.Mutex
 - Download a plugin from a location
 - OnStart
 - OnStop
-- Certificats
+- Certificates (https)
 - Redis
 - improve CLI XP : https://dev.to/cherryramatis/bonzai-and-how-to-create-a-personal-cli-to-rule-them-all-1bnl
 */
@@ -82,6 +82,20 @@ func main() {
 		callbacks.RedisSet,
 	)
 
+	redis_get := slingshot.DefineHostFunctionCallBack(
+		"hostRedisGet",
+		callbacks.RedisGet,
+	)
+	redis_del := slingshot.DefineHostFunctionCallBack(
+		"hostRedisDel",
+		callbacks.RedisDel,
+	)
+	redis_filter := slingshot.DefineHostFunctionCallBack(
+		"hostRedisFilter",
+		callbacks.RedisFilter,
+	)
+
+
 	slingshot.AppendHostFunction(get_message)
 	slingshot.AppendHostFunction(print_string)
 	slingshot.AppendHostFunction(log_string)
@@ -90,15 +104,13 @@ func main() {
 	slingshot.AppendHostFunction(get_env)
 	slingshot.AppendHostFunction(init_redis_cli)
 	slingshot.AppendHostFunction(redis_set)
+	slingshot.AppendHostFunction(redis_get)
+	slingshot.AppendHostFunction(redis_del)
+	slingshot.AppendHostFunction(redis_filter)
+
 
 	err := slingshot.InitializePluging(ctx, "slingshotplug", manifest, config, slingshot.GetHostFunctions())
-	/*
-	err = slingshot.InitializePluging(ctx, "slingshotplug0", manifest, config, slingshot.GetHostFunctions())
-	err = slingshot.InitializePluging(ctx, "slingshotplug1", manifest, config, slingshot.GetHostFunctions())
-	err = slingshot.InitializePluging(ctx, "slingshotplug2", manifest, config, slingshot.GetHostFunctions())
-	err = slingshot.InitializePluging(ctx, "slingshotplug3", manifest, config, slingshot.GetHostFunctions())
-	err = slingshot.InitializePluging(ctx, "slingshotplug4", manifest, config, slingshot.GetHostFunctions())
-	*/
+
 
 	if err != nil {
 		log.Println("🔴 !!! Error when loading the plugin", err)
@@ -126,8 +138,6 @@ func main() {
 
 		plugin, err := slingshot.GetPlugin("slingshotplug")
 		
-		//plugin, err := slingshot.SelectPlugin()
-
 		if err != nil {
 			log.Println("🔴 !!! Error when getting the plugin", err)
 			c.Status(http.StatusInternalServerError)
