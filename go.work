@@ -12,6 +12,8 @@ use (
 	./go-sdk/plugins/sleep
 	./go-sdk/plugins/var
 	./slingshot-server
+
+	./plugins/tests/some-functions
 )
 
 // go work sync

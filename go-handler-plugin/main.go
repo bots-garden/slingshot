@@ -1,83 +1,40 @@
 package main
 
 import (
-	receiver "go-handler-plugin/core"
-	"github.com/extism/go-pdk"
+	"go-handler-plugin/slingshot"
 )
-
-
-//export hostMemoryGet
-func hostMemoryGet(offset uint64) uint64
-
-func MemoryGet(key string) string {
-
-	// Call the host function
-	// 1- copy the key to the shared memory
-	memoryKey := pdk.AllocateString(key)
-	// call the host function
-	// memoryKey.Offset() is the position and the length of memoryKey into the memory (2 values into only one value)
-	offset := hostMemoryGet(memoryKey.Offset())
-	// read the value into the memory
-	// offset is the position and the length of the result (2 values into only one value)
-	// get the length and the position of the result in memory
-	memoryResult := pdk.FindMemory(offset)
-	/*
-		memoryResult is a struct instance
-		type Memory struct {
-			offset uint64
-			length uint64
-		}
-	*/	
-	// create a buffer from memoryResult
-	// fill the buffer with memoryResult
-	buffResult := make([]byte, memoryResult.Length())
-	memoryResult.Load(buffResult)
-
-	return string(buffResult)
-
-}
-
-//export hostPrint
-func hostPrint(offset uint64) uint64
-
-func Print(text string) {
-
-	// Call the host function
-	// 1- copy the text to the shared memory
-	memoryText := pdk.AllocateString(text)
-	// call the host function
-	// memoryKey.Offset() is the position and the length of memoryKey into the memory (2 values into only one value)
-	hostPrint(memoryText.Offset())
-
-}
 
 //export handle
 func handle() {
-	Print("🟣 this is the handle() function")
+	slingshot.Print("🟣 this is the handle() function")
 
-	val1 := MemoryGet("hello")
-	val2 := MemoryGet("message")
-	
-	receiver.CallHandler(func(param []byte) ([]byte, error) {
-		res := `{"message":"👋 Hello `+ string(param) + `", "number":42, "message":"`+ val1 + " - " + val2 +`"}`
+	val1 := slingshot.GetMessage("hello")
+	val2 := slingshot.GetMessage("message")
+
+	slingshot.MemorySet("Bob", "Morane")
+
+	name, err := slingshot.MemoryGet("Bob")
+	if err != nil {
+		slingshot.Print("🔴 " + err.Error())
+	} else {
+		slingshot.Print("🙂 " + name)
+		slingshot.Log("😈" + name)
+	}
+
+	// Get the arguments passed by the host
+	slingshot.CallHandler(func(param []byte) ([]byte, error) {
+		res := `{"message":"👋 Hello ` + string(param) + `", "number":42, "message":"` + val1 + " - " + val2 + `"}`
 		return []byte(res), nil
 	})
 }
 
-/*
-TODO:
-
-- OnStart
-- OnStop
-
-*/
 
 func init() {
-	Print("🟠 this is the init() function")
+	slingshot.Print("🟠 this is the init() function")
 }
 
 func main() {
-	Print("🔵 this is the main() function")
+	slingshot.Print("🔵 this is the main() function")
 }
 
 // 👋 see this example:

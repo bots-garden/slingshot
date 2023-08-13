@@ -1,4 +1,4 @@
-package receiver
+package slingshot
 
 import (
 	"github.com/extism/go-pdk"

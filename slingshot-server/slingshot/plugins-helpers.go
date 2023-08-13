@@ -26,6 +26,20 @@ func GetPlugin(key string) (extism.Plugin, error) {
 	}
 }
 
+/*
+func SelectPlugin() (extism.Plugin, error) {
+	min := 0
+	max := 4
+	i := rand.Intn(max-min) + min
+
+	if plugin, ok := plugins["slingshotplug"+strconv.Itoa(i)]; ok {
+		return *plugin, nil
+	} else {
+		return extism.Plugin{}, errors.New("🔴 no plugin")
+	}
+}
+*/
+
 func GetPluginConfig() extism.PluginConfig {
 	config := extism.PluginConfig{
 		ModuleConfig: wazero.NewModuleConfig().WithSysWalltime(),

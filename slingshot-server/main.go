@@ -16,7 +16,6 @@ import (
 var mutex sync.Mutex
 
 /* TODO:
-- Get and Set for the memory
 - Download a plugin from a location
 - OnStart
 - OnStop
@@ -41,15 +40,40 @@ func main() {
 		callbacks.Print,
 	)
 
+	log_string := slingshot.DefineHostFunctionCallBack(
+		"hostLog",
+		callbacks.Log,
+	)
+
+	get_message := slingshot.DefineHostFunctionCallBack(
+		"hostGetMessage",
+		callbacks.GetMessage,
+	)
+
+	memory_set := slingshot.DefineHostFunctionCallBack(
+		"hostMemorySet",
+		callbacks.MemorySet,
+	)
+
 	memory_get := slingshot.DefineHostFunctionCallBack(
 		"hostMemoryGet",
 		callbacks.MemoryGet,
 	)
 
-	slingshot.AppendHostFunction(memory_get)
+	slingshot.AppendHostFunction(get_message)
 	slingshot.AppendHostFunction(print_string)
+	slingshot.AppendHostFunction(log_string)
+	slingshot.AppendHostFunction(memory_set)
+	slingshot.AppendHostFunction(memory_get)
 
 	err := slingshot.InitializePluging(ctx, "slingshotplug", manifest, config, slingshot.GetHostFunctions())
+	/*
+	err = slingshot.InitializePluging(ctx, "slingshotplug0", manifest, config, slingshot.GetHostFunctions())
+	err = slingshot.InitializePluging(ctx, "slingshotplug1", manifest, config, slingshot.GetHostFunctions())
+	err = slingshot.InitializePluging(ctx, "slingshotplug2", manifest, config, slingshot.GetHostFunctions())
+	err = slingshot.InitializePluging(ctx, "slingshotplug3", manifest, config, slingshot.GetHostFunctions())
+	err = slingshot.InitializePluging(ctx, "slingshotplug4", manifest, config, slingshot.GetHostFunctions())
+	*/
 
 	if err != nil {
 		log.Println("🔴 !!! Error when loading the plugin", err)
@@ -70,11 +94,14 @@ func main() {
 
 		params := c.Body()
 
+		
 		mutex.Lock()
 		// don't forget to release the lock on the Mutex, sometimes its best to `defer m.Unlock()` right after yout get the lock
 		defer mutex.Unlock()
 
 		plugin, err := slingshot.GetPlugin("slingshotplug")
+		
+		//plugin, err := slingshot.SelectPlugin()
 
 		if err != nil {
 			log.Println("🔴 !!! Error when getting the plugin", err)
@@ -84,7 +111,7 @@ func main() {
 
 		//out, err := plugin.Call(wasmFunctionName, params)
 
-		_, out, err := plugin.Call(wasmFunctionName, params) // new
+		_, out, err := plugin.Call(wasmFunctionName, params)
 
 		if err != nil {
 			fmt.Println(err)
