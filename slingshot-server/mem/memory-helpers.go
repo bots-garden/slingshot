@@ -1,4 +1,4 @@
-package slingshot
+package mem
 
 import (
 	"encoding/json"

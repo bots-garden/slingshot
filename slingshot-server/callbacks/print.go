@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	"log"
-	"slingshot-server/slingshot"
+	"slingshot-server/mem"
 	"time"
 
 	"github.com/extism/extism"
@@ -14,7 +14,7 @@ func Print(ctx context.Context, plugin *extism.CurrentPlugin, userData interface
 
 	// The WASM plugin copied data into the shared memory
 	// Red this data
-	bufferToPrint, err := slingshot.ReadBytesFromMemory(plugin, stack)
+	bufferToPrint, err := mem.ReadBytesFromMemory(plugin, stack)
 
 	if err != nil {
 		log.Println("🔴 Print, ReadBytesFromMemory", err.Error())
@@ -29,7 +29,7 @@ func Log(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}
 
 	// The WASM plugin copied data into the shared memory
 	// Red this data
-	bufferToPrint, err := slingshot.ReadBytesFromMemory(plugin, stack)
+	bufferToPrint, err := mem.ReadBytesFromMemory(plugin, stack)
 
 	if err != nil {
 		log.Println("🔴 Log, ReadBytesFromMemory", err.Error())

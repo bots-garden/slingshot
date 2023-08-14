@@ -1,8 +1,9 @@
-package slingshot
+package plg
 
 import (
 	"context"
 	"errors"
+	"slingshot-server/hof"
 
 	"github.com/extism/extism"
 	"github.com/tetratelabs/wazero"
@@ -60,7 +61,7 @@ func GetManifest(wasmFilePath string) extism.Manifest {
 
 // Create a plugin and store it into the plugins map
 func InitializePluging(ctx context.Context, pluginName string, manifest extism.Manifest, config extism.PluginConfig, hostsFunctions []extism.HostFunction) error {
-	pluginInst, err := extism.NewPlugin(ctx, manifest, config, GetHostFunctions())
+	pluginInst, err := extism.NewPlugin(ctx, manifest, config, hof.GetHostFunctions())
 	StorePlugin(pluginName, pluginInst)
 
 	return err

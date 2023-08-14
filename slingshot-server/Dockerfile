@@ -1,8 +1,5 @@
+FROM golang:latest as build-env
+
 FROM scratch
-
-ADD slingshot-v0.0.0-linux-arm64 ./
-ADD simple.wasm ./
-
-EXPOSE 8080
-
-CMD ["./slingshot-v0.0.0-linux-arm64", "./simple.wasm", "handle", "8080"]
+COPY --from=build-env /etc/ssl/certs/ca-certificates.crt /etc/ssl/certs/
+ADD ./tmp/slingshot ./

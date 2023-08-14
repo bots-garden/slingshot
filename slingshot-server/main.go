@@ -6,11 +6,16 @@ package main
 
 import (
 	"context"
+	"encoding/json"
+	"flag"
 	"fmt"
 	"log"
 	"net/http"
 	"os"
-	"slingshot-server/callbacks"
+	"slingshot-server/hof"
+	"slingshot-server/infos"
+	"slingshot-server/initcbk"
+	"slingshot-server/plg"
 	"slingshot-server/slingshot"
 	"sync"
 
@@ -19,101 +24,45 @@ import (
 
 var mutex sync.Mutex
 
-/* TODO:
+/*
+# TODO
+
 - Download a plugin from a location
 - OnStart
 - OnStop
 - Certificates (https)
-- Redis
-- improve CLI XP : https://dev.to/cherryramatis/bonzai-and-how-to-create-a-personal-cli-to-rule-them-all-1bnl
+- healthcheck
+- monitoring
+- PostGRESQL
+- hostfunctions: at start we can choose to activate or deactivate some hostfunctions
+
+## CLI arguments
+
+Slingshot is very simple to use
+
+## Docker
+
+  - Create a base image (from scratch)
+  - Tutorial on how to dockerize a plugin
 */
 
-func main() {
-
-	wasmFilePath := os.Args[1:][0]
-	wasmFunctionName := os.Args[1:][1]
-	httpPort := os.Args[1:][2]
+func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 
 	// this is for tests
 	var counter = 0
 
 	ctx := context.Background()
 
-	config := slingshot.GetPluginConfig()
-	manifest := slingshot.GetManifest(wasmFilePath)
+	config := plg.GetPluginConfig()
+	manifest := plg.GetManifest(wasmFilePath)
 
-	print_string := slingshot.DefineHostFunctionCallBack(
-		"hostPrint",
-		callbacks.Print,
-	)
+	// load all the host function callbacks
+	initcbk.LoadHostFunctionCallBacks()
 
-	log_string := slingshot.DefineHostFunctionCallBack(
-		"hostLog",
-		callbacks.Log,
-	)
+	errPlgInit := plg.InitializePluging(ctx, "slingshotplug", manifest, config, hof.GetHostFunctions())
 
-	get_message := slingshot.DefineHostFunctionCallBack(
-		"hostGetMessage",
-		callbacks.GetMessage,
-	)
-
-	memory_set := slingshot.DefineHostFunctionCallBack(
-		"hostMemorySet",
-		callbacks.MemorySet,
-	)
-
-	memory_get := slingshot.DefineHostFunctionCallBack(
-		"hostMemoryGet",
-		callbacks.MemoryGet,
-	)
-
-	get_env := slingshot.DefineHostFunctionCallBack(
-		"hostGetEnv",
-		callbacks.GetEnv,
-	)
-
-	init_redis_cli := slingshot.DefineHostFunctionCallBack(
-		"hostInitRedisClient",
-		callbacks.InitRedisClient,
-	)
-
-	redis_set := slingshot.DefineHostFunctionCallBack(
-		"hostRedisSet",
-		callbacks.RedisSet,
-	)
-
-	redis_get := slingshot.DefineHostFunctionCallBack(
-		"hostRedisGet",
-		callbacks.RedisGet,
-	)
-	redis_del := slingshot.DefineHostFunctionCallBack(
-		"hostRedisDel",
-		callbacks.RedisDel,
-	)
-	redis_filter := slingshot.DefineHostFunctionCallBack(
-		"hostRedisFilter",
-		callbacks.RedisFilter,
-	)
-
-
-	slingshot.AppendHostFunction(get_message)
-	slingshot.AppendHostFunction(print_string)
-	slingshot.AppendHostFunction(log_string)
-	slingshot.AppendHostFunction(memory_set)
-	slingshot.AppendHostFunction(memory_get)
-	slingshot.AppendHostFunction(get_env)
-	slingshot.AppendHostFunction(init_redis_cli)
-	slingshot.AppendHostFunction(redis_set)
-	slingshot.AppendHostFunction(redis_get)
-	slingshot.AppendHostFunction(redis_del)
-	slingshot.AppendHostFunction(redis_filter)
-
-
-	err := slingshot.InitializePluging(ctx, "slingshotplug", manifest, config, slingshot.GetHostFunctions())
-
-
-	if err != nil {
-		log.Println("🔴 !!! Error when loading the plugin", err)
+	if errPlgInit != nil {
+		log.Println("🔴 !!! Error when loading the plugin", errPlgInit)
 		os.Exit(1)
 	}
 
@@ -127,41 +76,138 @@ func main() {
 
 	app := fiber.New(fiber.Config{DisableStartupMessage: true})
 
-	app.Post("/", func(c *fiber.Ctx) error {
+	handler := func(c *fiber.Ctx, params []byte) error {
 
-		params := c.Body()
-
-		
 		mutex.Lock()
 		// don't forget to release the lock on the Mutex, sometimes its best to `defer m.Unlock()` right after yout get the lock
 		defer mutex.Unlock()
 
-		plugin, err := slingshot.GetPlugin("slingshotplug")
-		
+		plugin, err := plg.GetPlugin("slingshotplug")
+
+
 		if err != nil {
-			log.Println("🔴 !!! Error when getting the plugin", err)
+			log.Println("🔴 Error when getting the plugin", err)
 			c.Status(http.StatusInternalServerError)
 			return c.SendString(err.Error())
 		}
 
-		//out, err := plugin.Call(wasmFunctionName, params)
-
-		_, out, err := plugin.Call(wasmFunctionName, params)
-
+		_, response, err := plugin.Call(wasmFunctionName, params)
 		if err != nil {
 			fmt.Println(err)
 			c.Status(http.StatusConflict)
 			return c.SendString(err.Error())
 			//os.Exit(1)
-		} else {
-			c.Status(http.StatusOK)
-			fmt.Println("🟢 ->", counter, ": ", string(out))
-			counter++
-			return c.SendString(string(out))
 		}
 
+		httpResponse := slingshot.HTTPResponse{}
+
+		errMarshal := json.Unmarshal(response, &httpResponse)
+		if errMarshal != nil {
+			fmt.Println(errMarshal)
+			c.Status(http.StatusConflict)
+			return c.SendString(errMarshal.Error())
+		} else {
+
+			fmt.Println("🟢 ->", counter, ": ", string(response))
+			fmt.Println("🟣", httpResponse)
+			counter++
+
+			c.Status(httpResponse.StatusCode)
+			// set headers
+			for key, value := range httpResponse.Headers {
+				c.Set(key, value)
+			}
+			if len(httpResponse.TextBody) > 0 {
+				return c.SendString(httpResponse.TextBody)
+			}
+			// send JSON body
+			jsonBody, err := json.Marshal(httpResponse.JsonBody)
+			if err != nil {
+				log.Println("🔴 Error when marshal the content", err)
+				c.Status(http.StatusInternalServerError) // .🤔
+				return c.SendString(errMarshal.Error())
+			}
+			return c.Send(jsonBody)
+		}
+	}
+
+
+	app.All("/", func(c *fiber.Ctx) error {
+
+		request := slingshot.HTTPRequest{
+			Method: c.Method(),
+			BaseUrl: c.BaseURL(),
+			Body: string(c.Body()),
+			Headers: c.GetReqHeaders(),
+		}
+
+		jsonRequest, err := json.Marshal(request)
+		
+		if err != nil {
+			log.Println("🔴 Error when marshal the request", err)
+			c.Status(http.StatusInternalServerError)
+			return c.SendString(err.Error())
+		}
+		//fmt.Println("🖐️", string(jsonRequest))
+
+		return handler(c,jsonRequest)
 	})
 
 	fmt.Println("🌍 http server is listening on:", httpPort)
 	app.Listen(":" + httpPort)
+}
+
+func parseCommand(command string, args []string) error {
+	//fmt.Println("Command:", command)
+	//fmt.Println("Args:", args)
+	switch command {
+	case "start":
+		fmt.Println("start")
+		flagSet := flag.NewFlagSet("start", flag.ExitOnError)
+
+		httpPort := flagSet.String("http-port", "8080", "http port")
+		handler := flagSet.String("handler", "handle", "wasm function name")
+		wasmFile := flagSet.String("wasm", "???", "wasm file path (and name)")
+
+		flagSet.Parse(args)
+
+		fmt.Println("🌍 http-port:", *httpPort)
+		fmt.Println("🚀 handler  :", *handler)
+		fmt.Println("📦 wasm     :", *wasmFile)
+
+		start(*wasmFile, *handler, *httpPort)
+
+		return nil
+	case "version":
+		fmt.Println(infos.GetVersion())
+		//os.Exit(0)
+		return nil
+	case "help":
+		fmt.Println(infos.Help)
+		return nil
+	case "about":
+		fmt.Println(infos.About)
+		return nil
+	default:
+		return fmt.Errorf("invalid command: '%s'\n\n%s\n", command, infos.Usage)
+	}
+}
+
+func main() {
+
+	flag.Parse()
+
+	if len(flag.Args()) < 1 {
+		fmt.Println(infos.Usage)
+		os.Exit(0)
+	}
+
+	command := flag.Args()[0]
+
+	errCmd := parseCommand(command, flag.Args()[1:])
+	if errCmd != nil {
+		fmt.Println(errCmd)
+		os.Exit(1)
+	}
+
 }

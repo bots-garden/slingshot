@@ -5,7 +5,7 @@ import (
 	"context"
 	"fmt"
 	"os"
-	"slingshot-server/slingshot"
+	"slingshot-server/mem"
 
 	"github.com/extism/extism"
 )
@@ -13,7 +13,7 @@ import (
 func GetEnv(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
 
 	// Read data from the shared memory
-	variableName, errArg := slingshot.ReadStringFromMemory(plugin, stack)
+	variableName, errArg := mem.ReadStringFromMemory(plugin, stack)
 	if errArg != nil {
 		fmt.Println("🔴", errArg.Error())
 		panic(errArg)
@@ -21,7 +21,7 @@ func GetEnv(ctx context.Context, plugin *extism.CurrentPlugin, userData interfac
 	// Construct the result
 	variableValue := os.Getenv(variableName)
 
-	errRet := slingshot.CopyStringToMemory(plugin, stack, variableValue)
+	errRet := mem.CopyStringToMemory(plugin, stack, variableValue)
 	if errRet != nil {
 		fmt.Println("🔴", errRet.Error())
 		panic(errRet)

@@ -6,24 +6,25 @@ import (
 	"log"
 	"os"
 	"slingshot-server/callbacks"
-	"slingshot-server/slingshot"
+	"slingshot-server/hof"
+	"slingshot-server/plg"
 	"testing"
 )
 
 func initPlugin(wasmFilePath string, pluginId string) {
 	ctx := context.Background()
 
-	config := slingshot.GetPluginConfig()
-	manifest := slingshot.GetManifest(wasmFilePath)
+	config := plg.GetPluginConfig()
+	manifest := plg.GetManifest(wasmFilePath)
 
 	// Add an host function
-	get_env := slingshot.DefineHostFunctionCallBack(
+	get_env := hof.DefineHostFunctionCallBack(
 		"hostGetEnv",
 		callbacks.GetEnv,
 	)
-	slingshot.AppendHostFunction(get_env)
+	hof.AppendHostFunction(get_env)
 
-	err := slingshot.InitializePluging(ctx, pluginId, manifest, config, slingshot.GetHostFunctions())
+	err := plg.InitializePluging(ctx, pluginId, manifest, config, hof.GetHostFunctions())
 	if err != nil {
 		log.Println("🔴 !!! Error when loading the plugin", err)
 		os.Exit(1)
@@ -42,7 +43,7 @@ func TestReadEnvVar(t *testing.T) {
 
 	initPlugin(wasmFilePath, "slingshotplug")
 
-	plugin, err := slingshot.GetPlugin("slingshotplug")
+	plugin, err := plg.GetPlugin("slingshotplug")
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
@@ -71,7 +72,7 @@ func TestReadEmptyEnvVar(t *testing.T) {
 
 	initPlugin(wasmFilePath, "slingshotplug")
 
-	plugin, err := slingshot.GetPlugin("slingshotplug")
+	plugin, err := plg.GetPlugin("slingshotplug")
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)

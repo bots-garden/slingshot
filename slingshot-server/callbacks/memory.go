@@ -4,8 +4,10 @@ import (
 	"context"
 	"fmt"
 	"log"
+	"slingshot-server/mem"
 	"slingshot-server/slingshot"
 	"sync"
+
 	"github.com/extism/extism"
 )
 
@@ -24,7 +26,7 @@ func MemorySet(ctx context.Context, plugin *extism.CurrentPlugin, userData inter
 	var record memoryRecord
 
 	// Read data from the shared memory
-	err := slingshot.ReadJsonFromMemory(plugin, stack, &record)
+	err := mem.ReadJsonFromMemory(plugin, stack, &record)
 
 	// Construct the result
 	if err != nil {
@@ -40,7 +42,7 @@ func MemorySet(ctx context.Context, plugin *extism.CurrentPlugin, userData inter
 	}
 
 	// Copy the result to the memory
-	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
@@ -52,7 +54,7 @@ func MemoryGet(ctx context.Context, plugin *extism.CurrentPlugin, userData inter
 
 	var result = slingshot.StringResult{}
 	// The expected argument is a key (string)
-	keyFromWasmModule, err := slingshot.ReadStringFromMemory(plugin, stack)
+	keyFromWasmModule, err := mem.ReadStringFromMemory(plugin, stack)
 
 	// Construct the result
 	if err != nil {
@@ -73,7 +75,7 @@ func MemoryGet(ctx context.Context, plugin *extism.CurrentPlugin, userData inter
 	}
 
 	// Copy the result to the memory
-	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)

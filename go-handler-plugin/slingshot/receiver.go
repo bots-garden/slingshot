@@ -5,24 +5,15 @@ import (
 )
 
 // Execute the function
-func CallHandler(function func(param []byte) ([]byte, error))  {
+func CallHandler(function func(param []byte) []byte)  {
 
 	functionParameters := pdk.Input()
 
-	value, err := function(functionParameters)
+	//Print("🎃 " + string(functionParameters))
 
-	stringValue := string(value)
+	value := function(functionParameters)
 
-	var stringError string
-	if err != nil {
-		stringError = err.Error()
-	} else {
-		stringError = ""
-	}
-
-	jsonResult := `{"success":"`+stringValue+`", failure:"`+stringError+`"}`
-
-	mem := pdk.AllocateString(jsonResult)
+	mem := pdk.AllocateBytes(value)
 	// copy output to host memory
 	pdk.OutputMemory(mem)
 	//return 0

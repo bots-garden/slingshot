@@ -6,7 +6,8 @@ import (
 	"log"
 	"os"
 	"slingshot-server/callbacks"
-	"slingshot-server/slingshot"
+	"slingshot-server/hof"
+	"slingshot-server/plg"
 	"strings"
 	"testing"
 )
@@ -37,46 +38,46 @@ func TestCreateRedisClient(t *testing.T) {
 func initPluginForRedis(wasmFilePath string, pluginId string) {
 	ctx := context.Background()
 
-	config := slingshot.GetPluginConfig()
-	manifest := slingshot.GetManifest(wasmFilePath)
+	config := plg.GetPluginConfig()
+	manifest := plg.GetManifest(wasmFilePath)
 
 	// Add an host function
-	get_env := slingshot.DefineHostFunctionCallBack(
+	get_env := hof.DefineHostFunctionCallBack(
 		"hostGetEnv",
 		callbacks.GetEnv,
 	)
-	init_redis_cli := slingshot.DefineHostFunctionCallBack(
+	init_redis_cli := hof.DefineHostFunctionCallBack(
 		"hostInitRedisClient",
 		callbacks.InitRedisClient,
 	)
 
-	redis_set := slingshot.DefineHostFunctionCallBack(
+	redis_set := hof.DefineHostFunctionCallBack(
 		"hostRedisSet",
 		callbacks.RedisSet,
 	)
 
-	redis_get := slingshot.DefineHostFunctionCallBack(
+	redis_get := hof.DefineHostFunctionCallBack(
 		"hostRedisGet",
 		callbacks.RedisGet,
 	)
-	redis_del := slingshot.DefineHostFunctionCallBack(
+	redis_del := hof.DefineHostFunctionCallBack(
 		"hostRedisDel",
 		callbacks.RedisDel,
 	)
 
-	redis_filter := slingshot.DefineHostFunctionCallBack(
+	redis_filter := hof.DefineHostFunctionCallBack(
 		"hostRedisFilter",
 		callbacks.RedisFilter,
 	)
 
-	slingshot.AppendHostFunction(get_env)
-	slingshot.AppendHostFunction(init_redis_cli)
-	slingshot.AppendHostFunction(redis_set)
-	slingshot.AppendHostFunction(redis_get)
-	slingshot.AppendHostFunction(redis_del)
-	slingshot.AppendHostFunction(redis_filter)
+	hof.AppendHostFunction(get_env)
+	hof.AppendHostFunction(init_redis_cli)
+	hof.AppendHostFunction(redis_set)
+	hof.AppendHostFunction(redis_get)
+	hof.AppendHostFunction(redis_del)
+	hof.AppendHostFunction(redis_filter)
 
-	err := slingshot.InitializePluging(ctx, pluginId, manifest, config, slingshot.GetHostFunctions())
+	err := plg.InitializePluging(ctx, pluginId, manifest, config, hof.GetHostFunctions())
 	if err != nil {
 		log.Println("🔴 !!! Error when loading the plugin", err)
 		os.Exit(1)
@@ -93,7 +94,7 @@ func TestRedisInit(t *testing.T) {
 
 	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
 
-	plugin, err := slingshot.GetPlugin("slingshotRedisplug")
+	plugin, err := plg.GetPlugin("slingshotRedisplug")
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
@@ -120,7 +121,7 @@ func TestRedisSet(t *testing.T) {
 
 	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
 
-	plugin, err := slingshot.GetPlugin("slingshotRedisplug")
+	plugin, err := plg.GetPlugin("slingshotRedisplug")
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
@@ -153,7 +154,7 @@ func TestRedisGet(t *testing.T) {
 
 	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
 
-	plugin, err := slingshot.GetPlugin("slingshotRedisplug")
+	plugin, err := plg.GetPlugin("slingshotRedisplug")
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
@@ -186,7 +187,7 @@ func TestRedisDel(t *testing.T) {
 
 	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
 
-	plugin, err := slingshot.GetPlugin("slingshotRedisplug")
+	plugin, err := plg.GetPlugin("slingshotRedisplug")
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
@@ -219,7 +220,7 @@ func TestRedisFilter(t *testing.T) {
 
 	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
 
-	plugin, err := slingshot.GetPlugin("slingshotRedisplug")
+	plugin, err := plg.GetPlugin("slingshotRedisplug")
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)

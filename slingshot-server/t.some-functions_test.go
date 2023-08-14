@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"slingshot-server/slingshot"
+	"slingshot-server/plg"
 	"testing"
 )
 
@@ -19,16 +19,16 @@ func TestCallHello(t *testing.T) {
 
 	ctx := context.Background()
 
-	config := slingshot.GetPluginConfig()
-	manifest := slingshot.GetManifest(wasmFilePath)
+	config := plg.GetPluginConfig()
+	manifest := plg.GetManifest(wasmFilePath)
 
-	err := slingshot.InitializePluging(ctx, "slingshotplug", manifest, config, nil)
+	err := plg.InitializePluging(ctx, "slingshotplug", manifest, config, nil)
 	if err != nil {
 		log.Println("🔴 !!! Error when loading the plugin", err)
 		os.Exit(1)
 	}
 
-	plugin, err := slingshot.GetPlugin("slingshotplug")
+	plugin, err := plg.GetPlugin("slingshotplug")
 
 	_, out, err := plugin.Call(wasmFunctionName, []byte(wasmFunctionArgument))
 

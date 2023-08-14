@@ -1,0 +1,74 @@
+package initcbk
+
+import (
+	"slingshot-server/callbacks"
+	"slingshot-server/hof"
+)
+
+func LoadHostFunctionCallBacks() {
+
+	print_string := hof.DefineHostFunctionCallBack(
+		"hostPrint",
+		callbacks.Print,
+	)
+
+	log_string := hof.DefineHostFunctionCallBack(
+		"hostLog",
+		callbacks.Log,
+	)
+
+	get_message := hof.DefineHostFunctionCallBack(
+		"hostGetMessage",
+		callbacks.GetMessage,
+	)
+
+	memory_set := hof.DefineHostFunctionCallBack(
+		"hostMemorySet",
+		callbacks.MemorySet,
+	)
+
+	memory_get := hof.DefineHostFunctionCallBack(
+		"hostMemoryGet",
+		callbacks.MemoryGet,
+	)
+
+	get_env := hof.DefineHostFunctionCallBack(
+		"hostGetEnv",
+		callbacks.GetEnv,
+	)
+
+	init_redis_cli := hof.DefineHostFunctionCallBack(
+		"hostInitRedisClient",
+		callbacks.InitRedisClient,
+	)
+
+	redis_set := hof.DefineHostFunctionCallBack(
+		"hostRedisSet",
+		callbacks.RedisSet,
+	)
+
+	redis_get := hof.DefineHostFunctionCallBack(
+		"hostRedisGet",
+		callbacks.RedisGet,
+	)
+	redis_del := hof.DefineHostFunctionCallBack(
+		"hostRedisDel",
+		callbacks.RedisDel,
+	)
+	redis_filter := hof.DefineHostFunctionCallBack(
+		"hostRedisFilter",
+		callbacks.RedisFilter,
+	)
+
+	hof.AppendHostFunction(get_message)
+	hof.AppendHostFunction(print_string)
+	hof.AppendHostFunction(log_string)
+	hof.AppendHostFunction(memory_set)
+	hof.AppendHostFunction(memory_get)
+	hof.AppendHostFunction(get_env)
+	hof.AppendHostFunction(init_redis_cli)
+	hof.AppendHostFunction(redis_set)
+	hof.AppendHostFunction(redis_get)
+	hof.AppendHostFunction(redis_del)
+	hof.AppendHostFunction(redis_filter)
+}

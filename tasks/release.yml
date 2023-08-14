@@ -1,0 +1,142 @@
+version: '3'
+
+description: >
+  # Everything you need to create a release
+
+  To create a release:
+
+  - First, set the tag version (`v.N.N.N`)
+  - Then, create the release with the following command
+  ```bash
+  task release:create
+  ```
+  - Build the binaries
+  ```bash
+  task release:build
+  ```
+  - Create a release on GitHub
+  - Publish the binaries to the GitHub release
+  - Build Docker images
+  ```bash
+  task release:docker-linux-amd64
+  task release:docker-linux-arm64
+  ```
+
+env:
+  TAG: "v0.0.0"
+  IMAGE_TAG: "0.0.0"
+  IMAGE_BASE_NAME: "slingshot"
+
+tasks:
+  # task release:create
+  create:
+    cmds:
+      - echo "📦 Generating release..."
+      - git add .
+      - git commit -m "📦 create release ${TAG}"
+      - git tag ${TAG}
+      - git push origin main ${TAG}
+  
+  # task release:remove-tag
+  remove-tag:
+    cmds:
+      - git tag -d ${TAG}
+
+  # task release:build
+  build:
+    cmds:
+      - | 
+        cd slingshot-server
+        env CGO_ENABLED=0 GOOS=darwin GOARCH=arm64 go build -ldflags="-s -w" -o slingshot-${TAG}-darwin-arm64
+        env CGO_ENABLED=0 GOOS=darwin GOARCH=amd64 go build -ldflags="-s -w" -o slingshot-${TAG}-darwin-amd64
+        env CGO_ENABLED=0 GOOS=linux GOARCH=arm64 go build -ldflags="-s -w" -o slingshot-${TAG}-linux-arm64
+        env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o slingshot-${TAG}-linux-amd64
+        mv slingshot-${TAG}-* ../release
+
+  # task release:before-run-docker
+  # # https://www.baeldung.com/linux/docker-permission-denied-daemon-socket-error
+  before-run-docker:
+    cmds:
+      - |
+        sudo chmod 666 /var/run/docker.sock
+        ls -l /var/run/docker.sock
+        sudo systemctl restart docker.service
+
+
+  # task release:docker-linux-arm64
+  docker-linux-arm64:
+    cmds:
+      - |
+        GOOS="linux"
+        GOARCH="arm64"
+        echo "📦 Building slingshot..."
+        cd slingshot-server
+        env CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build -ldflags="-s -w" -o ./tmp/slingshot .
+        ls -lh ./tmp/slingshot
+
+        docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}
+        echo "🐳 ${GOOS}/${GOARCH} ${DOCKER_USER}/${IMAGE_BASE_NAME}-${GOOS}-${GOARCH}:${IMAGE_TAG}"
+        docker buildx build --platform ${GOOS}/${GOARCH} --push -t ${DOCKER_USER}/${IMAGE_BASE_NAME}-${GOOS}-${GOARCH}:${IMAGE_TAG} .
+
+  #env CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build -ldflags="-s -w" -a -installsuffix cgo -o slingshot .
+
+  # task release:docker-linux-amd64
+  docker-linux-amd64:
+    cmds:
+      - |
+        GOOS="linux"
+        GOARCH="amd64"
+        echo "📦 Building slingshot..."
+        cd slingshot-server
+        env CGO_ENABLED=0 GOOS=${GOOS} GOARCH=${GOARCH} go build -ldflags="-s -w" -o ./tmp/slingshot .
+        ls -lh ./tmp/slingshot
+
+        docker login -u ${DOCKER_USER} -p ${DOCKER_PWD}
+        echo "🐳 ${GOOS}/${GOARCH} ${DOCKER_USER}/${IMAGE_BASE_NAME}-${GOOS}-${GOARCH}:${IMAGE_TAG}"
+        docker buildx build --platform ${GOOS}/${GOARCH} --push -t ${DOCKER_USER}/${IMAGE_BASE_NAME}-${GOOS}-${GOARCH}:${IMAGE_TAG} .
+
+
+  # ----------------------------------------
+  # 🐳 Testing Docker image of capsule-http
+  # ----------------------------------------
+  # task release:test-container
+  test-container:
+    env:
+      GOOS: "linux"
+      GOARCH: "arm64"
+      HTTP_PORT: "8080"
+    cmds:
+      - | 
+        IMAGE_NAME="${IMAGE_BASE_NAME}-${GOOS}-${GOARCH}"
+        echo "🖼️ ${IMAGE_NAME}"
+
+        docker run \
+          -p ${HTTP_PORT}:${HTTP_PORT} \
+          -v $(pwd)/go-handler-plugin:/app --rm ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG} \
+          /slingshot start \
+          --wasm=./app/simple.wasm \
+          --handler=handle \
+          --http-port=${HTTP_PORT} 
+
+  # task release:test-query
+  test-query:
+    env:
+      HTTP_PORT: "8080"
+    cmds:
+      - |
+        curl -X POST http://localhost:${HTTP_PORT} \
+          -H 'Content-Type: text/plain; charset=utf-8' \
+          -d "😄 Bob Morane"
+        echo ""
+
+  # task release:test-stop-container
+  test-stop-container:
+    env:
+      GOOS: "linux"
+      GOARCH: "arm64"
+    cmds:
+      - |
+        IMAGE_NAME="${IMAGE_BASE_NAME}-${GOOS}-${GOARCH}"
+        echo "🖼️ ${IMAGE_NAME}"
+        docker stop $(docker ps -q --filter ancestor=${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG} )
+

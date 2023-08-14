@@ -1,8 +1,8 @@
 #![no_main]
-
-//use std::ptr::null;
+use std::collections::HashMap;
 
 use extism_pdk::*;
+use json::Value;
 //use serde::Serialize;
 use serde::{Serialize, Deserialize};
 
@@ -11,6 +11,27 @@ use serde::{Serialize, Deserialize};
 struct Output {
     pub success: String,
     pub failure: String,
+}
+
+#[derive(Serialize)]
+#[serde(rename_all = "camelCase")]
+struct Response {
+    pub text_body: String,
+    pub json_body: Value, // 🤔
+    pub headers : HashMap<String,String>,
+    pub status_code: i64
+}
+/*
+{textBody, jsonBody, headers, statusCode}
+*/
+
+#[derive(Serialize, Deserialize)]
+#[serde(rename_all = "camelCase")]
+struct Request {
+    pub body: String,
+    pub base_url: String,
+    pub headers : HashMap<String,String>,
+    pub method: String
 }
 
 extern "C" {
@@ -52,7 +73,7 @@ pub fn memory_set(key: String, value: String) {
         key: key,
         value: value,
     };
-    let json_str = serde_json::to_string(&record).unwrap();
+    let json_str: String = serde_json::to_string(&record).unwrap();
 
     let mut memory_json_str: Memory = extism_pdk::Memory::new(json_str.len());
     memory_json_str.store(json_str);
@@ -90,24 +111,36 @@ pub fn memory_get(key: String) -> String {
     
 }
 
-
-
 #[plugin_fn]
-pub fn handle(input: String) -> FnResult<Json<Output>> {
+pub fn handle(input: String) -> FnResult<Json<Response>> {
 
     print("🟣 this is the wasm handle function".to_string());
+
+    let request : Request = serde_json::from_str(&input).unwrap();
 
     let val1: String = get_message("hello".to_string());
     print(val1);
 
-    let msg: String = "🦀 Hello ".to_string() + &input;
+    let msg: String = "🦀 Hello ".to_string() + &request.body;
 
     memory_set("bill".to_string(), "🦊 ballantines".to_string());
 
     print(memory_get("bill".to_string()));
 
-    let output = Output { success: msg, failure: "no error".to_string() };
+    let mut headers: HashMap<String, String> = HashMap::new();
+    headers.insert("Content-Type".to_string(), "text/plain; charset=utf-8".to_string());
+    headers.insert("X-Slingshot-version".to_string(), "0.0.0".to_string());
+
+
+    let response : Response = Response { 
+        text_body: msg, 
+        json_body: serde_json::from_str("{}")?, 
+        headers , 
+        status_code: 200 
+    };
+
+    //let output = Output { success: msg, failure: "no error".to_string() };
     
-    Ok(Json(output))
+    Ok(Json(response))
 }
 

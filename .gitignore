@@ -13,3 +13,6 @@ go.work
 
 aiven.sh
 
+deploy
+release
+slingshot-server/tmp

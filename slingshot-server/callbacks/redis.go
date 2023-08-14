@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"slingshot-server/mem"
 	"slingshot-server/slingshot"
 	"sync"
 
@@ -62,7 +63,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 	var result = slingshot.StringResult{}
 	var record RedisClientRecord
 	// Read data from the shared memory
-	err := slingshot.ReadJsonFromMemory(plugin, stack, &record)
+	err := mem.ReadJsonFromMemory(plugin, stack, &record)
 
 	if err != nil {
 		result.Failure = err.Error()
@@ -78,7 +79,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 	}
 
 	// Copy the result to the memory
-	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
@@ -94,7 +95,7 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	var arguments RedisClientArguments
 
 	// Read data from the shared memory
-	err := slingshot.ReadJsonFromMemory(plugin, stack, &arguments)
+	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
 
 	// Construct the result
 	if err != nil {
@@ -115,7 +116,7 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	}
 
 	// Copy the result to the memory
-	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
@@ -131,7 +132,7 @@ func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	var arguments RedisClientArguments
 
 	// Read data from the shared memory
-	err := slingshot.ReadJsonFromMemory(plugin, stack, &arguments)
+	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
 
 	// Construct the result
 	if err != nil {
@@ -152,7 +153,7 @@ func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	}
 
 	// Copy the result to the memory
-	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
@@ -167,7 +168,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	var arguments RedisClientArguments
 
 	// Read data from the shared memory
-	err := slingshot.ReadJsonFromMemory(plugin, stack, &arguments)
+	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
 
 	// Construct the result
 	if err != nil {
@@ -188,7 +189,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	}
 
 	// Copy the result to the memory
-	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
@@ -203,7 +204,7 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData int
 	var arguments RedisClientArguments
 
 	// Read data from the shared memory
-	err := slingshot.ReadJsonFromMemory(plugin, stack, &arguments)
+	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
 
 	// Construct the result
 	if err != nil {
@@ -225,7 +226,7 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData int
 	}
 
 	// Copy the result to the memory
-	errResult := slingshot.CopyJsonToMemory(plugin, stack, result)
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
 		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)

@@ -4,7 +4,7 @@ package callbacks
 import (
 	"context"
 	"fmt"
-	"slingshot-server/slingshot"
+	"slingshot-server/mem"
 
 	"github.com/extism/extism"
 )
@@ -12,13 +12,13 @@ import (
 var messagesMap = map[string]string{
 	"hello":   "👋 Hello World 🌍",
 	"message": "I 💜 Extism 😍",
-	"vulcan": "🖖 peace and long life",
+	"vulcan":  "🖖 peace and long life",
 }
 
 func GetMessage(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
 
 	// Read data from the shared memory
-	keyStr, errArg := slingshot.ReadStringFromMemory(plugin, stack)
+	keyStr, errArg := mem.ReadStringFromMemory(plugin, stack)
 	if errArg != nil {
 		fmt.Println("😡", errArg.Error())
 		panic(errArg)
@@ -28,7 +28,7 @@ func GetMessage(ctx context.Context, plugin *extism.CurrentPlugin, userData inte
 	// Construct the result
 	returnValue := messagesMap[keyStr]
 
-	errRet := slingshot.CopyStringToMemory(plugin, stack, returnValue)
+	errRet := mem.CopyStringToMemory(plugin, stack, returnValue)
 	if errRet != nil {
 		fmt.Println("😡", errRet.Error())
 		panic(errRet)

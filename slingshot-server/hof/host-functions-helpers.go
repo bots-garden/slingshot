@@ -1,4 +1,4 @@
-package slingshot
+package hof
 
 import (
 	"github.com/extism/extism"
