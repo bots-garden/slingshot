@@ -1,6 +1,6 @@
 # SlingShot
 
-**SlingShot** is a wasm application server to serve Extism wasm plugin
+**SlingShot** is a wasm application server to serve Extism wasm plugins
 
 
 ## Plugin creation
