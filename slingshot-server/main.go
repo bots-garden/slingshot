@@ -35,21 +35,12 @@ var mutex sync.Mutex
 - monitoring
 - PostGRESQL
 - hostfunctions: at start we can choose to activate or deactivate some hostfunctions
-
-## CLI arguments
-
-Slingshot is very simple to use
-
-## Docker
-
-  - Create a base image (from scratch)
-  - Tutorial on how to dockerize a plugin
 */
 
 func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 
 	// this is for tests
-	var counter = 0
+	//var counter = 0
 
 	ctx := context.Background()
 
@@ -108,9 +99,11 @@ func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 			return c.SendString(errMarshal.Error())
 		} else {
 
+			/*
 			fmt.Println("🟢 ->", counter, ": ", string(response))
 			fmt.Println("🟣", httpResponse)
 			counter++
+			*/
 
 			c.Status(httpResponse.StatusCode)
 			// set headers
