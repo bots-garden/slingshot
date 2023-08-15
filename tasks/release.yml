@@ -97,7 +97,7 @@ tasks:
 
 
   # ----------------------------------------
-  # 🐳 Testing Docker image of capsule-http
+  # 🐳 Testing Docker image of slingshot
   # ----------------------------------------
   # task release:test-container
   test-container:
