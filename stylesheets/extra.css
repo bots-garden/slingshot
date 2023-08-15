@@ -1,0 +1,8 @@
+:root > * {
+    /*--md-code-hl-string-color: #0FF1CE; */
+    /*--md-code-fg-color*/
+    /*--md-code-bg-color: #0FF1CE;*/
+    /*--md-code-hl-color*/
+
+    --md-code-hl-color: #4287ff1a;
+}
