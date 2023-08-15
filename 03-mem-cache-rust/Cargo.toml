@@ -1,0 +1,13 @@
+[package]
+name = "memcache"
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+crate_type = ["cdylib"]
+
+[dependencies]
+extism-pdk = "0.3.3"
+serde = "1.0.175"
+serde_json = "1.0.103"
+thiserror = "1.0.45"

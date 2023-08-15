@@ -35,13 +35,12 @@ var mutex sync.Mutex
 - monitoring
 - PostGRESQL
 - hostfunctions: at start we can choose to activate or deactivate some hostfunctions
+- input host function?
+- onkey host function?
 */
 
-func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
-
-	// this is for tests
-	//var counter = 0
-
+// Initialise the extism wasm plugin
+func initialize(idPlugin string, wasmFilePath string) context.Context {
 	ctx := context.Background()
 
 	config := plg.GetPluginConfig()
@@ -50,12 +49,22 @@ func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 	// load all the host function callbacks
 	initcbk.LoadHostFunctionCallBacks()
 
-	errPlgInit := plg.InitializePluging(ctx, "slingshotplug", manifest, config, hof.GetHostFunctions())
+	errPlgInit := plg.InitializePluging(ctx, idPlugin, manifest, config, hof.GetHostFunctions())
 
 	if errPlgInit != nil {
 		log.Println("🔴 !!! Error when loading the plugin", errPlgInit)
 		os.Exit(1)
 	}
+	return ctx
+}
+
+// Start the slingshot HTTP server
+func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
+
+	// this is for tests
+	//var counter = 0
+
+	initialize("slingshotplug", wasmFilePath)
 
 	/*
 		app := fiber.New(fiber.Config{
@@ -74,7 +83,6 @@ func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 		defer mutex.Unlock()
 
 		plugin, err := plg.GetPlugin("slingshotplug")
-
 
 		if err != nil {
 			log.Println("🔴 Error when getting the plugin", err)
@@ -100,9 +108,9 @@ func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 		} else {
 
 			/*
-			fmt.Println("🟢 ->", counter, ": ", string(response))
-			fmt.Println("🟣", httpResponse)
-			counter++
+				fmt.Println("🟢 ->", counter, ": ", string(response))
+				fmt.Println("🟣", httpResponse)
+				counter++
 			*/
 
 			c.Status(httpResponse.StatusCode)
@@ -124,18 +132,17 @@ func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 		}
 	}
 
-
 	app.All("/", func(c *fiber.Ctx) error {
 
 		request := slingshot.HTTPRequest{
-			Method: c.Method(),
+			Method:  c.Method(),
 			BaseUrl: c.BaseURL(),
-			Body: string(c.Body()),
+			Body:    string(c.Body()),
 			Headers: c.GetReqHeaders(),
 		}
 
 		jsonRequest, err := json.Marshal(request)
-		
+
 		if err != nil {
 			log.Println("🔴 Error when marshal the request", err)
 			c.Status(http.StatusInternalServerError)
@@ -143,11 +150,33 @@ func start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 		}
 		//fmt.Println("🖐️", string(jsonRequest))
 
-		return handler(c,jsonRequest)
+		return handler(c, jsonRequest)
 	})
 
-	fmt.Println("🌍 http server is listening on:", httpPort)
+	fmt.Println("🌍 slingshot server is listening on:", httpPort)
 	app.Listen(":" + httpPort)
+}
+
+func execute(wasmFilePath string, wasmFunctionName string, data string) {
+	initialize("slingshotplug", wasmFilePath)
+	plugin, err := plg.GetPlugin("slingshotplug")
+
+	if err != nil {
+		log.Println("🔴 Error when getting the plugin", err)
+		os.Exit(1)
+	}
+
+	_, output, err := plugin.Call(wasmFunctionName, []byte(data))
+	if err != nil {
+		fmt.Println(err)
+		os.Exit(1)
+	}
+	
+	// Display output content, only if the wasm plugin returns something
+	if(len(output)) > 0 {
+		fmt.Println(string(output))
+	}
+
 }
 
 func parseCommand(command string, args []string) error {
@@ -155,12 +184,12 @@ func parseCommand(command string, args []string) error {
 	//fmt.Println("Args:", args)
 	switch command {
 	case "start":
-		fmt.Println("start")
+		//fmt.Println("start")
 		flagSet := flag.NewFlagSet("start", flag.ExitOnError)
 
 		httpPort := flagSet.String("http-port", "8080", "http port")
 		handler := flagSet.String("handler", "handle", "wasm function name")
-		wasmFile := flagSet.String("wasm", "???", "wasm file path (and name)")
+		wasmFile := flagSet.String("wasm", "*.wasm", "wasm file path (and name)")
 
 		flagSet.Parse(args)
 
@@ -171,6 +200,19 @@ func parseCommand(command string, args []string) error {
 		start(*wasmFile, *handler, *httpPort)
 
 		return nil
+
+	case "cli":
+		flagSet := flag.NewFlagSet("start", flag.ExitOnError)
+
+		handler := flagSet.String("handler", "handle", "wasm function name")
+		wasmFile := flagSet.String("wasm", "*.wasm", "wasm file path (and name)")
+		input := flagSet.String("input", "hello", "input data for the wasm plugin")
+
+		flagSet.Parse(args)
+		execute(*wasmFile, *handler, *input)
+
+		return nil
+
 	case "version":
 		fmt.Println(infos.GetVersion())
 		//os.Exit(0)

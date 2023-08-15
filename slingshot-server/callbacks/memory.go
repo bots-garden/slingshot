@@ -2,7 +2,6 @@ package callbacks
 
 import (
 	"context"
-	"fmt"
 	"log"
 	"slingshot-server/mem"
 	"slingshot-server/slingshot"
@@ -33,8 +32,7 @@ func MemorySet(ctx context.Context, plugin *extism.CurrentPlugin, userData inter
 		result.Failure = err.Error()
 		result.Success = ""
 	} else {
-		// Remove this after the tests
-		fmt.Println("🟡 MemorySet from host:", record.Key, record.Value)
+		//fmt.Println("🟡 MemorySet from host:", record.Key, record.Value)
 		// Read the memCache map
 		memCache.Store(record.Key, record.Value)
 		result.Failure = ""
@@ -62,7 +60,7 @@ func MemoryGet(ctx context.Context, plugin *extism.CurrentPlugin, userData inter
 		result.Success = ""
 	} else {
 		keyStr := string(keyFromWasmModule)
-		fmt.Println("🟡 MemoryGet from host:", keyStr)
+		//fmt.Println("🟡 MemoryGet from host:", keyStr)
 		value, ok := memCache.Load(keyStr)
 
 		if ok {

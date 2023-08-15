@@ -1,5 +1,5 @@
 #!/bin/bash
-version="v0.0.0"
+
 operating_system=$(uname -o) # Darwin GNU/Linux 
 processor=$(uname -p) # x86_64 arm aarch64
 
@@ -27,9 +27,19 @@ else
   processor="amd64"
 fi
 
-slingshot_target="slingshot-${version}-${operating_system}-${processor}"
+rm slingshot
 
-wget https://github.com/bots-garden/slingshot/releases/download/${version}/${slingshot_target}
+IMAGE_NAME="slingshot-${operating_system}-${processor}"
+IMAGE_TAG="0.0.0"
+echo "🖼️ ${IMAGE_NAME}"
+HTTP_PORT="7070"
 
-chmod +x ${slingshot_target}
-mv ${slingshot_target} slingshot 
+docker run \
+  -p ${HTTP_PORT}:${HTTP_PORT} \
+  -v $(pwd):/app --rm ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG} \
+  /slingshot start \
+  --wasm=./app/hello.wasm \
+  --handler=handle \
+  --http-port=${HTTP_PORT} 
+
+

@@ -43,3 +43,4 @@ func TestCallHello(t *testing.T) {
 }
 
 // TODO: test with JSON data
+// TODO: test memCache

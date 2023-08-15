@@ -17,3 +17,4 @@ aiven.sh
 deploy
 release
 slingshot-server/tmp
+tmp

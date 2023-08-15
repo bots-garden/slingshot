@@ -1,0 +1,21 @@
+version: '3'
+
+description: >
+  # ...
+
+env:
+  TAG: "v0.0.0"
+
+tasks:
+  # task mkdocs:install
+  install:
+    cmds:
+      - pipx install mkdocs-material --include-deps
+  # task mkdocs:serve
+  serve:
+    cmds:
+      - mkdocs serve
+  # task mkdocs:publish
+  publish: # on the `main` branch
+    cmds:
+      - mkdocs gh-deploy

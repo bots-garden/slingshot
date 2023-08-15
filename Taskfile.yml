@@ -8,6 +8,7 @@ env:
 
 includes:
   release: ./tasks/release.yml
+  mkdocs: ./tasks/mkdocs.yml
 
 
 

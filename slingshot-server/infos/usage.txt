@@ -1,5 +1,6 @@
 Specify a command to execute:
-- start  : 🚀 launch the slingshot server
+- start  : 🚀 launch the slingshot http server
+- cli    : 📦 use slingshot as a CLI
 - version: ℹ️ get the slingshot version
 - help   : 📙 get some help
 - about  : 📝 everything about slingshot

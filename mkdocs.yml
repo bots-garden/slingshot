@@ -1,0 +1,84 @@
+site_name: SlingShot
+site_url: https://bots-garden.github.io/slingshot/
+site_author: Philippe Charrière (@k33g)
+site_description: >-
+  **SlingShot** is a **WebAssembly Extism Plugins Runner**.
+# Repository
+repo_name: bots-garden/slingshot
+repo_url: https://github.com/bots-garden/slingshot
+
+# Copyright
+copyright: Copyright &copy; 2023 - 2024 Philippe Charrière
+
+
+nav:
+    - 🏠 Home: index.md
+    - 🚀 Write Extism plug-ins:
+      - Write & run a plug-in: write-plug-in.md
+      - Write & serve a plug-in as a nano-service: write-service.md
+    - 🛠️ Host functions: 
+      - Intro: host-functions/intro.md
+      - Display: host-functions/display.md
+      - Environment: host-functions/env.md
+      - Memory cache: host-functions/mem.md
+      - Redis cache: host-functions/redis.md
+
+theme:
+  name: material
+  palette:
+    primary: deep purple
+  features:
+    #- announce.dismiss
+    #- content.action.edit
+    #- content.action.view
+    #- content.code.annotate
+    #- content.code.copy
+    # - content.code.select
+    # - content.tabs.link
+    #- content.tooltips
+    # - header.autohide
+    # - navigation.expand
+    #- navigation.footer
+    #- navigation.indexes
+    # - navigation.instant
+    # - navigation.prune
+    #- navigation.sections
+    #- navigation.tabs
+    # - navigation.tabs.sticky
+    #- navigation.top
+    #- navigation.tracking
+    #- search.highlight
+    #- search.share
+    #- search.suggest
+    #- toc.follow
+    # - toc.integrate
+extra_css:
+  - stylesheets/extra.css
+
+
+markdown_extensions:
+  - abbr
+  - admonition
+  - attr_list
+  - def_list
+  - footnotes
+  - md_in_html
+  - pymdownx.highlight:
+      use_pygments: true
+      auto_title: false
+      linenums: true
+      anchor_linenums: true
+  - pymdownx.superfences
+  - pymdownx.tabbed:
+      alternate_style: true
+  - pymdownx.highlight:
+      line_spans: __span
+#theme:
+#    name: readthedocs
+#    highlightjs: true
+#    hljs_languages:
+#        - yaml
+#        - rust
+#        - golang
+#        - bash
+#        - javascript
