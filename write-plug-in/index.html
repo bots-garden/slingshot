@@ -535,7 +535,7 @@
 <blockquote>
 <p>Official documentation: <a href="https://extism.org/docs/category/write-a-plug-in">https://extism.org/docs/category/write-a-plug-in</a></p>
 </blockquote>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Go</label><label for="__tabbed_1_2">Rust</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Go</label><label for="__tabbed_1_2">Rust</label><label for="__tabbed_1_3">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -595,19 +595,43 @@
 </span><span id="__span-1-9"><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div>
 </div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="kd">function</span><span class="w"> </span><span class="nx">hello</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-2-2">
+</span><span id="__span-2-3"><span class="w">    </span><span class="c1">// read function argument from the memory</span>
+</span><span id="__span-2-4"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Host</span><span class="p">.</span><span class="nx">inputString</span><span class="p">()</span>
+</span><span id="__span-2-5">
+</span><span id="__span-2-6"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;👋 Hello &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">input</span>
+</span><span id="__span-2-7"><span class="w">    </span><span class="c1">// copy output to host memory</span>
+</span><span id="__span-2-8"><span class="w">    </span><span class="nx">Host</span><span class="p">.</span><span class="nx">outputString</span><span class="p">(</span><span class="nx">output</span><span class="p">)</span>
+</span><span id="__span-2-9"><span class="p">}</span>
+</span><span id="__span-2-10">
+</span><span id="__span-2-11"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nx">hello</span><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+</div>
 </div>
 </div>
 <h2 id="build">Build</h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Go</label><label for="__tabbed_2_2">Rust</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Go</label><label for="__tabbed_2_2">Rust</label><label for="__tabbed_2_3">JavaScript</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-2-2">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-3">-o<span class="w"> </span>hello.wasm<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-4">-target<span class="w"> </span>wasi<span class="w"> </span>main.go
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-3-2">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3">-o<span class="w"> </span>hello.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-4">-target<span class="w"> </span>wasi<span class="w"> </span>main.go
 </span></code></pre></div></td></tr></table></div>
 </div>
 <div class="tabbed-block">
@@ -615,22 +639,28 @@
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-3-2">cargo<span class="w"> </span>clean
-</span><span id="__span-3-3">cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>--target<span class="w"> </span>wasm32-wasi<span class="w"> </span><span class="c1">#--offline</span>
-</span><span id="__span-3-4">ls<span class="w"> </span>-lh<span class="w"> </span>./target/wasm32-wasi/release/*.wasm
-</span><span id="__span-3-5">cp<span class="w"> </span>./target/wasm32-wasi/release/*.wasm<span class="w"> </span>.
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-4-2">cargo<span class="w"> </span>clean
+</span><span id="__span-4-3">cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>--target<span class="w"> </span>wasm32-wasi
+</span><span id="__span-4-4">ls<span class="w"> </span>-lh<span class="w"> </span>./target/wasm32-wasi/release/*.wasm
+</span><span id="__span-4-5">cp<span class="w"> </span>./target/wasm32-wasi/release/*.wasm<span class="w"> </span>.
+</span></code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-5-2">extism-js<span class="w"> </span>index.js<span class="w"> </span>-o<span class="w"> </span>hello.wasm
 </span></code></pre></div></td></tr></table></div>
 </div>
 </div>
 </div>
 <h2 id="run">Run</h2>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-4-2">./slingshot<span class="w"> </span>cli<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>hello<span class="w"> </span>--input<span class="o">=</span><span class="s2">&quot;Bob 🤓&quot;</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-6-2">./slingshot<span class="w"> </span>cli<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>hello<span class="w"> </span>--input<span class="o">=</span><span class="s2">&quot;Bob 🤓&quot;</span>
 </span></code></pre></div></td></tr></table></div>
 <h3 id="output">Output</h3>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1">👋<span class="w"> </span>Hello<span class="w"> </span>Bob<span class="w"> </span>🤓
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1">👋<span class="w"> </span>Hello<span class="w"> </span>Bob<span class="w"> </span>🤓
 </span></code></pre></div></td></tr></table></div>
 
 
