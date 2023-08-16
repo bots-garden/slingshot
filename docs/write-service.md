@@ -96,6 +96,33 @@
     }
     ```
 
+=== "JavaScript"
+    ```javascript linenums="1"
+    function handle() {
+
+        // read function argument from the memory
+        let http_request_data = Host.inputString()
+
+        let JSONData = JSON.parse(http_request_data)
+
+        let text = "💛 Hello " + JSONData.body
+
+        let response = {
+            headers: {
+                "Content-Type": "application/json; charset=utf-8",
+                "X-Slingshot-version": "0.0.0"
+            },
+            textBody: text,
+            statusCode: 200
+        }
+
+        // copy output to host memory
+        Host.outputString(JSON.stringify(response))
+    }
+
+    module.exports = {handle}
+    ```
+
 ## Build
 
 === "Go"
@@ -109,11 +136,16 @@
     ```bash linenums="1"
     #!/bin/bash
     cargo clean
-    cargo build --release --target wasm32-wasi #--offline
+    cargo build --release --target wasm32-wasi
     ls -lh ./target/wasm32-wasi/release/*.wasm
     cp ./target/wasm32-wasi/release/*.wasm .
     ```
-
+=== "JavaScript"
+    ```bash linenums="1"
+    #!/bin/bash
+    extism-js index.js -o hello.wasm
+    ```
+    
 ## Run
 
 ```bash linenums="1"
