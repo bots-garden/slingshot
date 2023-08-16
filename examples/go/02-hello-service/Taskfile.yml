@@ -1,0 +1,49 @@
+version: '3'
+
+description: >
+  task slingshot-build
+  task wasm-build
+  task wasm-serve
+  
+tasks:
+  # task slingshot-build
+  slingshot-build:
+    cmds:
+      - | 
+        target=$(pwd)
+        cd ../../../slingshot-server
+        env CGO_ENABLED=0 go build -ldflags="-s -w" -o ${target}/slingshot
+
+  # task wasm-build
+  wasm-build:
+    cmds:
+      - | 
+        tinygo build -scheduler=none --no-debug \
+          -o hello.wasm \
+          -target wasi main.go
+
+        ls -lh *.wasm
+
+  # task wasm-serve
+  wasm-serve:
+    cmds:
+      - | 
+        ./slingshot start --wasm=./hello.wasm --handler=handle --http-port=7070
+
+  # task all
+  all:
+    cmds:
+      - task slingshot-build
+      - task wasm-build
+      - task wasm-serve
+
+  # task query
+  query:
+    cmds:
+      - | 
+        curl --verbose \
+        http://localhost:7070 \
+        -H 'content-type: text/plain; charset=utf-8' \
+        -d '😄 Bob Morane'
+        echo ""
+        

@@ -19,3 +19,5 @@ release
 slingshot-server/tmp
 tmp
 site
+slingshot.code-workspace
+

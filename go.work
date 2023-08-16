@@ -1,7 +1,6 @@
 go 1.20
 
 use (
-	./go-handler-plugin
 	./go-sdk
 	./go-sdk/plugins/config
 	./go-sdk/plugins/exit
@@ -16,14 +15,6 @@ use (
 	./plugins/tests/some-functions
 	./plugins/tests/read-env
 	./plugins/tests/use-redis
-
-	./00-hello-go
-
-	./00-print-go
-	./01-hello-go
-	./02-env-var-go
-	./03-mem-cache-go
-	./04-redis-go
 )
 
 // go work sync

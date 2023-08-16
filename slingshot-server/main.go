@@ -41,6 +41,7 @@ var mutex sync.Mutex
 
 // Initialise the extism wasm plugin
 func initialize(idPlugin string, wasmFilePath string) context.Context {
+
 	ctx := context.Background()
 
 	config := plg.GetPluginConfig()
