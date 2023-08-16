@@ -1,3 +1,4 @@
 *.wasm
 slingshot*
 .env
+target
