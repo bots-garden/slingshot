@@ -35,6 +35,21 @@
     }
     ```
 
+=== "JavaScript"
+    ```javascript linenums="1"
+    function hello() {
+
+        // read function argument from the memory
+        let input = Host.inputString()
+
+        let output = "👋 Hello " + input
+        // copy output to host memory
+        Host.outputString(output)
+    }
+
+    module.exports = {hello}
+    ```
+
 ## Build
 
 === "Go"
@@ -48,9 +63,14 @@
     ```bash linenums="1"
     #!/bin/bash
     cargo clean
-    cargo build --release --target wasm32-wasi #--offline
+    cargo build --release --target wasm32-wasi
     ls -lh ./target/wasm32-wasi/release/*.wasm
     cp ./target/wasm32-wasi/release/*.wasm .
+    ```
+=== "JavaScript"
+    ```bash linenums="1"
+    #!/bin/bash
+    extism-js index.js -o hello.wasm
     ```
 
 ## Run

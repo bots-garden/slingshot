@@ -53,6 +53,16 @@ tasks:
         env CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -ldflags="-s -w" -o slingshot-${TAG}-linux-amd64
         mv slingshot-${TAG}-* ../release
 
+  # task release:build-small
+  build-small:
+    cmds:
+      - | 
+        cd slingshot-server
+        env CGO_ENABLED=0 GOOS=linux GOARCH=arm go build -ldflags="-s -w" -o slingshot-${TAG}-linux-arm
+        #env CGO_ENABLED=0 GOOS=linux GOARCH=armbe go build -ldflags="-s -w" -o slingshot-${TAG}-linux-armbe
+        mv slingshot-${TAG}-* ../release
+        
+
   # task release:before-run-docker
   # # https://www.baeldung.com/linux/docker-permission-denied-daemon-socket-error
   before-run-docker:
