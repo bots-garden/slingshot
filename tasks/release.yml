@@ -28,6 +28,12 @@ env:
   IMAGE_BASE_NAME: "slingshot"
 
 tasks:
+
+  # task release:check
+  check:
+    cmds:
+      - echo "${TAG}"
+
   # task release:create
   create:
     cmds:
