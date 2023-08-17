@@ -12,6 +12,7 @@ import (
 	"log"
 	"net/http"
 	"os"
+	"slingshot-server/callbacks"
 	"slingshot-server/hof"
 	"slingshot-server/infos"
 	"slingshot-server/initcbk"
@@ -53,7 +54,7 @@ func initialize(idPlugin string, wasmFilePath string) context.Context {
 	errPlgInit := plg.InitializePluging(ctx, idPlugin, manifest, config, hof.GetHostFunctions())
 
 	if errPlgInit != nil {
-		log.Println("🔴 !!! Error when loading the plugin", errPlgInit)
+		log.Println("🔴 Error when loading the plugin", errPlgInit)
 		os.Exit(1)
 	}
 	return ctx
@@ -167,16 +168,77 @@ func execute(wasmFilePath string, wasmFunctionName string, data string) {
 		os.Exit(1)
 	}
 
-	_, output, err := plugin.Call(wasmFunctionName, []byte(data))
-	if err != nil {
-		fmt.Println(err)
+	if plugin.FunctionExists(wasmFunctionName) != true {
+		log.Println("🔴 Error:", wasmFunctionName, "does not exist")
 		os.Exit(1)
 	}
-	
+
+	_, output, err := plugin.Call(wasmFunctionName, []byte(data))
+	if err != nil {
+		fmt.Println("🔴 Error:", err)
+		os.Exit(1)
+	}
+
 	// Display output content, only if the wasm plugin returns something
-	if(len(output)) > 0 {
+	if (len(output)) > 0 {
 		fmt.Println(string(output))
 	}
+
+}
+
+func subscribe(wasmFilePath string, wasmFunctionName string, redisChannel string, redisUri string, redisClientId string) {
+
+	redisClientRecord := callbacks.RedisClientRecord{
+		Id:  redisClientId,
+		Uri: redisUri,
+	}
+	redisClient, err := callbacks.CreateOrGetRedisClient(redisClientRecord)
+	if err != nil {
+		log.Println("🔴 Error when connecting with the redis database", err)
+		os.Exit(1)
+	}
+
+	ctx := initialize("slingshotplug", wasmFilePath)
+	plugin, err := plg.GetPlugin("slingshotplug")
+
+	if err != nil {
+		log.Println("🔴 Error when getting the plugin", err)
+		os.Exit(1)
+	}
+
+	if plugin.FunctionExists(wasmFunctionName) != true {
+		log.Println("🔴 Error:", wasmFunctionName, "does not exist")
+		os.Exit(1)
+	}
+
+	// There is no error because go-redis
+	// automatically reconnects on error.
+	// 🤔
+	pubsub := redisClient.Subscribe(ctx, redisChannel)
+
+	// Close the subscription when we are done.
+	defer pubsub.Close()
+
+	go func() {
+		ch := pubsub.Channel()
+
+		for msg := range ch {
+			//fmt.Println(msg.Channel, msg.Payload)
+
+			// TODO: Create a Json Payload
+			_, output, err := plugin.Call(wasmFunctionName, []byte(msg.Channel + " "+ msg.Payload))
+			if err != nil {
+				fmt.Println("🔴 Error:", err)
+				//os.Exit(1)
+			}
+			// Display output content, only if the wasm plugin returns something
+			if (len(output)) > 0 {
+				fmt.Println(string(output))
+			}
+
+		}
+	}()
+	<-ctx.Done()
 
 }
 
@@ -184,9 +246,9 @@ func parseCommand(command string, args []string) error {
 	//fmt.Println("Command:", command)
 	//fmt.Println("Args:", args)
 	switch command {
-	case "start":
+	case "start", "listen":
 		//fmt.Println("start")
-		flagSet := flag.NewFlagSet("start", flag.ExitOnError)
+		flagSet := flag.NewFlagSet("listen", flag.ExitOnError)
 
 		httpPort := flagSet.String("http-port", "8080", "http port")
 		handler := flagSet.String("handler", "handle", "wasm function name")
@@ -202,8 +264,54 @@ func parseCommand(command string, args []string) error {
 
 		return nil
 
-	case "cli":
-		flagSet := flag.NewFlagSet("start", flag.ExitOnError)
+	// TODO: MQTT, Nats,...
+
+	case "redis":
+		// TODO: create a publish callback
+		//redisCmd := flag.Args()[0]
+		subCommand := flag.Args()[1]
+
+		flagSet := flag.NewFlagSet("redis", flag.ExitOnError)
+
+		redisUri := flagSet.String("redis-uri", "rediss://default:pwd@redis-something:port", "Redis URI")
+		// Allow to use an existing redis client
+		redisClientId := flagSet.String("redis-client-id", "something", "Redis client id")
+		handler := flagSet.String("handler", "handle", "wasm function name")
+		wasmFile := flagSet.String("wasm", "*.wasm", "wasm file path (and name)")
+
+		maskVariables := flagSet.Bool("mask-variables", true, "")
+
+		switch subCommand {
+		case "subscribe":
+
+			redisChannel := flagSet.String("channel", "knock-knock", "Redis channel")
+
+			flagSet.Parse(args[1:]) // from 1, because of the subCommand
+			if *maskVariables != true {
+				fmt.Println("🌍 redis URI      :", *redisUri)
+			} else {
+				fmt.Println("🌍 redis URI      :", "*****")
+			}
+
+			fmt.Println("🌍 redis Client Id:", *redisClientId)
+			fmt.Println("🚀 handler        :", *handler)
+			fmt.Println("📦 wasm           :", *wasmFile)
+			fmt.Println("📺 channel        :", *redisChannel)
+
+			subscribe(*wasmFile, *handler, *redisChannel, *redisUri, *redisClientId)
+
+		case "memdb":
+
+			// foo
+
+		default:
+			return fmt.Errorf("🔴 invalid subcommand: '%s'\n\n%s\n", subCommand, infos.Usage)
+		}
+
+		return nil
+
+	case "cli", "run":
+		flagSet := flag.NewFlagSet("run", flag.ExitOnError)
 
 		handler := flagSet.String("handler", "handle", "wasm function name")
 		wasmFile := flagSet.String("wasm", "*.wasm", "wasm file path (and name)")
@@ -225,7 +333,7 @@ func parseCommand(command string, args []string) error {
 		fmt.Println(infos.About)
 		return nil
 	default:
-		return fmt.Errorf("invalid command: '%s'\n\n%s\n", command, infos.Usage)
+		return fmt.Errorf("🔴 invalid command: '%s'\n\n%s\n", command, infos.Usage)
 	}
 }
 

@@ -77,7 +77,7 @@
 
 ```bash linenums="1"
 #!/bin/bash
-./slingshot cli --wasm=./hello.wasm --handler=hello --input="Bob 🤓"
+./slingshot run --wasm=./hello.wasm --handler=hello --input="Bob 🤓"
 ```
 
 ### Output

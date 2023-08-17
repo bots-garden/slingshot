@@ -32,7 +32,7 @@ tasks:
         # you need these environment variables
         # - REDIS_URI
         echo "REDIS_URI: ${REDIS_URI}"
-        ./slingshot cli --wasm=./redis.wasm --handler=hello
+        ./slingshot run --wasm=./redis.wasm --handler=hello
 
 
   # task all

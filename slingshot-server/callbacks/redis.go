@@ -24,6 +24,12 @@ type RedisClientArguments struct {
 	Value string `json:"value"`
 }
 
+type RedisClientMessageArguments struct {
+	Id      string `json:"id"`
+	Channel string `json:"channel"`
+	Payload string `json:"payload"`
+}
+
 var redisClients sync.Map
 
 func GetRedisClient(id string) *redis.Client {
@@ -82,7 +88,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+		log.Println("🔴 InitRedisClient, CopyJsonToMemory:", err)
 	}
 
 }
@@ -119,7 +125,7 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+		log.Println("🔴 RedisSet, CopyJsonToMemory:", err)
 	}
 
 }
@@ -156,7 +162,7 @@ func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+		log.Println("🔴 RedisGet, CopyJsonToMemory:", err)
 	}
 }
 
@@ -192,7 +198,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+		log.Println("🔴 RedisDel, CopyJsonToMemory:", err)
 	}
 }
 
@@ -229,6 +235,43 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData int
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 MemorySet, CopyJsonToMemory:", err)
+		log.Println("🔴 RedisFilter, CopyJsonToMemory:", err)
+	}
+}
+
+func RedisPublish(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+	/* Expected
+	{ id: "", channel: "", payload: "" }
+	*/
+	var result = slingshot.StringResult{}
+	var arguments RedisClientMessageArguments
+
+	// Read data from the shared memory
+	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
+
+	// Construct the result
+	if err != nil {
+		result.Failure = err.Error()
+		result.Success = ""
+	} else {
+		//fmt.Println("🔵 RedisGet", arguments)
+		redisCli := GetRedisClient(arguments.Id)
+
+		err := redisCli.Publish(ctx, arguments.Channel, arguments.Payload).Err()
+
+		if err != nil {
+			result.Failure = err.Error()
+			result.Success = ""
+		} else {
+			result.Failure = ""
+			result.Success = "ok"
+		}
+	}
+
+	// Copy the result to the memory
+	errResult := mem.CopyJsonToMemory(plugin, stack, result)
+
+	if errResult != nil {
+		log.Println("🔴 RedisPublish, CopyJsonToMemory:", err)
 	}
 }

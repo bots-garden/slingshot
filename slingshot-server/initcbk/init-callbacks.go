@@ -59,6 +59,10 @@ func LoadHostFunctionCallBacks() {
 		"hostRedisFilter",
 		callbacks.RedisFilter,
 	)
+	redis_publish := hof.DefineHostFunctionCallBack(
+		"hostRedisPublish",
+		callbacks.RedisPublish,
+	)
 
 	hof.AppendHostFunction(get_message)
 	hof.AppendHostFunction(print_string)
@@ -71,4 +75,5 @@ func LoadHostFunctionCallBacks() {
 	hof.AppendHostFunction(redis_get)
 	hof.AppendHostFunction(redis_del)
 	hof.AppendHostFunction(redis_filter)
+	hof.AppendHostFunction(redis_publish)
 }

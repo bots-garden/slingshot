@@ -4,7 +4,7 @@ description: >
   task slingshot-build
   task wasm-build
   task wasm-run
-
+  
 tasks:
   # task slingshot-build
   slingshot-build:
@@ -18,17 +18,24 @@ tasks:
   wasm-build:
     cmds:
       - | 
-        cargo clean
-        cargo build --release --target wasm32-wasi #--offline
-        # ls -lh *.wasm
-        ls -lh ./target/wasm32-wasi/release/*.wasm
-        cp ./target/wasm32-wasi/release/*.wasm .
+        tinygo build -scheduler=none --no-debug \
+          -o redispub.wasm \
+          -target wasi main.go
+
+        ls -lh *.wasm
 
   # task wasm-run
   wasm-run:
     cmds:
       - | 
-        ./slingshot run --wasm=./hello.wasm --handler=hello --input="Bob 🤓"
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - REDIS_URI
+        # echo "REDIS_URI: ${REDIS_URI}"
+        ./slingshot run --wasm=./redispub.wasm \
+        --handler=publish \
+        --input="I 💜 Wasm ✨"
+
 
   # task all
   all:

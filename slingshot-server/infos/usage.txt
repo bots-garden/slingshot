@@ -1,6 +1,7 @@
 Specify a command to execute:
-- start  : 🚀 launch the slingshot http server
-- cli    : 📦 use slingshot as a CLI
-- version: ℹ️ get the slingshot version
-- help   : 📙 get some help
-- about  : 📝 everything about slingshot
+- listen         : 🚀 launch the slingshot http server
+- run            : 📦 use slingshot as a CLI
+- redis subscribe: 📬 use singshot as a Redis subscriber
+- version        : ℹ️ get the slingshot version
+- help           : 📙 get some help
+- about          : 📝 everything about slingshot

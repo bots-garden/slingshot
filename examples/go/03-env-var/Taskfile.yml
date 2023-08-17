@@ -29,7 +29,7 @@ tasks:
     cmds:
       - | 
         MESSAGE="👋 Hello World 🌍" \
-        ./slingshot cli --wasm=./envvar.wasm --handler=hello
+        ./slingshot run --wasm=./envvar.wasm --handler=hello
   
   # task all
   all:

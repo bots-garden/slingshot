@@ -2,7 +2,7 @@
 
 
 go run main.go cli \
---wasm=../00-print-rust/print.wasm \
+--wasm=../examples/rust/01-print/print.wasm \
 --handler=hello \
 --input="🤓 I'm a geek"
 

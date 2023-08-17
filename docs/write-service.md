@@ -150,7 +150,7 @@
 
 ```bash linenums="1"
 #!/bin/bash
-./slingshot start --wasm=./hello.wasm --handler=handle --http-port=7070
+./slingshot listen --wasm=./hello.wasm --handler=handle --http-port=7070
 
 🌍 http-port: 7070
 🚀 handler  : handle

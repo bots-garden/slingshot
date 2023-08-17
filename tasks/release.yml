@@ -23,8 +23,8 @@ description: >
   ```
 
 env:
-  TAG: "v0.0.0"
-  IMAGE_TAG: "0.0.0"
+  TAG: "v0.0.1"
+  IMAGE_TAG: "0.0.1"
   IMAGE_BASE_NAME: "slingshot"
 
 tasks:

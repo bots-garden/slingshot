@@ -26,7 +26,7 @@ tasks:
   wasm-serve:
     cmds:
       - | 
-        ./slingshot start --wasm=./hello.wasm \
+        ./slingshot listen --wasm=./hello.wasm \
         --handler=handle \
         --http-port=7070
 

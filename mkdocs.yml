@@ -16,12 +16,15 @@ nav:
     - 🚀 Write Extism plug-ins:
       - Write & run a plug-in: write-plug-in.md
       - Write & serve a plug-in as a nano-service: write-service.md
+      - Write a Redis subscriber: write-redis-subscriber.md
+      - Write a Redis publisher: write-redis-publisher.md
     - 🛠️ Host functions: 
       - Intro: host-functions/intro.md
       - Display: host-functions/display.md
       - Environment: host-functions/env.md
       - Memory cache: host-functions/mem.md
       - Redis cache: host-functions/redis.md
+      - Redis PubSub: host-functions/redis-pubsub.md
 
 theme:
   name: material

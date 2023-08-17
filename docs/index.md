@@ -3,11 +3,18 @@
 **SlingShot** is a **Wasm** runner to run or serve **[Extism](https://extism.org/)** **Wasm** plug-ins
 
 ```bash title="Run a wasm plug-in"
-./slingshot cli --wasm=./hello.wasm --handler=hello --input="Bob 🤓"
+./slingshot run --wasm=./hello.wasm --handler=hello --input="Bob 🤓"
 ```
 
 ```bash title="Serve a wasm plug-in as a function"
-./slingshot start --wasm=./hello.wasm --handler=handle --http-port=7070
+./slingshot listen --wasm=./hello.wasm --handler=handle --http-port=7070
+```
+
+```bash title="Trigger a wasm plug-in with Redis messages"
+./slingshot redis subscribe --wasm=./hello.wasm --handler=message \
+--redis-uri=${REDIS_URI} \
+--redis-client-id=007 \
+--channel=news
 ```
 
 ## How is Slingshot developed?
@@ -28,3 +35,5 @@ Slingshot is developed in Go with **[Wazero](https://wazero.io/)**[^1] as the Wa
 
 - [Write & run a plug-in](write-plug-in.md)
 - [Write & serve a plug-in as a nano-service](write-service.md)
+- [Write a Redis subscriber plug-in](write-redis-subscriber.md)
+- [Write a Redis publisher plug-in](write-redis-publisher.md)

@@ -28,7 +28,7 @@ tasks:
   wasm-run:
     cmds:
       - | 
-        ./slingshot cli --wasm=./print.wasm --handler=hello --input="🤓 I'm a geek"
+        ./slingshot run --wasm=./print.wasm --handler=hello --input="🤓 I'm a geek"
   
   # task all
   all:

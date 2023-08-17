@@ -28,7 +28,7 @@ tasks:
   wasm-run:
     cmds:
       - | 
-        ./slingshot cli --wasm=./memcache.wasm --handler=hello
+        ./slingshot run --wasm=./memcache.wasm --handler=hello
   
   # task all
   all:
