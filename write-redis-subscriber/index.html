@@ -12,20 +12,20 @@
         <meta name="author" content="Philippe Charrière (@k33g)">
       
       
-        <link rel="canonical" href="https://bots-garden.github.io/slingshot/write-plug-in/">
+        <link rel="canonical" href="https://bots-garden.github.io/slingshot/write-redis-subscriber/">
       
       
-        <link rel="prev" href="..">
+        <link rel="prev" href="../write-service/">
       
       
-        <link rel="next" href="../write-service/">
+        <link rel="next" href="../write-redis-publisher/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
-        <title>Write & run a plug-in - SlingShot</title>
+        <title>Write a Redis subscriber - SlingShot</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#write-and-run-a-plug-in" class="md-skip">
+        <a href="#write-a-redis-subscriber-plug-in" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Write & run a plug-in
+              Write a Redis subscriber
             
           </span>
         </div>
@@ -264,6 +264,34 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../write-plug-in/" class="md-nav__link">
+        Write & run a plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../write-service/" class="md-nav__link">
+        Write & serve a plug-in as a nano-service
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -276,12 +304,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Write & run a plug-in
+          Write a Redis subscriber
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Write & run a plug-in
+        Write a Redis subscriber
       </a>
       
         
@@ -315,6 +343,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#trigger-the-plugin" class="md-nav__link">
+    Trigger the plugin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#output" class="md-nav__link">
     Output
   </a>
@@ -330,34 +365,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../write-service/" class="md-nav__link">
-        Write & serve a plug-in as a nano-service
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../write-redis-subscriber/" class="md-nav__link">
-        Write a Redis subscriber
-      </a>
     </li>
   
 
@@ -544,6 +551,13 @@
       <ul class="md-nav__list">
         
           <li class="md-nav__item">
+  <a href="#trigger-the-plugin" class="md-nav__link">
+    Trigger the plugin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
   <a href="#output" class="md-nav__link">
     Output
   </a>
@@ -573,11 +587,8 @@
   
 
 
-<h1 id="write-and-run-a-plug-in">Write and run a plug-in</h1>
-<blockquote>
-<p>Official documentation: <a href="https://extism.org/docs/category/write-a-plug-in">https://extism.org/docs/category/write-a-plug-in</a></p>
-</blockquote>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:3"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><input id="__tabbed_1_3" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Go</label><label for="__tabbed_1_2">Rust</label><label for="__tabbed_1_3">JavaScript</label></div>
+<h1 id="write-a-redis-subscriber-plug-in">Write a Redis subscriber plug-in</h1>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Go</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -597,47 +608,58 @@
 <span class="normal">15</span>
 <span class="normal">16</span>
 <span class="normal">17</span>
-<span class="normal">18</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-0-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
 </span><span id="__span-0-2">
 </span><span id="__span-0-3"><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
 </span><span id="__span-0-4"><span class="w">    </span><span class="s">&quot;github.com/extism/go-pdk&quot;</span>
 </span><span id="__span-0-5"><span class="p">)</span>
 </span><span id="__span-0-6">
-</span><span id="__span-0-7"><span class="c1">//export hello</span>
-</span><span id="__span-0-8"><span class="kd">func</span><span class="w"> </span><span class="nx">hello</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-9"><span class="w">    </span><span class="c1">// read function argument from the shared memory</span>
-</span><span id="__span-0-10"><span class="w">    </span><span class="nx">input</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">Input</span><span class="p">()</span>
-</span><span id="__span-0-11"><span class="w">    </span><span class="nx">output</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">&quot;👋 Hello &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">)</span>
-</span><span id="__span-0-12">
-</span><span id="__span-0-13"><span class="w">    </span><span class="c1">// copy output to shared memory</span>
-</span><span id="__span-0-14"><span class="w">    </span><span class="nx">mem</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">AllocateString</span><span class="p">(</span><span class="nx">output</span><span class="p">)</span>
-</span><span id="__span-0-15"><span class="w">    </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">OutputMemory</span><span class="p">(</span><span class="nx">mem</span><span class="p">)</span>
-</span><span id="__span-0-16"><span class="p">}</span>
-</span><span id="__span-0-17">
-</span><span id="__span-0-18"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span><span id="__span-0-7"><span class="c1">//export hostPrint</span>
+</span><span id="__span-0-8"><span class="kd">func</span><span class="w"> </span><span class="nx">hostPrint</span><span class="p">(</span><span class="nx">offset</span><span class="w"> </span><span class="kt">uint64</span><span class="p">)</span><span class="w"> </span><span class="kt">uint64</span>
+</span><span id="__span-0-9">
+</span><span id="__span-0-10"><span class="kd">func</span><span class="w"> </span><span class="nx">Print</span><span class="p">(</span><span class="nx">text</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-11"><span class="w">    </span><span class="nx">memoryText</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">AllocateString</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
+</span><span id="__span-0-12"><span class="w">    </span><span class="nx">hostPrint</span><span class="p">(</span><span class="nx">memoryText</span><span class="p">.</span><span class="nx">Offset</span><span class="p">())</span>
+</span><span id="__span-0-13"><span class="p">}</span>
+</span><span id="__span-0-14">
+</span><span id="__span-0-15"><span class="c1">//export message</span>
+</span><span id="__span-0-16"><span class="kd">func</span><span class="w"> </span><span class="nx">message</span><span class="p">()</span><span class="w"> </span><span class="kt">uint64</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-17"><span class="w">    </span><span class="c1">// read function argument from the memory</span>
+</span><span id="__span-0-18"><span class="w">    </span><span class="nx">input</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">Input</span><span class="p">()</span>
+</span><span id="__span-0-19">
+</span><span id="__span-0-20"><span class="w">    </span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;👋 message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-0-21">
+</span><span id="__span-0-22"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span>
+</span><span id="__span-0-23"><span class="p">}</span>
+</span><span id="__span-0-24">
+</span><span id="__span-0-25"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
 </span></code></pre></div></td></tr></table></div>
 </div>
+</div>
+</div>
+<h2 id="build">Build</h2>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Go</label></div>
+<div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span>
-<span class="normal">6</span>
-<span class="normal">7</span>
-<span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="k">use</span><span class="w"> </span><span class="n">extism_pdk</span>::<span class="o">*</span><span class="p">;</span>
-</span><span id="__span-1-2">
-</span><span id="__span-1-3"><span class="cp">#[plugin_fn]</span>
-</span><span id="__span-1-4"><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">hello</span><span class="p">(</span><span class="n">input</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">FnResult</span><span class="o">&lt;</span><span class="nb">String</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-1-5">
-</span><span id="__span-1-6"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="n">output</span><span class="w"> </span>: <span class="nb">String</span> <span class="o">=</span><span class="w"> </span><span class="s">&quot;👋 Hello &quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="o">&amp;</span><span class="n">input</span><span class="p">;</span>
-</span><span id="__span-1-7">
-</span><span id="__span-1-8"><span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="n">output</span><span class="p">)</span>
-</span><span id="__span-1-9"><span class="p">}</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-1-2">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><span class="w">    </span>-o<span class="w"> </span>redissub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-4"><span class="w">    </span>-target<span class="w"> </span>wasi<span class="w"> </span>main.go
 </span></code></pre></div></td></tr></table></div>
 </div>
-<div class="tabbed-block">
+</div>
+</div>
+<h2 id="run">Run</h2>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -648,61 +670,37 @@
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span>
-<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="kd">function</span><span class="w"> </span><span class="nx">hello</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="ch">#!/bin/bash</span>
 </span><span id="__span-2-2">
-</span><span id="__span-2-3"><span class="w">    </span><span class="c1">// read function argument from the memory</span>
-</span><span id="__span-2-4"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">input</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nx">Host</span><span class="p">.</span><span class="nx">inputString</span><span class="p">()</span>
-</span><span id="__span-2-5">
-</span><span id="__span-2-6"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="nx">output</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">&quot;👋 Hello &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">input</span>
-</span><span id="__span-2-7"><span class="w">    </span><span class="c1">// copy output to host memory</span>
-</span><span id="__span-2-8"><span class="w">    </span><span class="nx">Host</span><span class="p">.</span><span class="nx">outputString</span><span class="p">(</span><span class="nx">output</span><span class="p">)</span>
-</span><span id="__span-2-9"><span class="p">}</span>
-</span><span id="__span-2-10">
-</span><span id="__span-2-11"><span class="nx">module</span><span class="p">.</span><span class="nx">exports</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">{</span><span class="nx">hello</span><span class="p">}</span>
+</span><span id="__span-2-3">./slingshot<span class="w"> </span>redis<span class="w"> </span>subscribe<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4">--wasm<span class="o">=</span>./redissub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5">--handler<span class="o">=</span>message<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-6">--redis-uri<span class="o">=</span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-7">--redis-client-id<span class="o">=</span>pubsubcli<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-8">--channel<span class="o">=</span>news
+</span><span id="__span-2-9">
+</span><span id="__span-2-10"><span class="c1"># Output:</span>
+</span><span id="__span-2-11">🌍<span class="w"> </span>redis<span class="w"> </span>URI<span class="w">      </span>:<span class="w"> </span>*****
+</span><span id="__span-2-12">🌍<span class="w"> </span>redis<span class="w"> </span>Client<span class="w"> </span>Id:<span class="w"> </span>pubsubcli
+</span><span id="__span-2-13">🚀<span class="w"> </span>handler<span class="w">        </span>:<span class="w"> </span>message
+</span><span id="__span-2-14">📦<span class="w"> </span>wasm<span class="w">           </span>:<span class="w"> </span>./redissub.wasm
+</span><span id="__span-2-15">📺<span class="w"> </span>channel<span class="w">        </span>:<span class="w"> </span>news
 </span></code></pre></div></td></tr></table></div>
-</div>
-</div>
-</div>
-<h2 id="build">Build</h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:3"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><input id="__tabbed_2_3" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Go</label><label for="__tabbed_2_2">Rust</label><label for="__tabbed_2_3">JavaScript</label></div>
-<div class="tabbed-content">
-<div class="tabbed-block">
+<h3 id="trigger-the-plugin">Trigger the plugin</h3>
+<p>Connect to the Redis server:
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-3-2">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-3">-o<span class="w"> </span>hello.wasm<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-3-4">-target<span class="w"> </span>wasi<span class="w"> </span>main.go
-</span></code></pre></div></td></tr></table></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span>
-<span class="normal">3</span>
-<span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-4-2">cargo<span class="w"> </span>clean
-</span><span id="__span-4-3">cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>--target<span class="w"> </span>wasm32-wasi
-</span><span id="__span-4-4">ls<span class="w"> </span>-lh<span class="w"> </span>./target/wasm32-wasi/release/*.wasm
-</span><span id="__span-4-5">cp<span class="w"> </span>./target/wasm32-wasi/release/*.wasm<span class="w"> </span>.
-</span></code></pre></div></td></tr></table></div>
-</div>
-<div class="tabbed-block">
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-5-2">extism-js<span class="w"> </span>index.js<span class="w"> </span>-o<span class="w"> </span>hello.wasm
-</span></code></pre></div></td></tr></table></div>
-</div>
-</div>
-</div>
-<h2 id="run">Run</h2>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-6-2">./slingshot<span class="w"> </span>run<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>hello<span class="w"> </span>--input<span class="o">=</span><span class="s2">&quot;Bob 🤓&quot;</span>
-</span></code></pre></div></td></tr></table></div>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-3-2">redis-cli<span class="w"> </span>-u<span class="w">  </span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span>
+</span></code></pre></div></td></tr></table></div></p>
+<p>Publish message(s):
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1">redis.aivencloud.com:17170&gt;<span class="w"> </span>PUBLISH<span class="w"> </span>news<span class="w"> </span><span class="s2">&quot;Hello World&quot;</span>
+</span></code></pre></div></td></tr></table></div></p>
 <h3 id="output">Output</h3>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1">👋<span class="w"> </span>Hello<span class="w"> </span>Bob<span class="w"> </span>🤓
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1">👋<span class="w"> </span>message:<span class="w"> </span>news<span class="w"> </span>Hello<span class="w"> </span>World
 </span></code></pre></div></td></tr></table></div>
 
 

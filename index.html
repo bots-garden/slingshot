@@ -352,6 +352,34 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="write-redis-subscriber/" class="md-nav__link">
+        Write a Redis subscriber
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="write-redis-publisher/" class="md-nav__link">
+        Write a Redis publisher
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -457,6 +485,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="host-functions/redis-pubsub/" class="md-nav__link">
+        Redis PubSub
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -543,9 +585,14 @@
 
 <h1 id="slingshot">SlingShot</h1>
 <p><strong>SlingShot</strong> is a <strong>Wasm</strong> runner to run or serve <strong><a href="https://extism.org/">Extism</a></strong> <strong>Wasm</strong> plug-ins</p>
-<div class="highlight"><span class="filename">Run a wasm plug-in</span><pre><span></span><code><span id="__span-0-1">./slingshot<span class="w"> </span>cli<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>hello<span class="w"> </span>--input<span class="o">=</span><span class="s2">&quot;Bob 🤓&quot;</span>
+<div class="highlight"><span class="filename">Run a wasm plug-in</span><pre><span></span><code><span id="__span-0-1">./slingshot<span class="w"> </span>run<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>hello<span class="w"> </span>--input<span class="o">=</span><span class="s2">&quot;Bob 🤓&quot;</span>
 </span></code></pre></div>
-<div class="highlight"><span class="filename">Serve a wasm plug-in as a function</span><pre><span></span><code><span id="__span-1-1">./slingshot<span class="w"> </span>start<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>handle<span class="w"> </span>--http-port<span class="o">=</span><span class="m">7070</span>
+<div class="highlight"><span class="filename">Serve a wasm plug-in as a function</span><pre><span></span><code><span id="__span-1-1">./slingshot<span class="w"> </span>listen<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>handle<span class="w"> </span>--http-port<span class="o">=</span><span class="m">7070</span>
+</span></code></pre></div>
+<div class="highlight"><span class="filename">Trigger a wasm plug-in with Redis messages</span><pre><span></span><code><span id="__span-2-1">./slingshot<span class="w"> </span>redis<span class="w"> </span>subscribe<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>message<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2">--redis-uri<span class="o">=</span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3">--redis-client-id<span class="o">=</span><span class="m">007</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4">--channel<span class="o">=</span>news
 </span></code></pre></div>
 <h2 id="how-is-slingshot-developed">How is Slingshot developed?</h2>
 <p>Slingshot is developed in Go with <strong><a href="https://wazero.io/">Wazero</a></strong><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> as the Wasm runtime and <strong><a href="https://extism.org/">Extism</a></strong><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, which offers a Wazero-based Go SDK and a Wasm plugin system.</p>
@@ -560,6 +607,8 @@
 <ul>
 <li><a href="write-plug-in/">Write &amp; run a plug-in</a></li>
 <li><a href="write-service/">Write &amp; serve a plug-in as a nano-service</a></li>
+<li><a href="write-redis-subscriber/">Write a Redis subscriber plug-in</a></li>
+<li><a href="write-redis-publisher/">Write a Redis publisher plug-in</a></li>
 </ul>
 <div class="footnote">
 <hr />

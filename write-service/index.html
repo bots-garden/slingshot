@@ -18,7 +18,7 @@
         <link rel="prev" href="../write-plug-in/">
       
       
-        <link rel="next" href="../host-functions/intro/">
+        <link rel="next" href="../write-redis-subscriber/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
@@ -356,6 +356,34 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../write-redis-subscriber/" class="md-nav__link">
+        Write a Redis subscriber
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../write-redis-publisher/" class="md-nav__link">
+        Write a Redis publisher
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -455,6 +483,20 @@
     <li class="md-nav__item">
       <a href="../host-functions/redis/" class="md-nav__link">
         Redis cache
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../host-functions/redis-pubsub/" class="md-nav__link">
+        Redis PubSub
       </a>
     </li>
   
@@ -819,7 +861,7 @@
 <span class="normal">5</span>
 <span class="normal">6</span>
 <span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-6-2">./slingshot<span class="w"> </span>start<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>handle<span class="w"> </span>--http-port<span class="o">=</span><span class="m">7070</span>
+</span><span id="__span-6-2">./slingshot<span class="w"> </span>listen<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>handle<span class="w"> </span>--http-port<span class="o">=</span><span class="m">7070</span>
 </span><span id="__span-6-3">
 </span><span id="__span-6-4">🌍<span class="w"> </span>http-port:<span class="w"> </span><span class="m">7070</span>
 </span><span id="__span-6-5">🚀<span class="w"> </span>handler<span class="w">  </span>:<span class="w"> </span>handle
