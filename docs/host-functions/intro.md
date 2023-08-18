@@ -6,3 +6,4 @@ This section explains how to use the host functions with an Extism wasm plugin.
 - [Environment](env.md)
 - [Memory Cache](mem.md)
 - [Redis Cache](redis.md)
+- [Redis PubSub](redis-pubsub.md)

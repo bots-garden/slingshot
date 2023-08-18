@@ -30,7 +30,7 @@ fi
 rm slingshot
 
 IMAGE_NAME="slingshot-${operating_system}-${processor}"
-IMAGE_TAG="0.0.0"
+IMAGE_TAG="0.0.1"
 echo "🖼️ ${IMAGE_NAME}"
 HTTP_PORT="7070"
 
