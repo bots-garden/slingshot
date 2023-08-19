@@ -68,8 +68,8 @@ tasks:
         --handler=message \
         --url=nats://0.0.0.0:4222 \
         --client-id=natscli \
-        --subject=news \
-        --mask-variables=false
+        --subject=news
+        #--mask-variables=false
 
   # task nats-cli-build
   nats-cli-build:
@@ -79,7 +79,11 @@ tasks:
         cd ../../../tools/nats-cli
         go build -o ${target}/nats-cli
 
-
+  # task send-messages
+  send-messages:
+    cmds:
+      - | 
+        ./nats-cli
 
   # task wasm-stress-1
   wasm-stress-1:

@@ -15,9 +15,7 @@ func main() {
 	}
 	defer nc.Close()
 
-	err = nc.Publish("news", []byte("😍 Hello World"))
-
-	err = nc.Publish("news", []byte("😁😁 Hello World"))
+	err = nc.Publish("news", []byte("Hello World"))
 
 	if err != nil {
 		fmt.Println(err.Error())

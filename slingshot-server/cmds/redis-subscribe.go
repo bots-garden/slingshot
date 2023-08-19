@@ -1,6 +1,7 @@
 package cmds
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -12,7 +13,7 @@ import (
 // RedisSubscribe is triggered by the `redis subscribe` command (from parseCommand)
 func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel string, redisUri string, redisClientId string) {
 
-	redisConfig := slingshot.RedisClientConfig{
+	redisConfig := slingshot.RedisConfig{
 		Id:  redisClientId,
 		Uri: redisUri,
 	}
@@ -43,9 +44,17 @@ func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel s
 				os.Exit(1)
 			}
 
-			// ? how to stress Redis pub sub?
-			// TODO: Create a Json Payload
-			_, output, err := plugin.Call(wasmFunctionName, []byte(msg.Channel+" "+msg.Payload))
+			redisMessage := slingshot.RedisMessage{
+				Channel: msg.Channel,
+				Payload: msg.Payload,
+				Id: redisClientId,
+			}
+			jsonBytes, err := json.Marshal(&redisMessage)
+			if err != nil {
+				fmt.Println("🔴 Error:", err)
+			}
+
+			_, output, err := plugin.Call(wasmFunctionName, jsonBytes)
 			if err != nil {
 				fmt.Println("🔴 Error:", err)
 				//os.Exit(1)

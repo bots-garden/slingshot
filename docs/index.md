@@ -12,9 +12,16 @@
 
 ```bash title="Trigger a wasm plug-in with Redis messages"
 ./slingshot redis subscribe --wasm=./hello.wasm --handler=message \
---redis-uri=${REDIS_URI} \
---redis-client-id=007 \
+--uri=${REDIS_URI} \
+--client-id=007 \
 --channel=news
+```
+
+```bash title="Trigger a wasm plug-in with NATS messages"
+./slingshot nats subscribe --wasm=./hello.wasm --handler=message \
+--url=${NATS_SERVER_URL} \
+--client-id=007 \
+--subject=news
 ```
 
 ## How is Slingshot developed?
@@ -37,3 +44,4 @@ Slingshot is developed in Go with **[Wazero](https://wazero.io/)**[^1] as the Wa
 - [Write & serve a plug-in as a nano-service](write-service.md)
 - [Write a Redis subscriber plug-in](write-redis-subscriber.md)
 - [Write a Redis publisher plug-in](write-redis-publisher.md)
+- [Write a NATS subscriber plug-in](write-nats-subscriber.md)

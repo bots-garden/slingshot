@@ -19,7 +19,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 	}
 	*/
 	var result = slingshot.StringResult{}
-	var record slingshot.RedisClientConfig
+	var record slingshot.RedisConfig
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &record)
 
@@ -50,7 +50,7 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	{ id: "", key: "", value: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments slingshot.RedisClientArguments
+	var arguments slingshot.RedisRecord
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -87,7 +87,7 @@ func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	{ id: "", key: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments slingshot.RedisClientArguments
+	var arguments slingshot.RedisRecord
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -123,7 +123,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	{ id: "", key: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments slingshot.RedisClientArguments
+	var arguments slingshot.RedisRecord
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -159,7 +159,7 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData int
 	{ id: "", key: "*" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments slingshot.RedisClientArguments
+	var arguments slingshot.RedisRecord
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -196,7 +196,7 @@ func RedisPublish(ctx context.Context, plugin *extism.CurrentPlugin, userData in
 	{ id: "", channel: "", payload: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments slingshot.RedisClientMessageArguments
+	var arguments slingshot.RedisMessage
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)

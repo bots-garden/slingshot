@@ -19,7 +19,7 @@ func GetRedisClient(id string) *redis.Client {
 	}
 }
 
-func CreateOrGetRedisClient(record slingshot.RedisClientConfig) (*redis.Client, error) {
+func CreateOrGetRedisClient(record slingshot.RedisConfig) (*redis.Client, error) {
 	var redisDbCli *redis.Client
 
 	cli, _ := redisClients.Load(record.Id)
