@@ -39,7 +39,7 @@ func LoadHostFunctionCallBacks() {
 
 	init_redis_cli := hof.DefineHostFunctionCallBack(
 		"hostInitRedisClient",
-		callbacks.InitRedisClient,
+		callbacks.InitNatsConnection,
 	)
 
 	redis_set := hof.DefineHostFunctionCallBack(
@@ -64,6 +64,16 @@ func LoadHostFunctionCallBacks() {
 		callbacks.RedisPublish,
 	)
 
+	init_nats_connection := hof.DefineHostFunctionCallBack(
+		"hostInitNatsConnection",
+		callbacks.InitNatsConnection,
+	)
+
+	nats_publish := hof.DefineHostFunctionCallBack(
+		"hostNatsPublish",
+		callbacks.NatsPublish,
+	)
+
 	hof.AppendHostFunction(get_message)
 	hof.AppendHostFunction(print_string)
 	hof.AppendHostFunction(log_string)
@@ -76,4 +86,8 @@ func LoadHostFunctionCallBacks() {
 	hof.AppendHostFunction(redis_del)
 	hof.AppendHostFunction(redis_filter)
 	hof.AppendHostFunction(redis_publish)
+
+	hof.AppendHostFunction(init_nats_connection)
+
+	hof.AppendHostFunction(nats_publish)
 }

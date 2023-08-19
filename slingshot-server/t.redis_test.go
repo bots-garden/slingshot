@@ -50,7 +50,7 @@ func initPluginForRedis(wasmFilePath string, pluginId string) {
 	)
 	init_redis_cli := hof.DefineHostFunctionCallBack(
 		"hostInitRedisClient",
-		callbacks.InitRedisClient,
+		callbacks.InitNatsConnection,
 	)
 
 	redis_set := hof.DefineHostFunctionCallBack(
