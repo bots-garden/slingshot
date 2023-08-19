@@ -94,6 +94,12 @@ func parseCommand(command string, args []string) error {
 		}
 
 		return nil
+	
+	case "nats":
+		
+
+
+		return nil
 
 	case "cli", "run":
 		flagSet := flag.NewFlagSet("run", flag.ExitOnError)
