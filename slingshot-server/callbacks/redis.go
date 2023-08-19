@@ -4,60 +4,12 @@ import (
 	"context"
 	"encoding/json"
 	"log"
+	"slingshot-server/clients"
 	"slingshot-server/mem"
 	"slingshot-server/slingshot"
-	"sync"
-
-	"github.com/redis/go-redis/v9"
 
 	"github.com/extism/extism"
 )
-
-type RedisClientRecord struct {
-	Id  string `json:"id"`
-	Uri string `json:"uri"`
-}
-
-type RedisClientArguments struct {
-	Id    string `json:"id"`
-	Key   string `json:"key"`
-	Value string `json:"value"`
-}
-
-type RedisClientMessageArguments struct {
-	Id      string `json:"id"`
-	Channel string `json:"channel"`
-	Payload string `json:"payload"`
-}
-
-var redisClients sync.Map
-
-func GetRedisClient(id string) *redis.Client {
-	cli, ok := redisClients.Load(id)
-	if ok {
-		return cli.(*redis.Client)
-	} else {
-		return nil
-	}
-}
-
-func CreateOrGetRedisClient(record RedisClientRecord) (*redis.Client, error) {
-	var redisDbCli *redis.Client
-
-	cli, _ := redisClients.Load(record.Id)
-	if cli == nil {
-		addr, err := redis.ParseURL(record.Uri)
-		if err != nil {
-			return nil, err
-		}
-		redisDbCli = redis.NewClient(addr)
-		redisClients.Store(record.Id, redisDbCli)
-	} else {
-		redisDbCli = cli.(*redis.Client)
-		return redisDbCli, nil
-	}
-	return redisDbCli, nil
-}
 
 func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
 	/* Expected
@@ -67,7 +19,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 	}
 	*/
 	var result = slingshot.StringResult{}
-	var record RedisClientRecord
+	var record slingshot.RedisClientRecord
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &record)
 
@@ -75,7 +27,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 		result.Failure = err.Error()
 		result.Success = ""
 	} else {
-		_, err := CreateOrGetRedisClient(record)
+		_, err := clients.CreateOrGetRedisClient(record)
 		if err != nil {
 			result.Failure = err.Error()
 			result.Success = ""
@@ -98,7 +50,7 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	{ id: "", key: "", value: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments RedisClientArguments
+	var arguments slingshot.RedisClientArguments
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -109,7 +61,7 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 		result.Success = ""
 	} else {
 		//fmt.Println("🔵 RedisSet", arguments)
-		redisCli := GetRedisClient(arguments.Id)
+		redisCli := clients.GetRedisClient(arguments.Id)
 
 		err = redisCli.Set(ctx, string(arguments.Key), string(arguments.Value), 0).Err()
 		if err != nil {
@@ -135,7 +87,7 @@ func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	{ id: "", key: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments RedisClientArguments
+	var arguments slingshot.RedisClientArguments
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -146,7 +98,7 @@ func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 		result.Success = ""
 	} else {
 		//fmt.Println("🔵 RedisGet", arguments)
-		redisCli := GetRedisClient(arguments.Id)
+		redisCli := clients.GetRedisClient(arguments.Id)
 
 		value, err := redisCli.Get(ctx, string(arguments.Key)).Result()
 		if err != nil {
@@ -171,7 +123,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	{ id: "", key: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments RedisClientArguments
+	var arguments slingshot.RedisClientArguments
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -182,7 +134,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 		result.Success = ""
 	} else {
 		//fmt.Println("🔵 RedisDel", arguments)
-		redisCli := GetRedisClient(arguments.Id)
+		redisCli := clients.GetRedisClient(arguments.Id)
 
 		_, err := redisCli.Del(ctx, string(arguments.Key)).Result()
 		if err != nil {
@@ -207,7 +159,7 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData int
 	{ id: "", key: "*" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments RedisClientArguments
+	var arguments slingshot.RedisClientArguments
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -218,7 +170,7 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData int
 		result.Success = ""
 	} else {
 		//fmt.Println("🔵 RedisFilter", arguments)
-		redisCli := GetRedisClient(arguments.Id)
+		redisCli := clients.GetRedisClient(arguments.Id)
 
 		keys, err := redisCli.Keys(ctx, string(arguments.Key)).Result()
 		jsonArr, err := json.Marshal(keys)
@@ -244,7 +196,7 @@ func RedisPublish(ctx context.Context, plugin *extism.CurrentPlugin, userData in
 	{ id: "", channel: "", payload: "" }
 	*/
 	var result = slingshot.StringResult{}
-	var arguments RedisClientMessageArguments
+	var arguments slingshot.RedisClientMessageArguments
 
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &arguments)
@@ -255,7 +207,7 @@ func RedisPublish(ctx context.Context, plugin *extism.CurrentPlugin, userData in
 		result.Success = ""
 	} else {
 		//fmt.Println("🔵 RedisGet", arguments)
-		redisCli := GetRedisClient(arguments.Id)
+		redisCli := clients.GetRedisClient(arguments.Id)
 
 		err := redisCli.Publish(ctx, arguments.Channel, arguments.Payload).Err()
 

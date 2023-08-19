@@ -4,18 +4,19 @@ import (
 	"fmt"
 	"log"
 	"os"
-	"slingshot-server/callbacks"
+	"slingshot-server/clients"
 	"slingshot-server/plg"
+	"slingshot-server/slingshot"
 )
 
 // RedisSubscribe is triggered by the `redis subscribe` command (from parseCommand)
 func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel string, redisUri string, redisClientId string) {
 
-	redisClientRecord := callbacks.RedisClientRecord{
+	redisClientRecord := slingshot.RedisClientRecord{
 		Id:  redisClientId,
 		Uri: redisUri,
 	}
-	redisClient, err := callbacks.CreateOrGetRedisClient(redisClientRecord)
+	redisClient, err := clients.CreateOrGetRedisClient(redisClientRecord)
 	if err != nil {
 		log.Println("🔴 Error when connecting with the redis database", err)
 		os.Exit(1)
