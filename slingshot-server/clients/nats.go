@@ -30,9 +30,10 @@ func CreateOrGetNatsClient(record slingshot.NatsClientConfig) (*nats.Conn, error
 			return nil, err
 		}
 		natsClients.Store(record.Id, natsCli)
+		//fmt.Println("🟣 NATS Debug [CreateOrGetNatsClient]", natsCli.IsConnected())
+		return natsCli, nil
 	} else {
 		natsCli = cli.(*nats.Conn)
 		return natsCli, nil
 	}
-	return natsCli, nil
 }

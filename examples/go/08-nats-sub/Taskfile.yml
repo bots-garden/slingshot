@@ -1,0 +1,109 @@
+version: '3'
+
+description: >
+  task slingshot-build
+  task wasm-build
+  task wasm-run
+  
+tasks:
+
+  # task install-nats-server
+  install-nats-server:
+    description: >
+      Adapt to your needs
+    cmds:
+    - |
+      version="2.9.21"
+      os="linux-arm64"
+      curl -L https://github.com/nats-io/nats-server/releases/download/v${version}/nats-server-v${version}-${os}.zip -o nats-server.zip
+
+      unzip nats-server.zip -d nats-server
+      sudo cp nats-server/nats-server-v${version}-${os}/nats-server /usr/bin
+      # sudo cp nats-server/nats-server-v2.9.0-linux-arm64/nats-server /usr/bin
+      rm nats-server.zip
+      rm -rf nats-server
+
+  # task start-nats-server
+  start-nats-server:
+    cmds:
+    - |
+      nats-server --jetstream
+
+  # task stop-nats-server
+  stop-nats-server:
+    cmds:
+    - |
+      nats-server --signal stop
+
+
+  # task slingshot-build
+  slingshot-build:
+    cmds:
+      - | 
+        target=$(pwd)
+        cd ../../../slingshot-server
+        env CGO_ENABLED=0 go build -ldflags="-s -w" -o ${target}/slingshot
+
+  # task wasm-build
+  wasm-build:
+    cmds:
+      - | 
+        tinygo build -scheduler=none --no-debug \
+          -o natssub.wasm \
+          -target wasi main.go
+
+        ls -lh *.wasm
+
+  # task wasm-run
+  wasm-run:
+    description: >
+      To test:
+        task start-nats-server
+      Into another terminal:
+        task all
+    cmds:
+      - | 
+        ./slingshot nats subscribe \
+        --wasm=./natssub.wasm \
+        --handler=message \
+        --url=nats://0.0.0.0:4222 \
+        --client-id=natscli \
+        --subject=news \
+        --mask-variables=false
+
+  # task nats-cli-build
+  nats-cli-build:
+    cmds:
+      - | 
+        target=$(pwd)
+        cd ../../../tools/nats-cli
+        go build -o ${target}/nats-cli
+
+
+
+  # task wasm-stress-1
+  wasm-stress-1:
+    cmds:
+      - | 
+        for i in {1..50}
+        do
+          ./nats-cli
+        done
+
+  # task wasm-stress-2
+  wasm-stress-2:
+    cmds:
+      - | 
+        for i in {1..30}
+        do
+          ./nats-cli
+        done
+  
+  # task wasm-stress-1 & task wasm-stress-2 &
+
+  # task all
+  all:
+    cmds:
+      - task slingshot-build
+      - task wasm-build
+      - task wasm-run

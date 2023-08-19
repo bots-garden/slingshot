@@ -17,13 +17,15 @@ func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject str
 		Id:  natsClientId,
 		Url: natsUrl,
 	}
+
 	natsClient, err := clients.CreateOrGetNatsClient(natsConfig)
 	if err != nil {
 		log.Println("🔴 Error when connecting with the NATS server", err)
 		os.Exit(1)
 	}
+	//natsClient := clients.GetNatsClient("natscli")
 
-	plg.Initialize("slingshotplug", wasmFilePath)
+	ctx := plg.Initialize("slingshotplug", wasmFilePath)
 
 	// Close the connection when we are done.
 	defer natsClient.Close()
@@ -60,5 +62,5 @@ func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject str
 		}
 
 	}()
-
+	<-ctx.Done()
 }
