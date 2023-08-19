@@ -16,7 +16,7 @@ import (
 
 func TestCreateRedisClient(t *testing.T) {
 
-	record := slingshot.RedisClientConfig{
+	record := slingshot.RedisConfig{
 		Id:  "redis_cli",
 		Uri: os.Getenv("REDIS_URI"),
 	}

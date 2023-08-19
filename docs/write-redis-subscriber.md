@@ -75,5 +75,5 @@ redis.aivencloud.com:17170> PUBLISH news "Hello World"
 ### Output
 
 ```bash linenums="1"
-👋 message: news Hello World
+👋 message: {"id":"pubsubcli","channel":"news","payload":"Hello World"}
 ```

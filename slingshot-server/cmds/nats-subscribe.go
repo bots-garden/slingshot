@@ -1,6 +1,7 @@
 package cmds
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"os"
@@ -13,7 +14,7 @@ import (
 
 // NatsSubscribe is triggered by the `nats subscribe` command (from parseCommand)
 func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject string, natsUrl string, natsClientId string) {
-	natsConfig := slingshot.NatsClientConfig{
+	natsConfig := slingshot.NatsConfig{
 		Id:  natsClientId,
 		Url: natsUrl,
 	}
@@ -44,8 +45,17 @@ func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject str
 				os.Exit(1)
 			}
 
-			// TODO: Create a Json Payload
-			_, output, err := plugin.Call(wasmFunctionName, []byte(msg.Subject+" "+string(msg.Data)))
+			natsMessage := slingshot.NatsMessage{
+				Subject: msg.Subject,
+				Data:    string(msg.Data),
+				Id: natsClientId,
+			}
+			jsonBytes, err := json.Marshal(&natsMessage)
+			if err != nil {
+				fmt.Println("🔴 Error:", err)
+			}
+
+			_, output, err := plugin.Call(wasmFunctionName, jsonBytes)
 			if err != nil {
 				fmt.Println("🔴 Error:", err)
 				//os.Exit(1)

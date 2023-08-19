@@ -19,7 +19,7 @@ func GetNatsClient(id string) *nats.Conn {
 	}
 }
 
-func CreateOrGetNatsClient(record slingshot.NatsClientConfig) (*nats.Conn, error) {
+func CreateOrGetNatsClient(record slingshot.NatsConfig) (*nats.Conn, error) {
 	var natsCli *nats.Conn
 
 	cli, _ := natsClients.Load(record.Id)

@@ -14,10 +14,11 @@ copyright: Copyright &copy; 2023 - 2024 Philippe Charrière
 nav:
     - 🏠 Home: index.md
     - 🚀 Write Extism plug-ins:
-      - Write & run a plug-in: write-plug-in.md
-      - Write & serve a plug-in as a nano-service: write-service.md
-      - Write a Redis subscriber: write-redis-subscriber.md
-      - Write a Redis publisher: write-redis-publisher.md
+      - CLI plug-in: write-plug-in.md
+      - HTTP nano-service plug-in: write-service.md
+      - Redis subscriber plug-in: write-redis-subscriber.md
+      - Redis publisher plug-in: write-redis-publisher.md
+      - Nats subscriber plug-in: write-nats-subscriber.md
     - 🛠️ Host functions: 
       - Intro: host-functions/intro.md
       - Display: host-functions/display.md
@@ -25,6 +26,7 @@ nav:
       - Memory cache: host-functions/mem.md
       - Redis cache: host-functions/redis.md
       - Redis PubSub: host-functions/redis-pubsub.md
+      - Nats: host-functions/nats.md
 
 theme:
   name: material
