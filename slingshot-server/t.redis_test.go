@@ -6,26 +6,28 @@ import (
 	"log"
 	"os"
 	"slingshot-server/callbacks"
+	"slingshot-server/clients"
 	"slingshot-server/hof"
 	"slingshot-server/plg"
+	"slingshot-server/slingshot"
 	"strings"
 	"testing"
 )
 
 func TestCreateRedisClient(t *testing.T) {
 
-	record := callbacks.RedisClientRecord{
+	record := slingshot.RedisClientConfig{
 		Id:  "redis_cli",
 		Uri: os.Getenv("REDIS_URI"),
 	}
 
-	redisCli, err := callbacks.CreateOrGetRedisClient(record)
+	redisCli, err := clients.CreateOrGetRedisClient(record)
 	if err != nil {
 		fmt.Println("🔴", "TestCreateRedisClient", err)
 	}
 	fmt.Println("🟠", redisCli)
 
-	if callbacks.GetRedisClient(record.Id) != nil {
+	if clients.GetRedisClient(record.Id) != nil {
 		fmt.Println("🟢", "TestCreateRedisClient")
 
 	} else {

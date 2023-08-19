@@ -16,7 +16,7 @@ case $1 in
     ;;
 
   # ✨: sparkles
-  sparkles)
+  sparkles|feature)
     message="Introduce new features"
     emoji="✨"
     ;;
@@ -70,6 +70,13 @@ case $1 in
     message="Docker"
     emoji="🐳"
     ;;
+
+  # 🛠️: hammer and spanner
+  testing|test)
+    message="Testing"
+    emoji="🛠️"
+    ;;
+
 
   # ⚗️: alembic
   alembic|experiments|experiment|xp)

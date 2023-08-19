@@ -37,6 +37,40 @@ tasks:
         --input="I 💜 Wasm ✨"
 
 
+  # task wasm-stress-1
+  wasm-stress-1:
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - REDIS_URI
+        # echo "REDIS_URI: ${REDIS_URI}"
+
+        for i in {1..50}
+        do
+          ./slingshot run --wasm=./redispub.wasm \
+          --handler=publish \
+          --input="I 💜 Wasm ✨ -> ${i}"
+        done
+
+  # task wasm-stress-2
+  wasm-stress-2:
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - REDIS_URI
+        # echo "REDIS_URI: ${REDIS_URI}"
+
+        for i in {1..30}
+        do
+          ./slingshot run --wasm=./redispub.wasm \
+          --handler=publish \
+          --input="I 🩵 Golang ✨ -> ${i}"
+        done
+  
+  # task wasm-stress-1 & task wasm-stress-2 &
+
   # task all
   all:
     cmds:

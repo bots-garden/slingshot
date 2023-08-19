@@ -7,12 +7,9 @@ import (
 	"net/http"
 	"slingshot-server/plg"
 	"slingshot-server/slingshot"
-	"sync"
 
 	"github.com/gofiber/fiber/v2"
 )
-
-var mutex sync.Mutex
 
 // Start the slingshot HTTP server (triggered by the `listen` command, from parseCommand)
 func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {

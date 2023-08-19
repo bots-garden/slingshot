@@ -52,15 +52,14 @@ func parseCommand(command string, args []string) error {
 	// TODO: MQTT, Nats,...
 
 	case "redis":
-		// TODO: create a publish callback
 		//redisCmd := flag.Args()[0]
 		subCommand := flag.Args()[1]
 
 		flagSet := flag.NewFlagSet("redis", flag.ExitOnError)
 
-		redisUri := flagSet.String("redis-uri", "rediss://default:pwd@redis-something:port", "Redis URI")
 		// Allow to use an existing redis client
-		redisClientId := flagSet.String("redis-client-id", "something", "Redis client id")
+		redisUri := flagSet.String("uri", "rediss://default:pwd@redis-something:port", "Redis URI")
+		redisClientId := flagSet.String("client-id", "something", "Redis client id")
 		handler := flagSet.String("handler", "handle", "wasm function name")
 		wasmFile := flagSet.String("wasm", "*.wasm", "wasm file path (and name)")
 
@@ -83,11 +82,52 @@ func parseCommand(command string, args []string) error {
 			fmt.Println("📦 wasm           :", *wasmFile)
 			fmt.Println("📺 channel        :", *redisChannel)
 
-			cmds.Subscribe(*wasmFile, *handler, *redisChannel, *redisUri, *redisClientId)
+			cmds.RedisSubscribe(*wasmFile, *handler, *redisChannel, *redisUri, *redisClientId)
 
 		case "memdb":
 
 			// could be use for a mono redis connection
+
+		default:
+			return fmt.Errorf("🔴 invalid subcommand: '%s'\n\n%s\n", subCommand, infos.Usage)
+		}
+
+		return nil
+
+	case "nats":
+		subCommand := flag.Args()[1]
+
+		flagSet := flag.NewFlagSet("nats", flag.ExitOnError)
+
+		// NATS flags
+		// TODO, id, conn string...
+
+		handler := flagSet.String("handler", "handle", "wasm function name")
+		wasmFile := flagSet.String("wasm", "*.wasm", "wasm file path (and name)")
+
+		// Allow to use an existing NATS client
+		natsUrl := flagSet.String("url", "nats://somebody:secretpassword@demo.nats.io:4222", "Nats URL")
+		natsClientId := flagSet.String("client-id", "something", "NATS client id")
+
+		maskVariables := flagSet.Bool("mask-variables", true, "")
+
+		switch subCommand {
+		case "subscribe":
+			
+			natsSubject := flagSet.String("subject", "knock-knock", "NATS subject")
+			flagSet.Parse(args[1:]) // from 1, because of the subCommand
+			if *maskVariables != true {
+				fmt.Println("🌍 NATS URL      :", *natsUrl)
+			} else {
+				fmt.Println("🌍 NATS URL      :", "*****")
+			}
+
+			fmt.Println("🌍 NATS Client Id:", *natsClientId)
+			fmt.Println("🚀 handler       :", *handler)
+			fmt.Println("📦 wasm          :", *wasmFile)
+			fmt.Println("📺 Subject       :", *natsSubject)
+
+			cmds.NatsSubscribe(*wasmFile, *handler, *natsSubject, *natsUrl, *natsClientId)
 
 		default:
 			return fmt.Errorf("🔴 invalid subcommand: '%s'\n\n%s\n", subCommand, infos.Usage)

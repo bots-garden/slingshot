@@ -9,7 +9,6 @@ docker-xp
 ._.DS_Store
 go-sdk
 
-go.work
 .env
 
 aiven.sh

@@ -1,7 +1,8 @@
 Specify a command to execute:
 - listen         : 🚀 launch the slingshot http server
 - run            : 📦 use slingshot as a CLI
-- redis subscribe: 📬 use singshot as a Redis subscriber
+- redis subscribe: 📬 use slingshot as a Redis subscriber
+- nats subscribe : 📩 use slingshot as a NATS subscriber
 - version        : ℹ️ get the slingshot version
 - help           : 📙 get some help
 - about          : 📝 everything about slingshot

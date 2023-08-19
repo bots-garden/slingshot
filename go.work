@@ -15,6 +15,8 @@ use (
 	./plugins/tests/some-functions
 	./plugins/tests/read-env
 	./plugins/tests/use-redis
+
+	./tools/nats-cli
 )
 
 // go work sync

@@ -26,6 +26,10 @@ tasks:
 
   # task wasm-run
   wasm-run:
+    description: >
+      To test:
+      redis-cli -u  ${REDIS_URI}
+      redis.aivencloud.com:17170> PUBLISH news "Hello World"
     cmds:
       - | 
         set -o allexport; source .env; set +o allexport
@@ -36,9 +40,10 @@ tasks:
         ./slingshot redis subscribe \
         --wasm=./redissub.wasm \
         --handler=message \
-        --redis-uri=${REDIS_URI} \
-        --redis-client-id=pubsubcli \
+        --uri=${REDIS_URI} \
+        --client-id=pubsubcli \
         --channel=news
+      
 
   # task all
   all:
@@ -46,3 +51,5 @@ tasks:
       - task slingshot-build
       - task wasm-build
       - task wasm-run
+
+  
