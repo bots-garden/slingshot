@@ -36,7 +36,6 @@ tasks:
         --handler=publish \
         --input="I 💜 Wasm ✨"
 
-
   # task all
   all:
     cmds:

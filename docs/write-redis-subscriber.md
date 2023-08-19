@@ -47,8 +47,8 @@
 ./slingshot redis subscribe \
 --wasm=./redissub.wasm \
 --handler=message \
---redis-uri=${REDIS_URI} \
---redis-client-id=pubsubcli \
+--uri=${REDIS_URI} \
+--client-id=pubsubcli \
 --channel=news
 
 # Output:

@@ -8,8 +8,8 @@ import (
 	"slingshot-server/plg"
 )
 
-// Subscribe is triggered by the `redis subscribe` command (from parseCommand)
-func Subscribe(wasmFilePath string, wasmFunctionName string, redisChannel string, redisUri string, redisClientId string) {
+// RedisSubscribe is triggered by the `redis subscribe` command (from parseCommand)
+func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel string, redisUri string, redisClientId string) {
 
 	redisClientRecord := callbacks.RedisClientRecord{
 		Id:  redisClientId,
