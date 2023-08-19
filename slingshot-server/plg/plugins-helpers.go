@@ -3,7 +3,10 @@ package plg
 import (
 	"context"
 	"errors"
+	"log"
+	"os"
 	"slingshot-server/hof"
+	"slingshot-server/initcbk"
 
 	"github.com/extism/extism"
 	"github.com/tetratelabs/wazero"
@@ -65,4 +68,24 @@ func InitializePluging(ctx context.Context, pluginName string, manifest extism.M
 	StorePlugin(pluginName, pluginInst)
 
 	return err
+}
+
+// Initialise the extism wasm plugin
+func Initialize(idPlugin string, wasmFilePath string) context.Context {
+
+	ctx := context.Background()
+
+	config := GetPluginConfig()
+	manifest := GetManifest(wasmFilePath)
+
+	// load all the host function callbacks
+	initcbk.LoadHostFunctionCallBacks()
+
+	errPlgInit := InitializePluging(ctx, idPlugin, manifest, config, hof.GetHostFunctions())
+
+	if errPlgInit != nil {
+		log.Println("🔴 Error when loading the plugin", errPlgInit)
+		os.Exit(1)
+	}
+	return ctx
 }
