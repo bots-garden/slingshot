@@ -19,7 +19,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 	}
 	*/
 	var result = slingshot.StringResult{}
-	var record slingshot.RedisClientRecord
+	var record slingshot.RedisClientConfig
 	// Read data from the shared memory
 	err := mem.ReadJsonFromMemory(plugin, stack, &record)
 

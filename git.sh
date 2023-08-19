@@ -71,6 +71,13 @@ case $1 in
     emoji="🐳"
     ;;
 
+  # 🛠️: hammer and spanner
+  testing|test)
+    message="Testing"
+    emoji="🛠️"
+    ;;
+
+
   # ⚗️: alembic
   alembic|experiments|experiment|xp)
     message="Perform experiments"

@@ -3,11 +3,13 @@ package clients
 import (
 	"slingshot-server/slingshot"
 	"sync"
+
 	"github.com/redis/go-redis/v9"
 )
 
 var redisClients sync.Map
 
+// GetRedisClient returns a redis client
 func GetRedisClient(id string) *redis.Client {
 	cli, ok := redisClients.Load(id)
 	if ok {
@@ -17,7 +19,7 @@ func GetRedisClient(id string) *redis.Client {
 	}
 }
 
-func CreateOrGetRedisClient(record slingshot.RedisClientRecord) (*redis.Client, error) {
+func CreateOrGetRedisClient(record slingshot.RedisClientConfig) (*redis.Client, error) {
 	var redisDbCli *redis.Client
 
 	cli, _ := redisClients.Load(record.Id)

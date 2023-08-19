@@ -132,6 +132,8 @@ func publish() uint64 {
 
 	RedisPublish("pubsubcli", "news", string(input))
 
+	
+
 	return 0
 }
 

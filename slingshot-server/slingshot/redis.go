@@ -1,6 +1,6 @@
 package slingshot
 
-type RedisClientRecord struct {
+type RedisClientConfig struct {
 	Id  string `json:"id"`
 	Uri string `json:"uri"`
 }
