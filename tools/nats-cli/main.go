@@ -9,6 +9,7 @@ func main() {
 	// Connect to a server
 	//nc, err := nats.Connect("nats://0.0.0.0:4222")
 	nc, err := nats.Connect(nats.DefaultURL)
+	
 
 	if err != nil {
 		fmt.Println(err.Error())

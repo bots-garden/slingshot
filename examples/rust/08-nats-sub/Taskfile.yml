@@ -35,8 +35,6 @@ tasks:
     - |
       nats-server --signal stop
 
-
-
   # task slingshot-build
   slingshot-build:
     cmds:
@@ -71,7 +69,7 @@ tasks:
         --wasm=./natssub.wasm \
         --handler=message \
         --url=nats://0.0.0.0:4222 \
-        --client-id=natscli \
+        --connection-id=natsconn01 \
         --subject=news  
 
   # task nats-cli-build

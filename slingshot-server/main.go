@@ -107,7 +107,7 @@ func parseCommand(command string, args []string) error {
 
 		// Allow to use an existing NATS client
 		natsUrl := flagSet.String("url", "nats://somebody:secretpassword@demo.nats.io:4222", "Nats URL")
-		natsClientId := flagSet.String("client-id", "something", "NATS client id")
+		natsConnectionId := flagSet.String("connection-id", "something", "NATS connection id")
 
 		maskVariables := flagSet.Bool("mask-variables", true, "")
 
@@ -122,12 +122,12 @@ func parseCommand(command string, args []string) error {
 				fmt.Println("🌍 NATS URL      :", "*****")
 			}
 
-			fmt.Println("🌍 NATS Client Id:", *natsClientId)
-			fmt.Println("🚀 handler       :", *handler)
-			fmt.Println("📦 wasm          :", *wasmFile)
-			fmt.Println("📺 Subject       :", *natsSubject)
+			fmt.Println("🌍 NATS Connection Id:", *natsConnectionId)
+			fmt.Println("🚀 handler           :", *handler)
+			fmt.Println("📦 wasm              :", *wasmFile)
+			fmt.Println("📺 Subject           :", *natsSubject)
 
-			cmds.NatsSubscribe(*wasmFile, *handler, *natsSubject, *natsUrl, *natsClientId)
+			cmds.NatsSubscribe(*wasmFile, *handler, *natsSubject, *natsUrl, *natsConnectionId)
 
 		default:
 			return fmt.Errorf("🔴 invalid subcommand: '%s'\n\n%s\n", subCommand, infos.Usage)

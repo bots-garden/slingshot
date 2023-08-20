@@ -83,15 +83,15 @@
 --wasm=./natssub.wasm \
 --handler=message \
 --url=nats://0.0.0.0:4222 \
---client-id=natscli \
+--connection-id=natsconn01 \
 --subject=news
 
 # Output:
 🌍 NATS URL      : *****
-🌍 NATS Client Id: natscli
-🚀 handler       : message
-📦 wasm          : ./natssub.wasm
-📺 Subject       : news
+🌍 NATS Connection Id: natsconn01
+🚀 handler           : message
+📦 wasm              : ./natssub.wasm
+📺 Subject           : news
 ```
 
 ### Trigger the plugin

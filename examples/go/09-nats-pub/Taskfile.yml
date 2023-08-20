@@ -1,0 +1,79 @@
+version: '3'
+
+description: >
+  task slingshot-build
+  task wasm-build
+  task wasm-run
+  
+tasks:
+  # task slingshot-build
+  slingshot-build:
+    cmds:
+      - | 
+        target=$(pwd)
+        cd ../../../slingshot-server
+        env CGO_ENABLED=0 go build -ldflags="-s -w" -o ${target}/slingshot
+
+  # task wasm-build
+  wasm-build:
+    cmds:
+      - | 
+        tinygo build -scheduler=none --no-debug \
+          -o natspub.wasm \
+          -target wasi main.go
+
+        ls -lh *.wasm
+
+  # task wasm-run
+  wasm-run:
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - NATS_URL
+        echo "NATS_URL: ${NATS_URL}"
+        ./slingshot run --wasm=./natspub.wasm \
+        --handler=publish \
+        --input="I 💜 Wasm ✨"
+
+
+  # task wasm-stress-1
+  wasm-stress-1:
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - NATS_URL
+        echo "NATS_URL: ${NATS_URL}"
+
+        for i in {1..50}
+        do
+          ./slingshot run --wasm=./natspub.wasm \
+          --handler=publish \
+          --input="I 💜 Wasm ✨ -> ${i}"
+        done
+
+  # task wasm-stress-2
+  wasm-stress-2:
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - NATS_URL
+        echo "NATS_URL: ${NATS_URL}"
+
+        for i in {1..30}
+        do
+          ./slingshot run --wasm=./natspub.wasm \
+          --handler=publish \
+          --input="I 🩵 Golang ✨ -> ${i}"
+        done
+  
+  # task wasm-stress-1 & task wasm-stress-2 &
+
+  # task all
+  all:
+    cmds:
+      - task slingshot-build
+      - task wasm-build
+      - task wasm-run
