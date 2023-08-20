@@ -67,7 +67,7 @@ tasks:
         --wasm=./natssub.wasm \
         --handler=message \
         --url=nats://0.0.0.0:4222 \
-        --client-id=natscli \
+        --connection-id=natsconn01 \
         --subject=news
         #--mask-variables=false
 

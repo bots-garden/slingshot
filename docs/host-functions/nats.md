@@ -1,6 +1,5 @@
 # 🛠️ Host functions
 
-## hostNatsPublish
+## hostInitNatsConnection & hostNatsPublish
 
-👀 Look at this sample: [Nats publisher plug-in](../)
-
+👀 Look at this sample: [Nats publisher plug-in](../write-nats-publisher.md)

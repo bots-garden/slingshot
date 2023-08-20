@@ -118,14 +118,14 @@ func publish() uint64 {
 
 	natsURL := GetEnv("NATS_URL")
 	Print("💜 NATS_URL: " + natsURL)
-	idNatsConnection, errInit := InitNatsConnection("natscli", natsURL)
+	idNatsConnection, errInit := InitNatsConnection("natsconn01", natsURL)
 	if errInit != nil {
 		Print("😡 " + errInit.Error())
 	} else {
 		Print("🙂 " + idNatsConnection)
 	}
 
-	res, err := NatsPublish("natscli", "news", string(input))
+	res, err := NatsPublish("natsconn01", "news", string(input))
 
 	if err != nil {
 		Print("😡 " + err.Error())

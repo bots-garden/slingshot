@@ -19,6 +19,7 @@ nav:
       - Redis subscriber plug-in: write-redis-subscriber.md
       - Redis publisher plug-in: write-redis-publisher.md
       - Nats subscriber plug-in: write-nats-subscriber.md
+      - Nats publisher plug-in: write-nats-publisher.md
     - 🛠️ Host functions: 
       - Intro: host-functions/intro.md
       - Display: host-functions/display.md

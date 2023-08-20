@@ -1,0 +1,117 @@
+version: '3'
+
+description: >
+  task slingshot-build
+  task wasm-build
+  task wasm-run
+  
+tasks:
+
+  # task install-nats-server
+  install-nats-server:
+    description: >
+      Adapt to your needs
+    cmds:
+    - |
+      version="2.9.21"
+      os="linux-arm64"
+      curl -L https://github.com/nats-io/nats-server/releases/download/v${version}/nats-server-v${version}-${os}.zip -o nats-server.zip
+
+      unzip nats-server.zip -d nats-server
+      sudo cp nats-server/nats-server-v${version}-${os}/nats-server /usr/bin
+      # sudo cp nats-server/nats-server-v2.9.0-linux-arm64/nats-server /usr/bin
+      rm nats-server.zip
+      rm -rf nats-server
+
+  # task start-nats-server
+  start-nats-server:
+    cmds:
+    - |
+      nats-server --jetstream
+
+  # task stop-nats-server
+  stop-nats-server:
+    cmds:
+    - |
+      nats-server --signal stop
+
+
+  # task slingshot-build
+  slingshot-build:
+    cmds:
+      - | 
+        target=$(pwd)
+        cd ../../../slingshot-server
+        env CGO_ENABLED=0 go build -ldflags="-s -w" -o ${target}/slingshot
+
+  # task wasm-build
+  wasm-build:
+    cmds:
+      - | 
+        cargo clean
+        cargo build --release --target wasm32-wasi #--offline
+        # ls -lh *.wasm
+        ls -lh ./target/wasm32-wasi/release/*.wasm
+        cp ./target/wasm32-wasi/release/*.wasm .
+
+  # task wasm-run
+  wasm-run:
+    description: >
+      To test:
+        task start-nats-server
+      Into another terminal:
+        task all
+      Into another terminal:
+        task nats-cli-build
+        task send-messages
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - NATS_URL
+        echo "NATS_URL: ${NATS_URL}"
+        ./slingshot run --wasm=./natspub.wasm \
+        --handler=publish \
+        --input="I 💜 Wasm ✨"
+
+
+  # task wasm-stress-1
+  wasm-stress-1:
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - NATS_URL
+        echo "NATS_URL: ${NATS_URL}"
+
+        for i in {1..50}
+        do
+          ./slingshot run --wasm=./natspub.wasm \
+          --handler=publish \
+          --input="I 💜 Wasm ✨ -> ${i}"
+        done
+
+  # task wasm-stress-2
+  wasm-stress-2:
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - NATS_URL
+        echo "NATS_URL: ${NATS_URL}"
+
+        for i in {1..30}
+        do
+          ./slingshot run --wasm=./natspub.wasm \
+          --handler=publish \
+          --input="I 🦀 Rustlang ✨ -> ${i}"
+        done
+  
+  # task wasm-stress-1 & task wasm-stress-2 &
+
+  # task all
+  all:
+    cmds:
+      - task slingshot-build
+      - task wasm-build
+      - task wasm-run
