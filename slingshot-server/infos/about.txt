@@ -1,4 +1,6 @@
 This is a work in progress 🚧
 
+SlingShot is a Wasm runner to run or serve Extism Wasm plug-ins.
+
 - Created with 💜 by @k33g
 - https://github.com/bots-garden/slingshot
