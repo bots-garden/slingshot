@@ -15,7 +15,7 @@
         <link rel="canonical" href="https://bots-garden.github.io/slingshot/host-functions/intro/">
       
       
-        <link rel="prev" href="../../write-redis-publisher/">
+        <link rel="prev" href="../../write-nats-publisher/">
       
       
         <link rel="next" href="../display/">
@@ -265,7 +265,7 @@
   
     <li class="md-nav__item">
       <a href="../../write-plug-in/" class="md-nav__link">
-        Write & run a plug-in
+        CLI plug-in
       </a>
     </li>
   
@@ -279,7 +279,7 @@
   
     <li class="md-nav__item">
       <a href="../../write-service/" class="md-nav__link">
-        Write & serve a plug-in as a nano-service
+        HTTP nano-service plug-in
       </a>
     </li>
   
@@ -293,7 +293,7 @@
   
     <li class="md-nav__item">
       <a href="../../write-redis-subscriber/" class="md-nav__link">
-        Write a Redis subscriber
+        Redis subscriber plug-in
       </a>
     </li>
   
@@ -307,7 +307,35 @@
   
     <li class="md-nav__item">
       <a href="../../write-redis-publisher/" class="md-nav__link">
-        Write a Redis publisher
+        Redis publisher plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-nats-subscriber/" class="md-nav__link">
+        Nats subscriber plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-nats-publisher/" class="md-nav__link">
+        Nats publisher plug-in
       </a>
     </li>
   
@@ -445,6 +473,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../nats/" class="md-nav__link">
+        Nats
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -495,7 +537,15 @@
 <li><a href="../mem/">Memory Cache</a></li>
 <li><a href="../redis/">Redis Cache</a></li>
 <li><a href="../redis-pubsub/">Redis PubSub</a></li>
+<li><a href="../nats/">Nats Publish</a></li>
 </ul>
+<div class="admonition info">
+<p class="admonition-title">About Extism Host Functions</p>
+<p>You can find more information into the <strong>Extism</strong> documentation: <a href="https://extism.org/docs/concepts/host-functions">https://extism.org/docs/concepts/host-functions</a>.
+Each <a href="https://extism.org/docs/concepts/pdk">Plug-in Development Kits</a> provides the "bridge helpers" allowing using the host function callbacks of the host application from the guest wasm plug-in. Then you need to "assemble" the "bridge helpers" to call the host function. It's not always straightforward, and you need to do it for every language you use.</p>
+<p>Right now, we want to make sure that <strong>SlingShot</strong> is compliant with <strong>Extism</strong> PDKs and that's why we're only working on the "host" part.</p>
+<p>In the future, the <strong>Slingshot</strong> project will propose <strong>layers of abstraction</strong> to simplify the use of host functions.</p>
+</div>
 
 
 

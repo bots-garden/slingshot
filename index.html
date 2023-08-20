@@ -331,7 +331,7 @@
   
     <li class="md-nav__item">
       <a href="write-plug-in/" class="md-nav__link">
-        Write & run a plug-in
+        CLI plug-in
       </a>
     </li>
   
@@ -345,7 +345,7 @@
   
     <li class="md-nav__item">
       <a href="write-service/" class="md-nav__link">
-        Write & serve a plug-in as a nano-service
+        HTTP nano-service plug-in
       </a>
     </li>
   
@@ -359,7 +359,7 @@
   
     <li class="md-nav__item">
       <a href="write-redis-subscriber/" class="md-nav__link">
-        Write a Redis subscriber
+        Redis subscriber plug-in
       </a>
     </li>
   
@@ -373,7 +373,35 @@
   
     <li class="md-nav__item">
       <a href="write-redis-publisher/" class="md-nav__link">
-        Write a Redis publisher
+        Redis publisher plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="write-nats-subscriber/" class="md-nav__link">
+        Nats subscriber plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="write-nats-publisher/" class="md-nav__link">
+        Nats publisher plug-in
       </a>
     </li>
   
@@ -499,6 +527,20 @@
 
             
           
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="host-functions/nats/" class="md-nav__link">
+        Nats
+      </a>
+    </li>
+  
+
+            
+          
         </ul>
       </nav>
     </li>
@@ -590,9 +632,14 @@
 <div class="highlight"><span class="filename">Serve a wasm plug-in as a function</span><pre><span></span><code><span id="__span-1-1">./slingshot<span class="w"> </span>listen<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>handle<span class="w"> </span>--http-port<span class="o">=</span><span class="m">7070</span>
 </span></code></pre></div>
 <div class="highlight"><span class="filename">Trigger a wasm plug-in with Redis messages</span><pre><span></span><code><span id="__span-2-1">./slingshot<span class="w"> </span>redis<span class="w"> </span>subscribe<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>message<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-2">--redis-uri<span class="o">=</span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-3">--redis-client-id<span class="o">=</span><span class="m">007</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2">--uri<span class="o">=</span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3">--client-id<span class="o">=</span><span class="m">007</span><span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-4">--channel<span class="o">=</span>news
+</span></code></pre></div>
+<div class="highlight"><span class="filename">Trigger a wasm plug-in with NATS messages</span><pre><span></span><code><span id="__span-3-1">./slingshot<span class="w"> </span>nats<span class="w"> </span>subscribe<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span>--handler<span class="o">=</span>message<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-2">--url<span class="o">=</span><span class="si">${</span><span class="nv">NATS_SERVER_URL</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-3">--connection-id<span class="o">=</span><span class="m">007</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-3-4">--subject<span class="o">=</span>news
 </span></code></pre></div>
 <h2 id="how-is-slingshot-developed">How is Slingshot developed?</h2>
 <p>Slingshot is developed in Go with <strong><a href="https://wazero.io/">Wazero</a></strong><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> as the Wasm runtime and <strong><a href="https://extism.org/">Extism</a></strong><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, which offers a Wazero-based Go SDK and a Wasm plugin system.</p>
@@ -609,6 +656,8 @@
 <li><a href="write-service/">Write &amp; serve a plug-in as a nano-service</a></li>
 <li><a href="write-redis-subscriber/">Write a Redis subscriber plug-in</a></li>
 <li><a href="write-redis-publisher/">Write a Redis publisher plug-in</a></li>
+<li><a href="write-nats-subscriber/">Write a NATS subscriber plug-in</a></li>
+<li><a href="write-nats-publisher/">Write a NATS publisher plug-in</a></li>
 </ul>
 <div class="footnote">
 <hr />

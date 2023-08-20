@@ -12,20 +12,20 @@
         <meta name="author" content="Philippe Charrière (@k33g)">
       
       
-        <link rel="canonical" href="https://bots-garden.github.io/slingshot/write-redis-subscriber/">
+        <link rel="canonical" href="https://bots-garden.github.io/slingshot/write-nats-subscriber/">
       
       
-        <link rel="prev" href="../write-service/">
+        <link rel="prev" href="../write-redis-publisher/">
       
       
-        <link rel="next" href="../write-redis-publisher/">
+        <link rel="next" href="../write-nats-publisher/">
       
       <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
     
     
       
-        <title>Redis subscriber plug-in - SlingShot</title>
+        <title>Nats subscriber plug-in - SlingShot</title>
       
     
     
@@ -75,7 +75,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#write-a-redis-subscriber-plug-in" class="md-skip">
+        <a href="#write-a-nats-subscriber-plug-in" class="md-skip">
           Skip to content
         </a>
       
@@ -110,7 +110,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Redis subscriber plug-in
+              Nats subscriber plug-in
             
           </span>
         </div>
@@ -292,6 +292,34 @@
               
   
   
+  
+    <li class="md-nav__item">
+      <a href="../write-redis-subscriber/" class="md-nav__link">
+        Redis subscriber plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../write-redis-publisher/" class="md-nav__link">
+        Redis publisher plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
     
   
   
@@ -304,12 +332,12 @@
       
       
         <label class="md-nav__link md-nav__link--active" for="__toc">
-          Redis subscriber plug-in
+          Nats subscriber plug-in
           <span class="md-nav__icon md-icon"></span>
         </label>
       
       <a href="./" class="md-nav__link md-nav__link--active">
-        Redis subscriber plug-in
+        Nats subscriber plug-in
       </a>
       
         
@@ -365,34 +393,6 @@
   
 </nav>
       
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../write-redis-publisher/" class="md-nav__link">
-        Redis publisher plug-in
-      </a>
-    </li>
-  
-
-            
-          
-            
-              
-  
-  
-  
-    <li class="md-nav__item">
-      <a href="../write-nats-subscriber/" class="md-nav__link">
-        Nats subscriber plug-in
-      </a>
     </li>
   
 
@@ -629,8 +629,11 @@
   
 
 
-<h1 id="write-a-redis-subscriber-plug-in">Write a Redis subscriber plug-in</h1>
-<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Go</label></div>
+<h1 id="write-a-nats-subscriber-plug-in">Write a NATS subscriber plug-in</h1>
+<blockquote>
+<p>You need to install a NATS server: <a href="https://docs.nats.io/running-a-nats-service/introduction/installation">https://docs.nats.io/running-a-nats-service/introduction/installation</a></p>
+</blockquote>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:2"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><input id="__tabbed_1_2" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Go</label><label for="__tabbed_1_2">Rust</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -684,19 +687,71 @@
 </span><span id="__span-0-25"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
 </span></code></pre></div></td></tr></table></div>
 </div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="k">use</span><span class="w"> </span><span class="n">extism_pdk</span>::<span class="o">*</span><span class="p">;</span>
+</span><span id="__span-1-2">
+</span><span id="__span-1-3"><span class="k">extern</span><span class="w"> </span><span class="s">&quot;C&quot;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-4"><span class="w">    </span><span class="k">fn</span> <span class="nf">hostPrint</span><span class="p">(</span><span class="n">ptr</span>: <span class="kt">u64</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="kt">u64</span><span class="p">;</span>
+</span><span id="__span-1-5"><span class="p">}</span>
+</span><span id="__span-1-6">
+</span><span id="__span-1-7"><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">print</span><span class="p">(</span><span class="n">text</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-8"><span class="w">    </span><span class="kd">let</span><span class="w"> </span><span class="k">mut</span><span class="w"> </span><span class="n">memory_text</span>: <span class="nc">Memory</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">extism_pdk</span>::<span class="n">Memory</span>::<span class="n">new</span><span class="p">(</span><span class="n">text</span><span class="p">.</span><span class="n">len</span><span class="p">());</span>
+</span><span id="__span-1-9"><span class="w">    </span><span class="n">memory_text</span><span class="p">.</span><span class="n">store</span><span class="p">(</span><span class="n">text</span><span class="p">);</span>
+</span><span id="__span-1-10"><span class="w">    </span><span class="k">unsafe</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">hostPrint</span><span class="p">(</span><span class="n">memory_text</span><span class="p">.</span><span class="n">offset</span><span class="p">)</span><span class="w"> </span><span class="p">};</span>
+</span><span id="__span-1-11"><span class="p">}</span>
+</span><span id="__span-1-12">
+</span><span id="__span-1-13"><span class="cp">#[plugin_fn]</span>
+</span><span id="__span-1-14"><span class="k">pub</span><span class="w"> </span><span class="k">fn</span> <span class="nf">message</span><span class="p">(</span><span class="n">input</span>: <span class="nb">String</span><span class="p">)</span><span class="w"> </span>-&gt; <span class="nc">FnResult</span><span class="o">&lt;</span><span class="kt">u64</span><span class="o">&gt;</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-1-15">
+</span><span id="__span-1-16"><span class="w">    </span><span class="n">print</span><span class="p">(</span><span class="s">&quot;👋 message: &quot;</span><span class="p">.</span><span class="n">to_string</span><span class="p">()</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="o">&amp;</span><span class="n">input</span><span class="p">);</span>
+</span><span id="__span-1-17">
+</span><span id="__span-1-18"><span class="w">    </span><span class="nb">Ok</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
+</span><span id="__span-1-19"><span class="p">}</span>
+</span></code></pre></div></td></tr></table></div>
+</div>
 </div>
 </div>
 <h2 id="build">Build</h2>
-<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Go</label></div>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:2"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><input id="__tabbed_2_2" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Go</label><label for="__tabbed_2_2">Rust</label></div>
 <div class="tabbed-content">
 <div class="tabbed-block">
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-1-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-1-2">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-3"><span class="w">    </span>-o<span class="w"> </span>redissub.wasm<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-4"><span class="w">    </span>-target<span class="w"> </span>wasi<span class="w"> </span>main.go
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-2-2">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><span class="w">    </span>-o<span class="w"> </span>natssub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><span class="w">    </span>-target<span class="w"> </span>wasi<span class="w"> </span>main.go
+</span></code></pre></div></td></tr></table></div>
+</div>
+<div class="tabbed-block">
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-3-2">cargo<span class="w"> </span>clean
+</span><span id="__span-3-3">cargo<span class="w"> </span>build<span class="w"> </span>--release<span class="w"> </span>--target<span class="w"> </span>wasm32-wasi
+</span><span id="__span-3-4">ls<span class="w"> </span>-lh<span class="w"> </span>./target/wasm32-wasi/release/*.wasm
+</span><span id="__span-3-5">cp<span class="w"> </span>./target/wasm32-wasi/release/*.wasm<span class="w"> </span>.
 </span></code></pre></div></td></tr></table></div>
 </div>
 </div>
@@ -716,33 +771,75 @@
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
-<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-2-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-2-2">
-</span><span id="__span-2-3">./slingshot<span class="w"> </span>redis<span class="w"> </span>subscribe<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-4">--wasm<span class="o">=</span>./redissub.wasm<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-5">--handler<span class="o">=</span>message<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-6">--uri<span class="o">=</span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-7">--client-id<span class="o">=</span>pubsubcli<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-2-8">--channel<span class="o">=</span>news
-</span><span id="__span-2-9">
-</span><span id="__span-2-10"><span class="c1"># Output:</span>
-</span><span id="__span-2-11">🌍<span class="w"> </span>redis<span class="w"> </span>URI<span class="w">      </span>:<span class="w"> </span>*****
-</span><span id="__span-2-12">🌍<span class="w"> </span>redis<span class="w"> </span>Client<span class="w"> </span>Id:<span class="w"> </span>pubsubcli
-</span><span id="__span-2-13">🚀<span class="w"> </span>handler<span class="w">        </span>:<span class="w"> </span>message
-</span><span id="__span-2-14">📦<span class="w"> </span>wasm<span class="w">           </span>:<span class="w"> </span>./redissub.wasm
-</span><span id="__span-2-15">📺<span class="w"> </span>channel<span class="w">        </span>:<span class="w"> </span>news
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1"><span class="ch">#!/bin/bash</span>
+</span><span id="__span-4-2">
+</span><span id="__span-4-3">./slingshot<span class="w"> </span>nats<span class="w"> </span>subscribe<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-4">--wasm<span class="o">=</span>./natssub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-5">--handler<span class="o">=</span>message<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-6">--url<span class="o">=</span>nats://0.0.0.0:4222<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-7">--connection-id<span class="o">=</span>natsconn01<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-8">--subject<span class="o">=</span>news
+</span><span id="__span-4-9">
+</span><span id="__span-4-10"><span class="c1"># Output:</span>
+</span><span id="__span-4-11">🌍<span class="w"> </span>NATS<span class="w"> </span>URL<span class="w">      </span>:<span class="w"> </span>*****
+</span><span id="__span-4-12">🌍<span class="w"> </span>NATS<span class="w"> </span>Connection<span class="w"> </span>Id:<span class="w"> </span>natsconn01
+</span><span id="__span-4-13">🚀<span class="w"> </span>handler<span class="w">           </span>:<span class="w"> </span>message
+</span><span id="__span-4-14">📦<span class="w"> </span>wasm<span class="w">              </span>:<span class="w"> </span>./natssub.wasm
+</span><span id="__span-4-15">📺<span class="w"> </span>Subject<span class="w">           </span>:<span class="w"> </span>news
 </span></code></pre></div></td></tr></table></div>
 <h3 id="trigger-the-plugin">Trigger the plugin</h3>
-<p>Connect to the Redis server:
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-3-1"><span class="ch">#!/bin/bash</span>
-</span><span id="__span-3-2">redis-cli<span class="w"> </span>-u<span class="w">  </span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span>
+<p>You need a NATS client. It's easy to write one with Go:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-5-2">
+</span><span id="__span-5-3"><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-5-4"><span class="w">    </span><span class="s">&quot;fmt&quot;</span>
+</span><span id="__span-5-5"><span class="w">    </span><span class="s">&quot;github.com/nats-io/nats.go&quot;</span>
+</span><span id="__span-5-6"><span class="p">)</span>
+</span><span id="__span-5-7">
+</span><span id="__span-5-8"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-9"><span class="w">    </span><span class="c1">// Connect to a server</span>
+</span><span id="__span-5-10"><span class="w">    </span><span class="c1">//nc, err := nats.Connect(&quot;nats://0.0.0.0:4222&quot;)</span>
+</span><span id="__span-5-11"><span class="w">    </span><span class="nx">nc</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">nats</span><span class="p">.</span><span class="nx">Connect</span><span class="p">(</span><span class="nx">nats</span><span class="p">.</span><span class="nx">DefaultURL</span><span class="p">)</span>
+</span><span id="__span-5-12">
+</span><span id="__span-5-13"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-14"><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-5-15"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-16"><span class="w">    </span><span class="k">defer</span><span class="w"> </span><span class="nx">nc</span><span class="p">.</span><span class="nx">Close</span><span class="p">()</span>
+</span><span id="__span-5-17">
+</span><span id="__span-5-18"><span class="w">    </span><span class="nx">err</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">nc</span><span class="p">.</span><span class="nx">Publish</span><span class="p">(</span><span class="s">&quot;news&quot;</span><span class="p">,</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;Hello World&quot;</span><span class="p">))</span>
+</span><span id="__span-5-19">
+</span><span id="__span-5-20"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-21"><span class="w">        </span><span class="nx">fmt</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-5-22"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-5-23"><span class="p">}</span>
 </span></code></pre></div></td></tr></table></div></p>
 <p>Publish message(s):
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-4-1">redis.aivencloud.com:17170&gt;<span class="w"> </span>PUBLISH<span class="w"> </span>news<span class="w"> </span><span class="s2">&quot;Hello World&quot;</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-6-1">go<span class="w"> </span>run<span class="w"> </span>main.go
 </span></code></pre></div></td></tr></table></div></p>
 <h3 id="output">Output</h3>
-<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-5-1">👋<span class="w"> </span>message:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;id&quot;</span>:<span class="s2">&quot;pubsubcli&quot;</span>,<span class="s2">&quot;channel&quot;</span>:<span class="s2">&quot;news&quot;</span>,<span class="s2">&quot;payload&quot;</span>:<span class="s2">&quot;Hello World&quot;</span><span class="o">}</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span id="__span-7-1">👋<span class="w"> </span>message:<span class="w"> </span><span class="o">{</span><span class="s2">&quot;id&quot;</span>:<span class="s2">&quot;natscli&quot;</span>,<span class="s2">&quot;subject&quot;</span>:<span class="s2">&quot;news&quot;</span>,<span class="s2">&quot;data&quot;</span>:<span class="s2">&quot;Hello World&quot;</span><span class="o">}</span>
 </span></code></pre></div></td></tr></table></div>
 
 
