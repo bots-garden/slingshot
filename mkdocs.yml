@@ -28,6 +28,9 @@ nav:
       - Redis cache: host-functions/redis.md
       - Redis PubSub: host-functions/redis-pubsub.md
       - Nats: host-functions/nats.md
+    - 🟣 Slingshot PDK:
+      - Intro: slingshot-pdk/intro.md
+
 
 theme:
   name: material
@@ -66,6 +69,9 @@ markdown_extensions:
   - abbr
   - admonition
   - attr_list
+  - pymdownx.emoji:
+      emoji_index: !!python/name:materialx.emoji.twemoji
+      emoji_generator: !!python/name:materialx.emoji.to_svg
   - def_list
   - footnotes
   - md_in_html

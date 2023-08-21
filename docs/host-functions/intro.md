@@ -16,3 +16,8 @@ This section explains how to use the host functions with an Extism wasm plugin.
     Right now, we want to make sure that **SlingShot** is compliant with **Extism** PDKs and that's why we're only working on the "host" part.
     
     In the future, the **Slingshot** project will propose **layers of abstraction** to simplify the use of host functions.
+
+    👀 you can follow these issues:
+
+      - [Create slingshot-go-pdk](https://github.com/bots-garden/slingshot/issues/5)
+      - [Create slingshot-rust-pdk](https://github.com/bots-garden/slingshot/issues/6)

@@ -1,5 +1,12 @@
 # 🛠️ Host functions
+
+!!! info "Similar helpers are already provided by the Extism PDK(s) and are more complete"
     
+    - **Go**: [https://github.com/extism/go-pdk/blob/main/extism_pdk.go](https://github.com/extism/go-pdk/blob/main/extism_pdk.go)
+    - **Rust**: [https://github.com/extism/rust-pdk/blob/main/src/var.rs](https://github.com/extism/rust-pdk/blob/main/src/var.rs)
+
+    `hostMemorySet` and `hostMemoryGet` have been developed to validate our understanding of how the **Extism PDKs** work.
+
 ## hostMemorySet
 
 **`hostMemorySet`**: store a key/value into a memory map.

@@ -17,7 +17,7 @@
 --channel=news
 ```
 
-```bash title="Trigger a wasm plug-in with NATS messages"
+```bash title="Trigger a wasm plug-in with NATS messages (✋ experimental 🚧 WIP)"
 ./slingshot nats subscribe --wasm=./hello.wasm --handler=message \
 --url=${NATS_SERVER_URL} \
 --connection-id=007 \
