@@ -1,0 +1,38 @@
+version: '3'
+
+description: >
+  task slingshot-build
+  task wasm-build
+  task wasm-run
+  
+tasks:
+  # task slingshot-build
+  slingshot-build:
+    cmds:
+      - | 
+        target=$(pwd)
+        cd ../../../slingshot-server
+        env CGO_ENABLED=0 go build -ldflags="-s -w" -o ${target}/slingshot
+
+  # task wasm-build
+  wasm-build:
+    cmds:
+      - | 
+        tinygo build -scheduler=none --no-debug \
+          -o print.wasm \
+          -target wasi main.go
+
+        ls -lh *.wasm
+
+  # task wasm-run
+  wasm-run:
+    cmds:
+      - | 
+        ./slingshot run --wasm=./print.wasm --handler=hello --input="🤓 I'm a geek"
+
+  # task all
+  all:
+    cmds:
+      - task slingshot-build
+      - task wasm-build
+      - task wasm-run
