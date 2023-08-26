@@ -9,7 +9,7 @@ func Handler(argHandler []byte) []byte {
 	slingshot.Print("👋 hello world 🌍 " + string(input))
 	
 	slingshot.Log("🙂 have a nice day 🏖️")
-	//TODO: set header
+
 	return []byte("👋 Hello World 🌍")
 }
 

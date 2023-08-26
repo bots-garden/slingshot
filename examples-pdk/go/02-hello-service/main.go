@@ -13,12 +13,6 @@ func Handler(http_request_data []byte) []byte {
 	var text string
 	var code string
 
-	/*
-		1- make an helper with json (something like getHttpRequest)
-		2- make an HTTP Handler
-		3- make an helper to return something like httpResponse
-	*/
-
 	JSONData, err := parser.ParseBytes(http_request_data)
 	if err != nil {
 		text = "😡 Error: " + err.Error()
@@ -52,4 +46,10 @@ func main() {
 	--handler=callHandler \
 	--http-port=7070
 
+*/
+
+/* TODO(?)
+	1- make an helper with json (something like getHttpRequest)
+	2- make an HTTP Handler
+	3- make an helper to return something like httpResponse
 */
