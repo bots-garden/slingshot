@@ -4,12 +4,13 @@ import (
 	slingshot "github.com/bots-garden/slingshot/go-pdk"
 )
 
-func Handler(argHandler []byte) ([]byte, error) {
+func Handler(argHandler []byte) []byte {
 	input := string(argHandler)
 	slingshot.Print("👋 hello world 🌍 " + string(input))
+	
 	slingshot.Log("🙂 have a nice day 🏖️")
 	//TODO: set header
-	return []byte(`{msg:"hey!"}`), nil
+	return []byte("👋 Hello World 🌍")
 }
 
 func main() {
@@ -17,29 +18,9 @@ func main() {
 	slingshot.SetHandler(Handler)
 }
 
-/* sample with AWS
-var gorillaLambda *gorillamux.GorillaMuxAdapter
+/* with the slingshot pdk, always call `callHandler`
+    ./slingshot run --wasm=./print.wasm \
+	--handler=callHandler \
+	--input="🤓 I'm a geek"
 
-func init() {
-    r := mux.NewRouter()
-
-    r.HandleFunc("/ping", func(w http.ResponseWriter, r *http.Request) {
-        json.NewEncoder(w).Encode(Response{From: "gorilla", Message: time.Now().Format(time.UnixDate)})
-    })
-
-    gorillaLambda = gorillamux.New(r)
-}
-
-func Handler(ctx context.Context, req events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, error) {
-    r, err := gorillaLambda.ProxyWithContext(ctx, *core.NewSwitchableAPIGatewayRequestV1(&req))
-    return *r.Version1(), err
-}
-
-func main() {
-    lambda.Start(Handler)
-}
-
-si pas de fonction par défaut
-appeler main()
-ou appeler main tout le temps ?
 */

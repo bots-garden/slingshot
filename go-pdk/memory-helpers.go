@@ -6,24 +6,20 @@ import (
 )
 
 /* TODO:
-  - ReadHTTPRequest (?)
-
+- ReadHTTPRequest (?)
 */
-
-
-var parser = fastjson.Parser{}
 
 /*
 ReadBufferFromMemory: (host -> guest)
-	- read the value from the shared memory
-	- `offset` arg represents the position and the length of the result (2 values into only one value)
-	- return a buffer with the content (of the piece of memory)
+  - read the value from the shared memory
+  - `offset` arg represents the position and the length of the result (2 values into only one value)
+  - return a buffer with the content (of the piece of memory)
 */
 func ReadBufferFromMemory(offset uint64) []byte {
 
 	// get the length and the position of the result in memory
 	memoryResult := pdk.FindMemory(offset)
-	
+
 	// create a buffer from memoryResult
 	// fill the buffer with memoryResult
 	buffResult := make([]byte, memoryResult.Length())
@@ -34,9 +30,9 @@ func ReadBufferFromMemory(offset uint64) []byte {
 
 /*
 ReadStringFromMemory: (host -> guest)
-	- read the value from the shared memory
-	- `offset` arg represents the position and the length of the result (2 values into only one value)
-	- return a string with the content (of the piece of memory)
+  - read the value from the shared memory
+  - `offset` arg represents the position and the length of the result (2 values into only one value)
+  - return a string with the content (of the piece of memory)
 */
 func ReadStringFromMemory(offset uint64) string {
 	return string(ReadBufferFromMemory(offset))
@@ -44,13 +40,14 @@ func ReadStringFromMemory(offset uint64) string {
 
 /*
 ReadJsonFromMemory: (host -> guest)
-	- read the value from the shared memory
-	- `offset` arg represents the position and the length of the result (2 values into only one value)
-	- return a *fastjson.Value & error
+  - read the value from the shared memory
+  - `offset` arg represents the position and the length of the result (2 values into only one value)
+  - return a *fastjson.Value & error
 */
 func ReadJsonFromMemory(offset uint64) (*fastjson.Value, error) {
 	buffer := ReadBufferFromMemory(offset)
-	JSONData, err := parser.ParseBytes(buffer)
+
+	JSONData, err := GetJsonFromBytes(buffer)
 	/*
 		if err != nil {
 			return nil, err
@@ -59,9 +56,9 @@ func ReadJsonFromMemory(offset uint64) (*fastjson.Value, error) {
 	return JSONData, err
 }
 
- 
 /*
 CopyBufferToMemory: (guest -> host)
+
 	Copy the buffer value to the shared memory
 	This function does exactly the same thing as `pdk.AllocateBytes`
 */
@@ -72,9 +69,9 @@ func CopyBufferToMemory(value []byte) pdk.Memory {
 
 /*
 CopyStringToMemory: (guest -> host)
+
 	Copy the string value to the shared memory
 	This function does exactly the same thing as `pdk.AllocateString`
-
 */
 func CopyStringToMemory(value string) pdk.Memory {
 	// Copy the string value to the shared memory
@@ -84,6 +81,7 @@ func CopyStringToMemory(value string) pdk.Memory {
 
 /*
 CopyJsonToMemory: (guest -> host)
+
 	Copy the JSON value to the shared memory
 	👋 I'm not sure if it's useful yet. 🤔
 	I need to test it

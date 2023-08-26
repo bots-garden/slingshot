@@ -1,2 +1,5 @@
 github.com/extism/go-pdk v0.0.0-20230816024928-ee09fee7466e h1:y6pBlzMRaYEBriiyzmT8e82927vBpum357VWi7Lg3/U=
+github.com/extism/go-pdk v0.0.0-20230816024928-ee09fee7466e/go.mod h1:3qe+ObKvmOVwzmQDC5A7KzTuvfjImOnWsB1MWU6mWA4=
 github.com/valyala/fastjson v1.6.3 h1:tAKFnnwmeMGPbwJ7IwxcTPCNr3uIzoIj3/Fh90ra4xc=
+github.com/valyala/fastjson v1.6.4 h1:uAUNq9Z6ymTgGhcm0UynUAB6tlbakBrz6CQFax3BXVQ=
+github.com/valyala/fastjson v1.6.4/go.mod h1:CLCAqky6SMuOcxStkYQvblddUtoRxhYMGLrsQns1aXY=

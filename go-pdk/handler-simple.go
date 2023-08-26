@@ -4,21 +4,29 @@ import (
 	"github.com/extism/go-pdk"
 )
 
-var handlerFunction func([]byte) ([]byte, error)
+var handlerFunction func([]byte) []byte
 
-func SetHandler(function func([]byte) ([]byte, error)) {
+// SetHandler:
+/*
+  - Define the handler function that will be called/triggered.
+  - This handler will be called by the exported function named `callHandler`.
+  - ✋ this function is used in the `main` function.
+
+*/
+func SetHandler(function func([]byte) []byte) {
 	handlerFunction = function
 }
 
+// callHandler:
+/*
+  This exported function will call the handler defined with `SetHandler`
+*/
 //export callHandler
 func callHandler() {
 	functionParameters := pdk.Input()
 
-	value, err := handlerFunction(functionParameters)
-	//TODO return error?
-	if err != nil {
-		Print("😡👋 we have something to do here: " + err.Error())
-	}
+	value := handlerFunction(functionParameters)
+
 	mem := pdk.AllocateBytes(value)
 	// copy output to host memory
 	pdk.OutputMemory(mem)

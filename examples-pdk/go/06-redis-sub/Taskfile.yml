@@ -1,0 +1,55 @@
+version: '3'
+
+description: >
+  task slingshot-build
+  task wasm-build
+  task wasm-run
+  
+tasks:
+  # task slingshot-build
+  slingshot-build:
+    cmds:
+      - | 
+        target=$(pwd)
+        cd ../../../slingshot-server
+        env CGO_ENABLED=0 go build -ldflags="-s -w" -o ${target}/slingshot
+
+  # task wasm-build
+  wasm-build:
+    cmds:
+      - | 
+        tinygo build -scheduler=none --no-debug \
+          -o redissub.wasm \
+          -target wasi main.go
+
+        ls -lh *.wasm
+
+  # task wasm-run
+  wasm-run:
+    description: >
+      To test:
+      redis-cli -u  ${REDIS_URI}
+      redis.aivencloud.com:17170> PUBLISH news "Hello World"
+    cmds:
+      - | 
+        set -o allexport; source .env; set +o allexport
+        # you need these environment variables
+        # - REDIS_URI
+        # echo "REDIS_URI: ${REDIS_URI}"
+
+        ./slingshot redis subscribe \
+        --wasm=./redissub.wasm \
+        --handler=callHandler \
+        --uri=${REDIS_URI} \
+        --client-id=pubsubcli \
+        --channel=news
+      
+
+  # task all
+  all:
+    cmds:
+      - task slingshot-build
+      - task wasm-build
+      - task wasm-run
+
+  
