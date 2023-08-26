@@ -39,7 +39,7 @@ func LoadHostFunctionCallBacks() {
 
 	init_redis_cli := hof.DefineHostFunctionCallBack(
 		"hostInitRedisClient",
-		callbacks.InitNatsConnection,
+		callbacks.InitRedisClient,
 	)
 
 	redis_set := hof.DefineHostFunctionCallBack(

@@ -5,6 +5,14 @@ import (
 	"github.com/valyala/fastjson"
 )
 
+//export hostPrint
+func hostPrint(offset uint64) uint64
+
+func Print(text string) {
+	memoryText := pdk.AllocateString(text)
+	hostPrint(memoryText.Offset())
+}
+
 //export hostGetEnv
 func hostGetEnv(offset uint64) uint64
 
@@ -37,6 +45,8 @@ func init_redis_cli() int32 {
 	// Copy the string value to the shared memory
 	memoryJsonStr := pdk.AllocateString(jsonStrArguments)
 
+	Print("🟦 jsonStrArguments" + jsonStrArguments)
+
 	// Call the host function with Json string argument
 	offset := hostInitRedisClient(memoryJsonStr.Offset())
 
@@ -53,6 +63,9 @@ func init_redis_cli() int32 {
 		pdk.OutputMemory(mem)
 	} else {
 		// Allocate space into the memory
+		Print("🙂 init_redis_cli->success: " + string(JSONData.GetStringBytes("success")))
+		Print("😡 init_redis_cli->failure: " + string(JSONData.GetStringBytes("failure")))
+
 		mem := pdk.AllocateString(string(JSONData.GetStringBytes("success")))
 		// copy output to host memory
 		pdk.OutputMemory(mem)

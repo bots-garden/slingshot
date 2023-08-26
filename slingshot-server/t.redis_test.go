@@ -11,11 +11,13 @@ import (
 	"slingshot-server/plg"
 	"slingshot-server/slingshot"
 	"strings"
+
+	//"strings"
 	"testing"
 )
 
 func TestCreateRedisClient(t *testing.T) {
-
+	fmt.Println("===[TestCreateRedisClient]===")
 	record := slingshot.RedisConfig{
 		Id:  "redis_cli",
 		Uri: os.Getenv("REDIS_URI"),
@@ -24,11 +26,12 @@ func TestCreateRedisClient(t *testing.T) {
 	redisCli, err := clients.CreateOrGetRedisClient(record)
 	if err != nil {
 		fmt.Println("🔴", "TestCreateRedisClient", err)
+	} else {
+		fmt.Println("🟢 TestCreateRedisClient, redisCli: ", redisCli)
 	}
-	fmt.Println("🟠", redisCli)
 
 	if clients.GetRedisClient(record.Id) != nil {
-		fmt.Println("🟢", "TestCreateRedisClient")
+		fmt.Println("🟢", "TestCreateRedisClient, GetRedisClient: ", clients.GetRedisClient(record.Id))
 
 	} else {
 		fmt.Println("🔴", "TestCreateRedisClient")
@@ -43,6 +46,11 @@ func initPluginForRedis(wasmFilePath string, pluginId string) {
 	config := plg.GetPluginConfig()
 	manifest := plg.GetManifest(wasmFilePath)
 
+	print_string := hof.DefineHostFunctionCallBack(
+		"hostPrint",
+		callbacks.Print,
+	)
+
 	// Add an host function
 	get_env := hof.DefineHostFunctionCallBack(
 		"hostGetEnv",
@@ -50,7 +58,7 @@ func initPluginForRedis(wasmFilePath string, pluginId string) {
 	)
 	init_redis_cli := hof.DefineHostFunctionCallBack(
 		"hostInitRedisClient",
-		callbacks.InitNatsConnection,
+		callbacks.InitRedisClient,
 	)
 
 	redis_set := hof.DefineHostFunctionCallBack(
@@ -72,6 +80,7 @@ func initPluginForRedis(wasmFilePath string, pluginId string) {
 		callbacks.RedisFilter,
 	)
 
+	hof.AppendHostFunction(print_string)
 	hof.AppendHostFunction(get_env)
 	hof.AppendHostFunction(init_redis_cli)
 	hof.AppendHostFunction(redis_set)
@@ -88,23 +97,30 @@ func initPluginForRedis(wasmFilePath string, pluginId string) {
 }
 
 func TestRedisInit(t *testing.T) {
+	fmt.Println("===[TestRedisInit]===")
+
 	wasmFilePath := "../plugins/tests/use-redis/use-redis.wasm"
 	wasmFunctionName := "init_redis_cli" // will return the id of the redis client
+
 	expected := "redis-cli-wasm"
 
-	fmt.Println("🟠", os.Getenv("REDIS_URI"))
+	fmt.Println("✋ REDIS_URI: ", os.Getenv("REDIS_URI"))
 
 	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
 
-	plugin, err := plg.GetPlugin("slingshotRedisplug")
+	extismPlugin, err := plg.GetPlugin("slingshotRedisplug")
+	fmt.Println("✋ extismPlugin: ", extismPlugin)
+
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
 	}
-	_, out, err := plugin.Call(wasmFunctionName, nil)
+
+	_, out, err := extismPlugin.Plugin.Call(wasmFunctionName, nil)
 
 	result := string(out)
-	fmt.Println("🟠", result)
+	fmt.Println("🔵 result: ", result)
+
 	if result != expected {
 		fmt.Println("🔴", "TestRedisInit")
 		t.Errorf("Result %q, Expected %q", result, expected)
@@ -115,28 +131,38 @@ func TestRedisInit(t *testing.T) {
 }
 
 func TestRedisSet(t *testing.T) {
+	fmt.Println("===[TestRedisSet]===")
+
+	//redisCli, err := clients.CreateOrGetRedisClient(record)
+
 	wasmFilePath := "../plugins/tests/use-redis/use-redis.wasm"
 	expected := "001"
 	//redisClientId := "redis-cli-wasm"
 
-	fmt.Println("🟠", os.Getenv("REDIS_URI"))
+	fmt.Println("✋ REDIS_URI: ", os.Getenv("REDIS_URI"))
 
 	initPluginForRedis(wasmFilePath, "slingshotRedisplug")
 
-	plugin, err := plg.GetPlugin("slingshotRedisplug")
+	extismPlugin, err := plg.GetPlugin("slingshotRedisplug")
+	fmt.Println("✋ extismPlugin: ", extismPlugin)
+
 	if err != nil {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
 	}
+
 	// First, initialize the Redis client
-	_, out, err := plugin.Call("init_redis_cli", nil)
+	_, out, err := extismPlugin.Plugin.Call("init_redis_cli", nil)
+	if err != nil {
+		log.Println("🔴 !!! Error when calling init_redis_cli", err)
+		os.Exit(1)
+	}
 
 	result := string(out)
-	fmt.Println("🟠 init_redis_cli (redis client id):", result)
+	fmt.Println("🔵 init_redis_cli (redis client id):", result)
 
-	_, out, err = plugin.Call("redis_set", nil)
+	_, out, err = extismPlugin.Plugin.Call("redis_set", nil)
 	result = string(out)
-	fmt.Println("🟠 redis_set (key):", result)
 
 	if result != expected {
 		fmt.Println("🔴", "TestRedisSet")
@@ -162,12 +188,12 @@ func TestRedisGet(t *testing.T) {
 		os.Exit(1)
 	}
 	// First, initialize the Redis client
-	_, out, err := plugin.Call("init_redis_cli", nil)
+	_, out, err := plugin.Plugin.Call("init_redis_cli", nil)
 
 	result := string(out)
 	fmt.Println("🟠 init_redis_cli (redis client id):", result)
 
-	_, out, err = plugin.Call("redis_get", nil)
+	_, out, err = plugin.Plugin.Call("redis_get", nil)
 	result = string(out)
 	fmt.Println("🟠 redis_get (value):", result)
 
@@ -195,12 +221,12 @@ func TestRedisDel(t *testing.T) {
 		os.Exit(1)
 	}
 	// First, initialize the Redis client
-	_, out, err := plugin.Call("init_redis_cli", nil)
+	_, out, err := plugin.Plugin.Call("init_redis_cli", nil)
 
 	result := string(out)
 	fmt.Println("🟠 init_redis_cli (redis client id):", result)
 
-	_, out, err = plugin.Call("redis_del", nil)
+	_, out, err = plugin.Plugin.Call("redis_del", nil)
 	result = string(out)
 	fmt.Println("🟠 redis_del (key):", result)
 
@@ -228,12 +254,12 @@ func TestRedisFilter(t *testing.T) {
 		os.Exit(1)
 	}
 	// First, initialize the Redis client
-	_, out, err := plugin.Call("init_redis_cli", nil)
+	_, out, err := plugin.Plugin.Call("init_redis_cli", nil)
 
 	result := string(out)
 	fmt.Println("🟠 init_redis_cli (redis client id):", result)
 
-	_, out, err = plugin.Call("redis_filter", nil)
+	_, out, err = plugin.Plugin.Call("redis_filter", nil)
 	result = string(out)
 	fmt.Println("🟠 redis_filter (keys):", result)
 

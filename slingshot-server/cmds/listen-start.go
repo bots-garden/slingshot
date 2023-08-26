@@ -35,7 +35,7 @@ func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 		// don't forget to release the lock on the Mutex, sometimes its best to `defer m.Unlock()` right after yout get the lock
 		defer mutex.Unlock()
 
-		plugin, err := plg.GetPlugin("slingshotplug")
+		extismPlugin, err := plg.GetPlugin("slingshotplug")
 
 		if err != nil {
 			log.Println("🔴 Error when getting the plugin", err)
@@ -43,9 +43,16 @@ func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 			return c.SendString(err.Error())
 		}
 
-		_, response, err := plugin.Call(wasmFunctionName, params)
+		if extismPlugin.MainFunction == true {
+			_, _, err := extismPlugin.Plugin.Call("_start", nil)
+			if err != nil {
+				log.Println("🔴 Error with _start function", err)
+			}
+	
+		}
+		_, response, err := extismPlugin.Plugin.Call(wasmFunctionName, params)
 		if err != nil {
-			fmt.Println(err)
+			log.Println("🔴 Error when calling the function", err)
 			c.Status(http.StatusConflict)
 			return c.SendString(err.Error())
 			//os.Exit(1)

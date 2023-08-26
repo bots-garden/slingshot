@@ -60,10 +60,10 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 		result.Failure = err.Error()
 		result.Success = ""
 	} else {
-		//fmt.Println("🔵 RedisSet", arguments)
-		redisCli := clients.GetRedisClient(arguments.Id)
 
+		redisCli := clients.GetRedisClient(arguments.Id)
 		err = redisCli.Set(ctx, string(arguments.Key), string(arguments.Value), 0).Err()
+
 		if err != nil {
 			result.Failure = err.Error()
 			result.Success = ""

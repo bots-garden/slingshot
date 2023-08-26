@@ -30,7 +30,7 @@ func TestCallHello(t *testing.T) {
 
 	plugin, err := plg.GetPlugin("slingshotplug")
 
-	_, out, err := plugin.Call(wasmFunctionName, []byte(wasmFunctionArgument))
+	_, out, err := plugin.Plugin.Call(wasmFunctionName, []byte(wasmFunctionArgument))
 
 	result := string(out)
 
