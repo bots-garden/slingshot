@@ -53,12 +53,14 @@ func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject str
 				log.Println("🔴 Error:", err)
 			}
 
+			/*
 			if extismPlugin.MainFunction == true {
 				_, _, err := extismPlugin.Plugin.Call("_start", nil)
 				if err != nil {
 					log.Println("🔴 Error with _start function", err)
 				}
 			}
+			*/
 
 			_, output, err := extismPlugin.Plugin.Call(wasmFunctionName, jsonBytes)
 			if err != nil {

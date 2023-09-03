@@ -43,13 +43,15 @@ func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 			return c.SendString(err.Error())
 		}
 
+		/*
 		if extismPlugin.MainFunction == true {
 			_, _, err := extismPlugin.Plugin.Call("_start", nil)
 			if err != nil {
 				log.Println("🔴 Error with _start function", err)
 			}
-	
 		}
+		*/
+
 		_, response, err := extismPlugin.Plugin.Call(wasmFunctionName, params)
 		if err != nil {
 			log.Println("🔴 Error when calling the function", err)

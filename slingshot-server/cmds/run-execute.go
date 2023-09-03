@@ -22,6 +22,7 @@ func Execute(wasmFilePath string, wasmFunctionName string, data string) {
 		os.Exit(1)
 	}
 
+	/*
 	if extismPlugin.MainFunction == true {
 		_, _, err := extismPlugin.Plugin.Call("_start", nil)
 		if err != nil {
@@ -30,6 +31,7 @@ func Execute(wasmFilePath string, wasmFunctionName string, data string) {
 		}
 
 	}
+	*/
 
 	_, output, err := extismPlugin.Plugin.Call(wasmFunctionName, []byte(data))
 	if err != nil {

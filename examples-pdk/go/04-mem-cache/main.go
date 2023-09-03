@@ -2,7 +2,7 @@ package main
 
 import slingshot "github.com/bots-garden/slingshot/go-pdk"
 
-func Handler(input []byte) []byte {
+func helloHandler(input []byte) []byte {
 	_, err := slingshot.MemorySet("bob", "Bob Morane")
 
 	value, err := slingshot.MemoryGet("bob")
@@ -21,12 +21,15 @@ func Handler(input []byte) []byte {
 	return nil
 }
 
-func main() {
-	slingshot.SetHandler(Handler)
+//export callHandler
+func callHandler() {
+	slingshot.Print("👋 callHandler function")
+	slingshot.ExecHandler(helloHandler)
 }
 
-/* with the slingshot pdk, always call `callHandler`
-	
+func main() {}
+
+/* 
 	./slingshot run \
 	--wasm=./memcache.wasm \
 	--handler=callHandler

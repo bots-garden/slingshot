@@ -2,7 +2,7 @@ package main
 
 import slingshot "github.com/bots-garden/slingshot/go-pdk"
 
-func PublishHandler(input []byte) []byte {
+func publishHandler(input []byte) []byte {
 
 	redisURI := slingshot.GetEnv("REDIS_URI")
 	idRedisClient, errInit := slingshot.InitRedisClient("pubsubcli", redisURI)
@@ -17,9 +17,13 @@ func PublishHandler(input []byte) []byte {
 	return nil
 }
 
-func main() {
-	slingshot.SetHandler(PublishHandler)
+//export callHandler
+func callHandler() {
+	slingshot.Print("👋 callHandler function")
+	slingshot.ExecHandler(publishHandler)
 }
+
+func main() {}
 
 /* with the slingshot pdk, always call `callHandler`
 

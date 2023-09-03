@@ -8,7 +8,7 @@ import (
 
 var parser = fastjson.Parser{}
 
-func Handler(http_request_data []byte) []byte {
+func helloHandler(http_request_data []byte) []byte {
 
 	var text string
 	var code string
@@ -40,13 +40,15 @@ func Handler(http_request_data []byte) []byte {
 
 }
 
-func main() {
-	slingshot.Print("👋 main function")
-	slingshot.SetHandler(Handler)
+//export callHandler
+func callHandler() {
+	slingshot.Print("👋 callHandler function")
+	slingshot.ExecHandler(helloHandler)
 }
 
-/* with the slingshot pdk, always call `callHandler`
+func main() {}
 
+/* 
     ./slingshot listen --wasm=./hello.wasm \
 	--handler=callHandler \
 	--http-port=7070

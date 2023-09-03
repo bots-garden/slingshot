@@ -4,7 +4,7 @@ import (
 	slingshot "github.com/bots-garden/slingshot/go-pdk"
 )
 
-func Handler(argHandler []byte) []byte {
+func helloHandler(argHandler []byte) []byte {
 	input := string(argHandler)
 	slingshot.Print("👋 hello world 🌍 " + string(input))
 	
@@ -13,12 +13,14 @@ func Handler(argHandler []byte) []byte {
 	return []byte("👋 Hello World 🌍")
 }
 
-func main() {
-	slingshot.Print("👋 main function")
-	slingshot.SetHandler(Handler)
+//export callHandler
+func callHandler() {
+	slingshot.Print("👋 callHandler function")
+	slingshot.ExecHandler(helloHandler)
 }
 
-/* with the slingshot pdk, always call `callHandler`
+func main() {}
+/*
     ./slingshot run --wasm=./print.wasm \
 	--handler=callHandler \
 	--input="🤓 I'm a geek"

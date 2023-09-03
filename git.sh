@@ -9,10 +9,10 @@ case $1 in
     emoji="🎨"
     ;;
 
-  # 🐛: bug
+  # 🐞: bug
   bug|fix)
     message="Fix a bug"
-    emoji="🐛"
+    emoji="🐞"
     ;;
 
   # ✨: sparkles

@@ -46,4 +46,11 @@ tasks:
         -H 'content-type: text/plain; charset=utf-8' \
         -d '😄 Bob Morane'
         echo ""
-        
+
+  # task stress
+  stress:
+    cmds:
+      - |
+        hey -n 300 -c 100 -m POST \
+        -d '👋 John Doe' \
+        "http://localhost:7070" 

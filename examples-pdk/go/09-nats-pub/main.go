@@ -4,7 +4,7 @@ import (
 	slingshot "github.com/bots-garden/slingshot/go-pdk"
 )
 
-func PublishHandler(input []byte) []byte {
+func publishHandler(input []byte) []byte {
 
 	natsURL := slingshot.GetEnv("NATS_URL")
 	slingshot.Print("💜 NATS_URL: " + natsURL)
@@ -25,14 +25,16 @@ func PublishHandler(input []byte) []byte {
 	return nil
 }
 
-func main() {
-	slingshot.SetHandler(PublishHandler)
+//export callHandler
+func callHandler() {
+	slingshot.Print("👋 callHandler function")
+	slingshot.ExecHandler(publishHandler)
 }
 
-/* with the slingshot pdk, always call `callHandler`
+func main() {}
 
+/*
     ./slingshot run --wasm=./natspub.wasm \
         --handler=callHandler \
         --input="I 💜 Wasm ✨"
-
 */
