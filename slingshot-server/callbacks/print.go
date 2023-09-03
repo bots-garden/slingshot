@@ -10,7 +10,7 @@ import (
 	"github.com/extism/extism"
 )
 
-func Print(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func Print(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 
 	// The WASM plugin copied data into the shared memory
 	// Red this data
@@ -25,7 +25,7 @@ func Print(ctx context.Context, plugin *extism.CurrentPlugin, userData interface
 
 }
 
-func Log(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func Log(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 
 	// The WASM plugin copied data into the shared memory
 	// Red this data

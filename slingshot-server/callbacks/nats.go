@@ -10,7 +10,7 @@ import (
 	"github.com/extism/extism"
 )
 
-func InitNatsConnection(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func InitNatsConnection(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{
 		id:""
@@ -44,7 +44,7 @@ func InitNatsConnection(ctx context.Context, plugin *extism.CurrentPlugin, userD
 
 }
 
-func NatsPublish(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func NatsPublish(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 
 	/* Expected
 	{ id: "", subject: "", data: "" }

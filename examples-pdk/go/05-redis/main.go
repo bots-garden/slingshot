@@ -17,9 +17,9 @@ func Handler(input []byte) []byte {
 		slingshot.Print("🙂 " + idRedisClient)
 	}
 
-	k1, errSet1 := slingshot.RedisSet("redisDb", "001", "Huey")
-	k2, errSet2 := slingshot.RedisSet("redisDb", "002", "Dewey")
-	k3, errSet3 := slingshot.RedisSet("redisDb", "003", "Louie")
+	k1, errSet1 := slingshot.RedisSet("redisDb", "001", "Huey 😀")
+	k2, errSet2 := slingshot.RedisSet("redisDb", "002", "Dewey 😄")
+	k3, errSet3 := slingshot.RedisSet("redisDb", "003", "Louie 😆")
 
 	allSetErrs := errors.Join(errSet1, errSet2, errSet3)
 	if allSetErrs != nil {

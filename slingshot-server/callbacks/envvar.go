@@ -10,7 +10,9 @@ import (
 	"github.com/extism/extism"
 )
 
-func GetEnv(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+// new signature: func(ctx context.Context, plugin *CurrentPlugin, stack []uint64)
+
+func GetEnv(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 
 	// Read data from the shared memory
 	variableName, errArg := mem.ReadStringFromMemory(plugin, stack)

@@ -28,6 +28,7 @@ tasks:
   wasm-run:
     description: >
       To test:
+      set -o allexport; source .env; set +o allexport
       redis-cli -u  ${REDIS_URI}
       redis.aivencloud.com:17170> PUBLISH news "Hello World"
     cmds:

@@ -13,6 +13,11 @@ func Handler(http_request_data []byte) []byte {
 	var text string
 	var code string
 
+	/*
+		TODO: getHTTPResponse(http_request_data []byte)
+		http_request_data.(HTTPResponse)
+	*/
+
 	JSONData, err := parser.ParseBytes(http_request_data)
 	if err != nil {
 		text = "😡 Error: " + err.Error()
