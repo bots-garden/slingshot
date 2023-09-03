@@ -25,8 +25,7 @@ func callHandler() {
 
 func main() {}
 
-/* with the slingshot pdk, always call `callHandler`
-
+/*
     ./slingshot run --wasm=./redispub.wasm \
         --handler=callHandler \
         --input="I 💜 Wasm ✨"

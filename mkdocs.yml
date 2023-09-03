@@ -30,6 +30,8 @@ nav:
       - Nats: host-functions/nats.md
     - 🟣 Slingshot PDK:
       - Intro: slingshot-pdk/intro.md
+      - Go PDK: slingshot-pdk/go-pdk.md
+      - Rust PDK: slingshot-pdk/rust-pdk.md
 
 
 theme:
