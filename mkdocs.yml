@@ -28,8 +28,8 @@ nav:
       - Redis cache: host-functions/redis.md
       - Redis PubSub: host-functions/redis-pubsub.md
       - Nats: host-functions/nats.md
-    - 🟣 Slingshot PDK:
-      - Intro: slingshot-pdk/intro.md
+    - 🟣 Write Slingshot plug-ins:
+      - Slingdhot PDK: slingshot-pdk/intro.md
       - Go PDK: slingshot-pdk/go-pdk.md
       - Rust PDK: slingshot-pdk/rust-pdk.md
 

@@ -1,7 +1,10 @@
 version: '3'
 
 description: >
-  some helpers
+  some helpers:
+  mkdocks:
+    task mkdocs:serve
+    
 
 env:
   MESSAGE: "hello world"

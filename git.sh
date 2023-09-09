@@ -84,6 +84,11 @@ case $1 in
     emoji="⚗"
     ;;
 
+  # 🚢: ship
+  ship|release)
+    message="Release"
+    emoji="🚢"
+    ;;
 
   # 💾: floppy-disk
   save)
