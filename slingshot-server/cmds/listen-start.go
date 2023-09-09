@@ -1,6 +1,7 @@
 package cmds
 
 import (
+	"encoding/base64"
 	"encoding/json"
 	"fmt"
 	"log"
@@ -81,8 +82,15 @@ func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 				c.Set(key, value)
 			}
 			if len(httpResponse.TextBody) > 0 {
-				return c.SendString(httpResponse.TextBody)
+				// test encoding of TextBody
+				decodedStrAsByteSlice, err := base64.StdEncoding.DecodeString(string(httpResponse.TextBody))
+				if err != nil {
+				  return c.SendString(httpResponse.TextBody)
+				}
+				//return c.SendString(httpResponse.TextBody)
+				return c.SendString(string(decodedStrAsByteSlice))
 			}
+
 			// send JSON body
 			jsonBody, err := json.Marshal(httpResponse.JsonBody)
 			if err != nil {
