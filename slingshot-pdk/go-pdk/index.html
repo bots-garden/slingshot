@@ -1,0 +1,1246 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="**SlingShot** is a **WebAssembly Extism Plugins Runner**.">
+      
+      
+        <meta name="author" content="Philippe Charrière (@k33g)">
+      
+      
+        <link rel="canonical" href="https://bots-garden.github.io/slingshot/slingshot-pdk/go-pdk/">
+      
+      
+        <link rel="prev" href="../intro/">
+      
+      
+        <link rel="next" href="../rust-pdk/">
+      
+      <link rel="icon" href="../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.1.21">
+    
+    
+      
+        <title>Go PDK - SlingShot</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../assets/stylesheets/main.eebd395e.min.css">
+      
+        
+        <link rel="stylesheet" href="../../assets/stylesheets/palette.ecc896b0.min.css">
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+      <link rel="stylesheet" href="../../stylesheets/extra.css">
+    
+    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="deep-purple" data-md-color-accent="indigo">
+  
+    
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#slingshot-pdk" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../.." title="SlingShot" class="md-header__button md-logo" aria-label="SlingShot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            SlingShot
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Go PDK
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/bots-garden/slingshot" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    bots-garden/slingshot
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+<nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../.." title="SlingShot" class="md-nav__button md-logo" aria-label="SlingShot" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+
+    </a>
+    SlingShot
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/bots-garden/slingshot" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 6.4.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2023 Fonticons, Inc.--><path d="M439.55 236.05 244 40.45a28.87 28.87 0 0 0-40.81 0l-40.66 40.63 51.52 51.52c27.06-9.14 52.68 16.77 43.39 43.68l49.66 49.66c34.23-11.8 61.18 31 35.47 56.69-26.49 26.49-70.21-2.87-56-37.34L240.22 199v121.85c25.3 12.54 22.26 41.85 9.08 55a34.34 34.34 0 0 1-48.55 0c-17.57-17.6-11.07-46.91 11.25-56v-123c-20.8-8.51-24.6-30.74-18.64-45L142.57 101 8.45 235.14a28.86 28.86 0 0 0 0 40.81l195.61 195.6a28.86 28.86 0 0 0 40.8 0l194.69-194.69a28.86 28.86 0 0 0 0-40.81z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    bots-garden/slingshot
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../.." class="md-nav__link">
+        🏠 Home
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_2" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="0">
+          🚀 Write Extism plug-ins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_2">
+          <span class="md-nav__icon md-icon"></span>
+          🚀 Write Extism plug-ins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-plug-in/" class="md-nav__link">
+        CLI plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-service/" class="md-nav__link">
+        HTTP nano-service plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-redis-subscriber/" class="md-nav__link">
+        Redis subscriber plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-redis-publisher/" class="md-nav__link">
+        Redis publisher plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-nats-subscriber/" class="md-nav__link">
+        Nats subscriber plug-in
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../write-nats-publisher/" class="md-nav__link">
+        Nats publisher plug-in
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+    
+    <li class="md-nav__item md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
+      
+      
+      
+        <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
+          🛠️ Host functions
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+        <label class="md-nav__title" for="__nav_3">
+          <span class="md-nav__icon md-icon"></span>
+          🛠️ Host functions
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../host-functions/intro/" class="md-nav__link">
+        Intro
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../host-functions/display/" class="md-nav__link">
+        Display
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../host-functions/env/" class="md-nav__link">
+        Environment
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../host-functions/mem/" class="md-nav__link">
+        Memory cache
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../host-functions/redis/" class="md-nav__link">
+        Redis cache
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../host-functions/redis-pubsub/" class="md-nav__link">
+        Redis PubSub
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../host-functions/nats/" class="md-nav__link">
+        Nats
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+  
+    
+    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+      
+      
+      
+      
+      <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_4" checked>
+      
+      
+      
+        <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="0">
+          🟣 Write Slingshot plug-ins
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="true">
+        <label class="md-nav__title" for="__nav_4">
+          <span class="md-nav__icon md-icon"></span>
+          🟣 Write Slingshot plug-ins
+        </label>
+        <ul class="md-nav__list" data-md-scrollfix>
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../intro/" class="md-nav__link">
+        Slingdhot PDK
+      </a>
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          Go PDK
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
+        Go PDK
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#slingshot-go-pdk" class="md-nav__link">
+    Slingshot Go PDK
+  </a>
+  
+    <nav class="md-nav" aria-label="Slingshot Go PDK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure-of-a-plugin" class="md-nav__link">
+    Structure of a plugin
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure of a plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-the-slingshot-plugin" class="md-nav__link">
+    Build the Slingshot plugin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-the-slingshot-plugin" class="md-nav__link">
+    Run the Slingshot plugin
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slingshot-host-functions" class="md-nav__link">
+    Slingshot host functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-examples" class="md-nav__link">
+    Other examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Other examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-nano-service-plug-in" class="md-nav__link">
+    HTTP nano-service plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP nano-service plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-subscriber-plug-in" class="md-nav__link">
+    Redis subscriber plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Redis subscriber plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_1" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-publisher-plug-in" class="md-nav__link">
+    Redis publisher plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Redis publisher plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_2" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nats-subscriber-plug-in" class="md-nav__link">
+    Nats subscriber plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Nats subscriber plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_3" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nats-publisher-plug-in" class="md-nav__link">
+    Nats publisher plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Nats publisher plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_4" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+            
+          
+            
+              
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../rust-pdk/" class="md-nav__link">
+        Rust PDK
+      </a>
+    </li>
+  
+
+            
+          
+        </ul>
+      </nav>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+              
+              <div class="md-sidebar md-sidebar--secondary" data-md-component="sidebar" data-md-type="toc" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#slingshot-go-pdk" class="md-nav__link">
+    Slingshot Go PDK
+  </a>
+  
+    <nav class="md-nav" aria-label="Slingshot Go PDK">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#structure-of-a-plugin" class="md-nav__link">
+    Structure of a plugin
+  </a>
+  
+    <nav class="md-nav" aria-label="Structure of a plugin">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#build-the-slingshot-plugin" class="md-nav__link">
+    Build the Slingshot plugin
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#run-the-slingshot-plugin" class="md-nav__link">
+    Run the Slingshot plugin
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#slingshot-host-functions" class="md-nav__link">
+    Slingshot host functions
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#other-examples" class="md-nav__link">
+    Other examples
+  </a>
+  
+    <nav class="md-nav" aria-label="Other examples">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#http-nano-service-plug-in" class="md-nav__link">
+    HTTP nano-service plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="HTTP nano-service plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-subscriber-plug-in" class="md-nav__link">
+    Redis subscriber plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Redis subscriber plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_1" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#redis-publisher-plug-in" class="md-nav__link">
+    Redis publisher plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Redis publisher plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_2" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nats-subscriber-plug-in" class="md-nav__link">
+    Nats subscriber plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Nats subscriber plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_3" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#nats-publisher-plug-in" class="md-nav__link">
+    Nats publisher plug-in
+  </a>
+  
+    <nav class="md-nav" aria-label="Nats publisher plug-in">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#run_4" class="md-nav__link">
+    Run
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+  
+  
+
+
+<h1 id="slingshot-pdk">Slingshot PDK</h1>
+<blockquote>
+<p>Plug-in development kit</p>
+</blockquote>
+<h2 id="slingshot-go-pdk">Slingshot Go PDK</h2>
+<h3 id="structure-of-a-plugin">Structure of a plugin</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-0-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-0-2">
+</span><span id="__span-0-3"><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-0-4"><span class="w">    </span><span class="nx">slingshot</span><span class="w"> </span><span class="s">&quot;github.com/bots-garden/slingshot/go-pdk&quot;</span>
+</span><span id="__span-0-5"><span class="p">)</span>
+</span><span id="__span-0-6">
+</span><span id="__span-0-7"><span class="kd">func</span><span class="w"> </span><span class="nx">helloHandler</span><span class="p">(</span><span class="nx">argHandler</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-8"><span class="w">    </span><span class="nx">input</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">argHandler</span><span class="p">)</span>
+</span><span id="__span-0-9"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;👋 hello world 🌍 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-0-10">
+</span><span id="__span-0-11"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;👋 Hello World 🌍&quot;</span><span class="p">)</span>
+</span><span id="__span-0-12"><span class="p">}</span>
+</span><span id="__span-0-13">
+</span><span id="__span-0-14"><span class="c1">//export callHandler</span>
+</span><span id="__span-0-15"><span class="kd">func</span><span class="w"> </span><span class="nx">callHandler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-16"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">ExecHandler</span><span class="p">(</span><span class="nx">helloHandler</span><span class="p">)</span>
+</span><span id="__span-0-17"><span class="p">}</span>
+</span><span id="__span-0-18">
+</span><span id="__span-0-19"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span></code></pre></div>
+<ol>
+<li>You must export a function (it will be called at the execution, here, it's <code>callHandler</code>).</li>
+<li><code>slingshot.ExecHandler</code> is an helper to execute the function (<code>helloHandler</code>). This helper will read the wasm shared memory to get the argument of the function (<code>argHandler []byte</code>).</li>
+<li>Then the helper executes the function.</li>
+<li>And finally write to the wasm shared memory to return the result of the function (<code>[]byte("👋 Hello World 🌍")</code>).</li>
+</ol>
+<h4 id="build-the-slingshot-plugin">Build the Slingshot plugin</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-1-1">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><span class="w">    </span>-o<span class="w"> </span>print.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-3"><span class="w">    </span>-target<span class="w"> </span>wasi<span class="w"> </span>main.go
+</span></code></pre></div>
+<h4 id="run-the-slingshot-plugin">Run the Slingshot plugin</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1">./slingshot<span class="w"> </span>run<span class="w"> </span>--wasm<span class="o">=</span>./print.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2">--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3">--input<span class="o">=</span><span class="s2">&quot;🤓 I&#39;m a geek&quot;</span>
+</span></code></pre></div>
+<h3 id="slingshot-host-functions">Slingshot host functions</h3>
+<blockquote>
+<p>🚧 This is a work in progress</p>
+</blockquote>
+<ul>
+<li><code>slingshot.Print(text string)</code></li>
+<li><code>slingshot.Log(text string)</code></li>
+<li><code>slingshot.MemorySet(key string, value string) (string, error)</code></li>
+<li><code>slingshot.MemoryGet(key string) (string, error)</code></li>
+<li><code>slingshot.InitRedisClient(redisClientId string, redisUri string) (string, error)</code></li>
+<li><code>slingshot.RedisSet(redisClientId string, key string, value string) (string, error)</code></li>
+<li><code>slingshot.RedisGet(redisClientId string, key string) (string, error)</code></li>
+<li><code>slingshot.RedisDel(redisClientId string, key string) (string, error)</code></li>
+<li><code>slingshot.RedisFilter(redisClientId string, key string) (string, error)</code></li>
+<li><code>slingshot.RedisPublish(redisClientId string, channel string, payload string) (string, error)</code></li>
+<li><code>slingshot.InitNatsConnection(natsConnectionId string, natsUrl string) (string, error)</code></li>
+<li><code>slingshot.NatsPublish(natsConnectionId string, subject string, data string) (string, error)</code></li>
+</ul>
+<h2 id="other-examples">Other examples</h2>
+<h3 id="http-nano-service-plug-in">HTTP nano-service plug-in</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-3-2">
+</span><span id="__span-3-3"><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-3-4"><span class="w">    </span><span class="s">&quot;strings&quot;</span>
+</span><span id="__span-3-5"><span class="w">    </span><span class="nx">slingshot</span><span class="w"> </span><span class="s">&quot;github.com/bots-garden/slingshot/go-pdk&quot;</span>
+</span><span id="__span-3-6"><span class="w">    </span><span class="s">&quot;github.com/valyala/fastjson&quot;</span>
+</span><span id="__span-3-7"><span class="p">)</span>
+</span><span id="__span-3-8">
+</span><span id="__span-3-9"><span class="kd">var</span><span class="w"> </span><span class="nx">parser</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="nx">fastjson</span><span class="p">.</span><span class="nx">Parser</span><span class="p">{}</span>
+</span><span id="__span-3-10">
+</span><span id="__span-3-11"><span class="kd">func</span><span class="w"> </span><span class="nx">helloHandler</span><span class="p">(</span><span class="nx">http_request_data</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-12">
+</span><span id="__span-3-13"><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-3-14"><span class="w">    </span><span class="kd">var</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="kt">string</span>
+</span><span id="__span-3-15">
+</span><span id="__span-3-16"><span class="w">    </span><span class="nx">JSONData</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">parser</span><span class="p">.</span><span class="nx">ParseBytes</span><span class="p">(</span><span class="nx">http_request_data</span><span class="p">)</span>
+</span><span id="__span-3-17"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-18"><span class="w">        </span><span class="nx">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;😡 Error: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">()</span>
+</span><span id="__span-3-19"><span class="w">        </span><span class="nx">code</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;500&quot;</span>
+</span><span id="__span-3-20"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-21"><span class="w">        </span><span class="nx">text</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;🩵 Hello &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">JSONData</span><span class="p">.</span><span class="nx">GetStringBytes</span><span class="p">(</span><span class="s">&quot;body&quot;</span><span class="p">))</span>
+</span><span id="__span-3-22"><span class="w">        </span><span class="nx">code</span><span class="w"> </span><span class="p">=</span><span class="w"> </span><span class="s">&quot;200&quot;</span>
+</span><span id="__span-3-23"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-24">
+</span><span id="__span-3-25"><span class="w">    </span><span class="nx">headers</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="p">[]</span><span class="kt">string</span><span class="p">{</span>
+</span><span id="__span-3-26"><span class="w">        </span><span class="s">`&quot;Content-Type&quot;: &quot;application/json; charset=utf-8&quot;`</span><span class="p">,</span>
+</span><span id="__span-3-27"><span class="w">        </span><span class="s">`&quot;X-Slingshot-version&quot;: &quot;0.0.0&quot;`</span><span class="p">,</span>
+</span><span id="__span-3-28"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-3-29">
+</span><span id="__span-3-30"><span class="w">    </span><span class="nx">headersStr</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">strings</span><span class="p">.</span><span class="nx">Join</span><span class="p">(</span><span class="nx">headers</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;,&quot;</span><span class="p">)</span>
+</span><span id="__span-3-31">
+</span><span id="__span-3-32"><span class="w">    </span><span class="nx">response</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">`{&quot;headers&quot;:{`</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">headersStr</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">`}, &quot;textBody&quot;: &quot;`</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">text</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">`&quot;, &quot;statusCode&quot;: `</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">code</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="s">`}`</span>
+</span><span id="__span-3-33">
+</span><span id="__span-3-34"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="nx">response</span><span class="p">)</span>
+</span><span id="__span-3-35">
+</span><span id="__span-3-36"><span class="p">}</span>
+</span><span id="__span-3-37">
+</span><span id="__span-3-38"><span class="c1">//export callHandler</span>
+</span><span id="__span-3-39"><span class="kd">func</span><span class="w"> </span><span class="nx">callHandler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-3-40"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">ExecHandler</span><span class="p">(</span><span class="nx">helloHandler</span><span class="p">)</span>
+</span><span id="__span-3-41"><span class="p">}</span>
+</span><span id="__span-3-42">
+</span><span id="__span-3-43"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span></code></pre></div>
+<h4 id="run">Run</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-4-1">./slingshot<span class="w"> </span>listen<span class="w"> </span>--wasm<span class="o">=</span>./hello.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-2">--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3">--http-port<span class="o">=</span><span class="m">7070</span>
+</span></code></pre></div>
+<h3 id="redis-subscriber-plug-in">Redis subscriber plug-in</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-5-2">
+</span><span id="__span-5-3"><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-5-4"><span class="w">    </span><span class="nx">slingshot</span><span class="w"> </span><span class="s">&quot;github.com/bots-garden/slingshot/go-pdk&quot;</span>
+</span><span id="__span-5-5"><span class="p">)</span>
+</span><span id="__span-5-6">
+</span><span id="__span-5-7"><span class="kd">func</span><span class="w"> </span><span class="nx">messageHandler</span><span class="p">(</span><span class="nx">input</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-8">
+</span><span id="__span-5-9"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;👋 message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-5-10"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-5-11">
+</span><span id="__span-5-12"><span class="p">}</span>
+</span><span id="__span-5-13">
+</span><span id="__span-5-14"><span class="c1">//export callHandler</span>
+</span><span id="__span-5-15"><span class="kd">func</span><span class="w"> </span><span class="nx">callHandler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-5-16"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">ExecHandler</span><span class="p">(</span><span class="nx">messageHandler</span><span class="p">)</span>
+</span><span id="__span-5-17"><span class="p">}</span>
+</span><span id="__span-5-18">
+</span><span id="__span-5-19"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span></code></pre></div>
+<h4 id="run_1">Run</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-6-1">./slingshot<span class="w"> </span>redis<span class="w"> </span>subscribe<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-2"><span class="w">    </span>--wasm<span class="o">=</span>./redissub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-3"><span class="w">    </span>--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-4"><span class="w">    </span>--uri<span class="o">=</span><span class="si">${</span><span class="nv">REDIS_URI</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-5"><span class="w">    </span>--client-id<span class="o">=</span>pubsubcli<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-6-6"><span class="w">    </span>--channel<span class="o">=</span>news
+</span></code></pre></div>
+<h3 id="redis-publisher-plug-in">Redis publisher plug-in</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-7-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-7-2">
+</span><span id="__span-7-3"><span class="kn">import</span><span class="w"> </span><span class="nx">slingshot</span><span class="w"> </span><span class="s">&quot;github.com/bots-garden/slingshot/go-pdk&quot;</span>
+</span><span id="__span-7-4">
+</span><span id="__span-7-5"><span class="kd">func</span><span class="w"> </span><span class="nx">publishHandler</span><span class="p">(</span><span class="nx">input</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-6">
+</span><span id="__span-7-7"><span class="w">    </span><span class="nx">redisURI</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">GetEnv</span><span class="p">(</span><span class="s">&quot;REDIS_URI&quot;</span><span class="p">)</span>
+</span><span id="__span-7-8"><span class="w">    </span><span class="nx">idRedisClient</span><span class="p">,</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">InitRedisClient</span><span class="p">(</span><span class="s">&quot;pubsubcli&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">redisURI</span><span class="p">)</span>
+</span><span id="__span-7-9"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-10"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-7-11"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-12"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idRedisClient</span><span class="p">)</span>
+</span><span id="__span-7-13"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-7-14">
+</span><span id="__span-7-15"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">RedisPublish</span><span class="p">(</span><span class="s">&quot;pubsubcli&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;news&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-7-16">
+</span><span id="__span-7-17"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-7-18"><span class="p">}</span>
+</span><span id="__span-7-19">
+</span><span id="__span-7-20"><span class="c1">//export callHandler</span>
+</span><span id="__span-7-21"><span class="kd">func</span><span class="w"> </span><span class="nx">callHandler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-7-22"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">ExecHandler</span><span class="p">(</span><span class="nx">publishHandler</span><span class="p">)</span>
+</span><span id="__span-7-23"><span class="p">}</span>
+</span><span id="__span-7-24">
+</span><span id="__span-7-25"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span></code></pre></div>
+<h4 id="run_2">Run</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-8-1">./slingshot<span class="w"> </span>run<span class="w"> </span>--wasm<span class="o">=</span>./redispub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-2"><span class="w">    </span>--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-8-3"><span class="w">    </span>--input<span class="o">=</span><span class="s2">&quot;I 💜 Wasm ✨&quot;</span>
+</span></code></pre></div>
+<h3 id="nats-subscriber-plug-in">Nats subscriber plug-in</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-9-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-9-2">
+</span><span id="__span-9-3"><span class="kn">import</span><span class="w"> </span><span class="nx">slingshot</span><span class="w"> </span><span class="s">&quot;github.com/bots-garden/slingshot/go-pdk&quot;</span>
+</span><span id="__span-9-4">
+</span><span id="__span-9-5"><span class="kd">func</span><span class="w"> </span><span class="nx">messageHandler</span><span class="p">(</span><span class="nx">input</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-6"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;👋 NATS message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-9-7"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-9-8"><span class="p">}</span>
+</span><span id="__span-9-9">
+</span><span id="__span-9-10"><span class="c1">//export callHandler</span>
+</span><span id="__span-9-11"><span class="kd">func</span><span class="w"> </span><span class="nx">callHandler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-9-12"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">ExecHandler</span><span class="p">(</span><span class="nx">messageHandler</span><span class="p">)</span>
+</span><span id="__span-9-13"><span class="p">}</span>
+</span><span id="__span-9-14">
+</span><span id="__span-9-15"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span></code></pre></div>
+<h4 id="run_3">Run</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-10-1">./slingshot<span class="w"> </span>nats<span class="w"> </span>subscribe<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-2">--wasm<span class="o">=</span>./natssub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-3">--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-4">--url<span class="o">=</span>nats://0.0.0.0:4222<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-5">--connection-id<span class="o">=</span>natsconn01<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-10-6">--subject<span class="o">=</span>news
+</span></code></pre></div>
+<h3 id="nats-publisher-plug-in">Nats publisher plug-in</h3>
+<div class="highlight"><pre><span></span><code><span id="__span-11-1"><span class="kn">package</span><span class="w"> </span><span class="nx">main</span>
+</span><span id="__span-11-2">
+</span><span id="__span-11-3"><span class="kn">import</span><span class="w"> </span><span class="p">(</span>
+</span><span id="__span-11-4"><span class="w">    </span><span class="nx">slingshot</span><span class="w"> </span><span class="s">&quot;github.com/bots-garden/slingshot/go-pdk&quot;</span>
+</span><span id="__span-11-5"><span class="p">)</span>
+</span><span id="__span-11-6">
+</span><span id="__span-11-7"><span class="kd">func</span><span class="w"> </span><span class="nx">publishHandler</span><span class="p">(</span><span class="nx">input</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-8">
+</span><span id="__span-11-9"><span class="w">    </span><span class="nx">natsURL</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">GetEnv</span><span class="p">(</span><span class="s">&quot;NATS_URL&quot;</span><span class="p">)</span>
+</span><span id="__span-11-10"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;💜 NATS_URL: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">natsURL</span><span class="p">)</span>
+</span><span id="__span-11-11"><span class="w">    </span><span class="nx">idNatsConnection</span><span class="p">,</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">InitNatsConnection</span><span class="p">(</span><span class="s">&quot;natsconn01&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">natsURL</span><span class="p">)</span>
+</span><span id="__span-11-12"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-13"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-11-14"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-15"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idNatsConnection</span><span class="p">)</span>
+</span><span id="__span-11-16"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-11-17">
+</span><span id="__span-11-18"><span class="w">    </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">NatsPublish</span><span class="p">(</span><span class="s">&quot;natsconn01&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;news&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-11-19">
+</span><span id="__span-11-20"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-21"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-11-22"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-23"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span>
+</span><span id="__span-11-24"><span class="w">    </span><span class="p">}</span>
+</span><span id="__span-11-25"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
+</span><span id="__span-11-26"><span class="p">}</span>
+</span><span id="__span-11-27">
+</span><span id="__span-11-28"><span class="c1">//export callHandler</span>
+</span><span id="__span-11-29"><span class="kd">func</span><span class="w"> </span><span class="nx">callHandler</span><span class="p">()</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-11-30"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">ExecHandler</span><span class="p">(</span><span class="nx">publishHandler</span><span class="p">)</span>
+</span><span id="__span-11-31"><span class="p">}</span>
+</span><span id="__span-11-32">
+</span><span id="__span-11-33"><span class="kd">func</span><span class="w"> </span><span class="nx">main</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span>
+</span></code></pre></div>
+<h4 id="run_4">Run</h4>
+<div class="highlight"><pre><span></span><code><span id="__span-12-1">./slingshot<span class="w"> </span>run<span class="w"> </span>--wasm<span class="o">=</span>./natspub.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-2"><span class="w">    </span>--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-12-3"><span class="w">    </span>--input<span class="o">=</span><span class="s2">&quot;I 💜 Wasm ✨&quot;</span>
+</span></code></pre></div>
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-copyright__highlight">
+      Copyright &copy; 2023 - 2024 Philippe Charrière
+    </div>
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.74e28a9f.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    
+    
+      <script src="../../assets/javascripts/bundle.220ee61c.min.js"></script>
+      
+    
+  </body>
+</html>

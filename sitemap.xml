@@ -2,77 +2,87 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
     <url>
          <loc>https://bots-garden.github.io/slingshot/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/write-nats-publisher/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/write-nats-subscriber/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/write-plug-in/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/write-redis-publisher/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/write-redis-subscriber/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/write-service/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/host-functions/display/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/host-functions/env/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/host-functions/intro/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/host-functions/mem/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/host-functions/nats/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/host-functions/redis-pubsub/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/host-functions/redis/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://bots-garden.github.io/slingshot/slingshot-pdk/go-pdk/</loc>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
     <url>
          <loc>https://bots-garden.github.io/slingshot/slingshot-pdk/intro/</loc>
-         <lastmod>2023-08-21</lastmod>
+         <lastmod>2023-09-09</lastmod>
+         <changefreq>daily</changefreq>
+    </url>
+    <url>
+         <loc>https://bots-garden.github.io/slingshot/slingshot-pdk/rust-pdk/</loc>
+         <lastmod>2023-09-09</lastmod>
          <changefreq>daily</changefreq>
     </url>
 </urlset>
