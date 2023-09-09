@@ -18,14 +18,16 @@ func GetHostFunctions() []extism.HostFunction {
 }
 
 // Define a Host Function CallBack
-func DefineHostFunctionCallBack(wasmName string, callBack extism.HostFunctionCallback) extism.HostFunction {
-	host_function := extism.HostFunction{
-		Name:      wasmName,
-		Namespace: "env",
-		Callback:  callBack,
-		Params:    []api.ValueType{api.ValueTypeI64},
-		Results:   []api.ValueType{api.ValueTypeI64},
-	}
+func DefineHostFunctionCallBack(wasmName string, callBack extism.HostFunctionStackCallback) extism.HostFunction {
+	
+	host_function := extism.NewHostFunctionWithStack(
+		wasmName,
+		"env",
+		callBack,
+		[]api.ValueType{api.ValueTypeI64},
+		api.ValueTypeI64,
+	)
+
 	return host_function
 
 }

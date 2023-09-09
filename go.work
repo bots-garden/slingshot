@@ -17,6 +17,8 @@ use (
 	./plugins/tests/use-redis
 
 	./tools/nats-cli
+
+	./go-pdk
 )
 
 // go work sync

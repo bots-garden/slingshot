@@ -9,10 +9,10 @@ case $1 in
     emoji="🎨"
     ;;
 
-  # 🐛: bug
+  # 🐞: bug
   bug|fix)
     message="Fix a bug"
-    emoji="🐛"
+    emoji="🐞"
     ;;
 
   # ✨: sparkles
@@ -84,6 +84,11 @@ case $1 in
     emoji="⚗"
     ;;
 
+  # 🚢: ship
+  ship|release)
+    message="Release"
+    emoji="🚢"
+    ;;
 
   # 💾: floppy-disk
   save)

@@ -113,6 +113,7 @@ pub fn memory_get(key: String) -> String {
 
 #[plugin_fn]
 pub fn handle(input: String) -> FnResult<Json<Response>> {
+    // TODO test with bytes?
 
     print("🟣 this is the wasm handle function".to_string());
 
@@ -144,3 +145,8 @@ pub fn handle(input: String) -> FnResult<Json<Response>> {
     Ok(Json(response))
 }
 
+#[plugin_fn]
+pub fn _start(_: String) -> FnResult<String> {
+    print("hello from _start".to_string());
+    Ok("hello".to_string())
+}

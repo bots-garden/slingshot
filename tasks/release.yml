@@ -5,7 +5,9 @@ description: >
 
   To create a release:
 
-  - First, set the tag version (`v.N.N.N`)
+  - Update `infos/version.txt`
+  - Merge the PR on main
+  - Then, set the tag version (`v.N.N.N`)
   - Then, create the release with the following command
   ```bash
   task release:create
@@ -23,8 +25,8 @@ description: >
   ```
 
 env:
-  TAG: "v0.0.2" # for git
-  IMAGE_TAG: "0.0.2"
+  TAG: "v0.0.3" # for git
+  IMAGE_TAG: "0.0.3"
   IMAGE_BASE_NAME: "slingshot"
 
 tasks:
@@ -41,12 +43,14 @@ tasks:
       - git add .
       - git commit -m "📦 create release ${TAG}"
       - git tag ${TAG}
-      - git push origin main ${TAG}
+      - git tag go-pdk/${TAG}
+      - git push origin main ${TAG} go-pdk/${TAG}
   
   # task release:remove-tag
   remove-tag:
     cmds:
       - git tag -d ${TAG}
+      - git tag -d go-pdk/${TAG}
 
   # task release:build
   build:

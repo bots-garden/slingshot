@@ -25,7 +25,7 @@ func TestStorePlugin(t *testing.T) {
 		os.Exit(1)
 	}
 
-	plg.StorePlugin("helloPlugin", pluginInst)
+	plg.StorePlugin("helloPlugin", plg.ExtismPlugin{Plugin: pluginInst, MainFunction: false})
 
 	plugin, err := plg.GetPlugin("helloPlugin")
 	if err != nil {
@@ -34,9 +34,9 @@ func TestStorePlugin(t *testing.T) {
 	}
 
 	fmt.Println("🟠", plugin)
-	fmt.Println("🟠", plugin.FunctionExists(wasmFunctionName))
+	fmt.Println("🟠", plugin.Plugin.FunctionExists(wasmFunctionName))
 
-	if plugin.FunctionExists(wasmFunctionName) != true {
+	if plugin.Plugin.FunctionExists(wasmFunctionName) != true {
 		fmt.Println("🔴", "TestStorePlugin")
 		t.Errorf("Error didn't find %q", wasmFunctionName)
 	} else {

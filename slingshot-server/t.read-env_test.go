@@ -49,7 +49,7 @@ func TestReadEnvVar(t *testing.T) {
 		os.Exit(1)
 	}
 
-	_, out, err := plugin.Call(wasmFunctionName, nil)
+	_, out, err := plugin.Plugin.Call(wasmFunctionName, nil)
 
 	result := string(out)
 	fmt.Println("🟠", result)
@@ -77,7 +77,7 @@ func TestReadEmptyEnvVar(t *testing.T) {
 		log.Println("🔴 !!! Error when getting the plugin", err)
 		os.Exit(1)
 	}
-	_, out, err := plugin.Call(wasmFunctionName, nil)
+	_, out, err := plugin.Plugin.Call(wasmFunctionName, nil)
 
 	result := string(out)
 	fmt.Println("🟠", result)

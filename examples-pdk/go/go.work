@@ -1,0 +1,15 @@
+go 1.20
+
+use (
+	./01-print
+	./02-hello-service
+	./03-env-var
+	./04-mem-cache
+	./05-redis
+	./06-redis-sub
+	./07-redis-pub
+	./08-nats-sub
+	./09-nats-pub
+)
+
+// go work sync

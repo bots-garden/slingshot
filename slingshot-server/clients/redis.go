@@ -11,6 +11,7 @@ var redisClients sync.Map
 
 // GetRedisClient returns a redis client
 func GetRedisClient(id string) *redis.Client {
+
 	cli, ok := redisClients.Load(id)
 	if ok {
 		return cli.(*redis.Client)

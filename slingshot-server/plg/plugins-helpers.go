@@ -12,21 +12,33 @@ import (
 	"github.com/tetratelabs/wazero"
 )
 
-// store all your plugins in a normal Go hash map, protected by a Mutex
-var plugins = make(map[string]*extism.Plugin)
+/*
+With Wasm, the main function of a wasm module is considered 
+as a function names "_start".
+If this function exists ExtismPlugin.MainFunction == true
+And then, it will be triggered first
+*/
 
-func StorePlugin(key string, plugin *extism.Plugin) {
+type ExtismPlugin struct {
+	Plugin       *extism.Plugin
+	MainFunction bool
+}
+
+// store all your plugins in a normal Go hash map, protected by a Mutex
+var plugins = make(map[string]ExtismPlugin)
+
+func StorePlugin(key string, plugin ExtismPlugin) {
 	// store all your plugins in a normal Go hash map, protected by a Mutex
 	plugins[key] = plugin
 
 }
 
-func GetPlugin(key string) (extism.Plugin, error) {
+func GetPlugin(key string) (ExtismPlugin, error) {
 
 	if plugin, ok := plugins[key]; ok {
-		return *plugin, nil
+		return plugin, nil
 	} else {
-		return extism.Plugin{}, errors.New("🔴 no plugin")
+		return ExtismPlugin{}, errors.New("🔴 no plugin")
 	}
 }
 
@@ -65,7 +77,10 @@ func GetManifest(wasmFilePath string) extism.Manifest {
 // Create a plugin and store it into the plugins map
 func InitializePluging(ctx context.Context, pluginName string, manifest extism.Manifest, config extism.PluginConfig, hostsFunctions []extism.HostFunction) error {
 	pluginInst, err := extism.NewPlugin(ctx, manifest, config, hof.GetHostFunctions())
-	StorePlugin(pluginName, pluginInst)
+
+	// Here we test if there is a _start function into the wasm module
+	// with Extism, this function does not exist with Rust (lib)
+	StorePlugin(pluginName, ExtismPlugin{Plugin: pluginInst, MainFunction: pluginInst.FunctionExists("_start")})
 
 	return err
 }

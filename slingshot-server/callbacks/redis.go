@@ -11,7 +11,7 @@ import (
 	"github.com/extism/extism"
 )
 
-func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{
 		id:""
@@ -45,7 +45,7 @@ func InitRedisClient(ctx context.Context, plugin *extism.CurrentPlugin, userData
 
 }
 
-func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{ id: "", key: "", value: "" }
 	*/
@@ -60,10 +60,10 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 		result.Failure = err.Error()
 		result.Success = ""
 	} else {
-		//fmt.Println("🔵 RedisSet", arguments)
-		redisCli := clients.GetRedisClient(arguments.Id)
 
+		redisCli := clients.GetRedisClient(arguments.Id)
 		err = redisCli.Set(ctx, string(arguments.Key), string(arguments.Value), 0).Err()
+
 		if err != nil {
 			result.Failure = err.Error()
 			result.Success = ""
@@ -82,7 +82,7 @@ func RedisSet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 
 }
 
-func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{ id: "", key: "" }
 	*/
@@ -118,7 +118,7 @@ func RedisGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	}
 }
 
-func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{ id: "", key: "" }
 	*/
@@ -154,7 +154,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, userData interf
 	}
 }
 
-func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{ id: "", key: "*" }
 	*/
@@ -191,7 +191,7 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, userData int
 	}
 }
 
-func RedisPublish(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func RedisPublish(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{ id: "", channel: "", payload: "" }
 	*/

@@ -15,7 +15,7 @@ var messagesMap = map[string]string{
 	"vulcan":  "🖖 peace and long life",
 }
 
-func GetMessage(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func GetMessage(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 
 	// Read data from the shared memory
 	keyStr, errArg := mem.ReadStringFromMemory(plugin, stack)

@@ -17,7 +17,7 @@ type memoryRecord struct {
 	Value string `json:"value"`
 }
 
-func MemorySet(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func MemorySet(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 	/* Expected
 	{ key: "", value: "" }
 	*/
@@ -48,7 +48,7 @@ func MemorySet(ctx context.Context, plugin *extism.CurrentPlugin, userData inter
 
 }
 
-func MemoryGet(ctx context.Context, plugin *extism.CurrentPlugin, userData interface{}, stack []uint64) {
+func MemoryGet(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 
 	var result = slingshot.StringResult{}
 	// The expected argument is a key (string)

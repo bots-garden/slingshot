@@ -38,7 +38,7 @@ func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel s
 
 		for msg := range ch { // this is synchronous, no need mutex (apparently)
 
-			plugin, err := plg.GetPlugin("slingshotplug")
+			extismPlugin, err := plg.GetPlugin("slingshotplug")
 			if err != nil {
 				log.Println("🔴 Error when getting the plugin", err)
 				os.Exit(1)
@@ -51,16 +51,26 @@ func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel s
 			}
 			jsonBytes, err := json.Marshal(&redisMessage)
 			if err != nil {
-				fmt.Println("🔴 Error:", err)
+				log.Println("🔴 Error:", err)
 			}
 
-			_, output, err := plugin.Call(wasmFunctionName, jsonBytes)
+			/*
+			if extismPlugin.MainFunction == true {
+				_, _, err := extismPlugin.Plugin.Call("_start", nil)
+				if err != nil {
+					log.Println("🔴 Error with _start function", err)
+				}
+			}
+			*/
+
+			_, output, err := extismPlugin.Plugin.Call(wasmFunctionName, jsonBytes)
 			if err != nil {
-				fmt.Println("🔴 Error:", err)
+				log.Println("🔴 Error:", err)
 				//os.Exit(1)
 			}
 			// Display output content, only if the wasm plugin returns something
 			if (len(output)) > 0 {
+				// CLI output
 				fmt.Println(string(output))
 			}
 
