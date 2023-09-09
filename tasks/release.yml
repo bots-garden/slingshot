@@ -5,8 +5,8 @@ description: >
 
   To create a release:
 
-  - Update `infos/version.txt`
-  - Merge the PR on main
+  - Merge the PR on main(?)
+  - Update `infos/version.txt` (or something else)
   - Then, set the tag version (`v.N.N.N`)
   - Then, create the release with the following command
   ```bash
