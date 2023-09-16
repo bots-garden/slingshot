@@ -5,11 +5,14 @@ package main
 */
 
 import (
+	"errors"
 	"flag"
 	"fmt"
 	"os"
 	"slingshot-server/cmds"
 	"slingshot-server/infos"
+
+	"github.com/go-resty/resty/v2"
 )
 
 /*
@@ -27,6 +30,29 @@ import (
 - onkey host function?
 */
 
+func downloadWasmFile(wasmFileURL, wasmFilePath, authenticationHeaderName, authenticationHeaderValue string) error {
+	// authenticationHeader:
+	// Example: "PRIVATE-TOKEN: ${GITLAB_WASM_TOKEN}"
+	client := resty.New()
+
+	if authenticationHeaderName != "" {
+		client.SetHeader(authenticationHeaderName, authenticationHeaderValue)
+	}
+
+	resp, err := client.R().
+		SetOutput(wasmFilePath).
+		Get(wasmFileURL)
+
+	if resp.IsError() {
+		return errors.New("error while downloading the wasm file")
+	}
+
+	if err != nil {
+		return err
+	}
+	return nil
+}
+
 /*
 call ../01-simple-go-plugin/simple.wasm \
 say_hello \
@@ -37,9 +63,10 @@ say_hello \
 --allow-paths '{"testdata":"./"}'
 */
 
-func setCommonFlag(flagSet *flag.FlagSet) (*string, *string, *string, *string, *string, *string) {
+func setCommonFlag(flagSet *flag.FlagSet) (*string, *string, *string, *string, *string, *string, *string, *string, *string) {
 	handler := flagSet.String("handler", "handle", "wasm function name")
 	wasmFile := flagSet.String("wasm", "*.wasm", "wasm file path (and name)")
+	//fmt.Println("📝 file", *wasmFile)
 
 	// Specific to Extism
 	logLevel := flagSet.String("log-level", "", "Log level")
@@ -47,7 +74,12 @@ func setCommonFlag(flagSet *flag.FlagSet) (*string, *string, *string, *string, *
 	allowPaths := flagSet.String("allow-paths", "{}", "use a json string to define the allowed paths")
 	config := flagSet.String("config", "{}", "use a json string to define the config data")
 
-	return handler, wasmFile, logLevel, allowHosts, allowPaths, config
+	authHeaderName := flagSet.String("auth-header-name", "", "ex: PRIVATE-TOKEN")
+	authHeaderValue := flagSet.String("auth-header-value", "", "ex: IlovePandas")
+
+	wasmUrl := flagSet.String("wasm-url", "", "url to download the wasm file")
+
+	return handler, wasmFile, logLevel, allowHosts, allowPaths, config, wasmUrl, authHeaderName, authHeaderValue
 }
 
 func parseCommand(command string, args []string) error {
@@ -58,9 +90,26 @@ func parseCommand(command string, args []string) error {
 		flagSet := flag.NewFlagSet("listen", flag.ExitOnError)
 		httpPort := flagSet.String("http-port", "8080", "http port")
 
-		handler, wasmFile, logLevel, allowHosts, allowPaths, config := setCommonFlag(flagSet)
+		handler,
+			wasmFile,
+			logLevel,
+			allowHosts,
+			allowPaths,
+			config,
+			wasmUrl,
+			authHeaderName,
+			authHeaderValue := setCommonFlag(flagSet)
 
 		flagSet.Parse(args)
+
+		if *wasmUrl != "" { // we need to download the wasm file
+			fmt.Println("🌍 downloading...", *wasmUrl)
+			err := downloadWasmFile(*wasmUrl, *wasmFile, *authHeaderName, *authHeaderValue)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
 
 		fmt.Println("🌍 http-port:", *httpPort)
 		fmt.Println("🚀 handler  :", *handler)
@@ -81,7 +130,15 @@ func parseCommand(command string, args []string) error {
 		redisClientId := flagSet.String("client-id", "something", "Redis client id")
 		maskVariables := flagSet.Bool("mask-variables", true, "")
 
-		handler, wasmFile, logLevel, allowHosts, allowPaths, config := setCommonFlag(flagSet)
+		handler,
+			wasmFile,
+			logLevel,
+			allowHosts,
+			allowPaths,
+			config,
+			wasmUrl,
+			authHeaderName,
+			authHeaderValue := setCommonFlag(flagSet)
 
 		switch subCommand {
 		case "subscribe":
@@ -89,6 +146,17 @@ func parseCommand(command string, args []string) error {
 			redisChannel := flagSet.String("channel", "knock-knock", "Redis channel")
 
 			flagSet.Parse(args[1:]) // from 1, because of the subCommand
+
+			if *wasmUrl != "" { // we need to download the wasm file
+				fmt.Println("🌍 downloading...", *wasmUrl)
+				err := downloadWasmFile(*wasmUrl, *wasmFile, *authHeaderName, *authHeaderValue)
+				if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+				}
+			}
+
+
 			if *maskVariables != true {
 				fmt.Println("🌍 redis URI      :", *redisUri)
 			} else {
@@ -123,13 +191,31 @@ func parseCommand(command string, args []string) error {
 
 		maskVariables := flagSet.Bool("mask-variables", true, "")
 
-		handler, wasmFile, logLevel, allowHosts, allowPaths, config := setCommonFlag(flagSet)
+		handler,
+			wasmFile,
+			logLevel,
+			allowHosts,
+			allowPaths,
+			config,
+			wasmUrl,
+			authHeaderName,
+			authHeaderValue := setCommonFlag(flagSet)
 
 		switch subCommand {
 		case "subscribe":
 
 			natsSubject := flagSet.String("subject", "knock-knock", "NATS subject")
 			flagSet.Parse(args[1:]) // from 1, because of the subCommand
+
+			if *wasmUrl != "" { // we need to download the wasm file
+				fmt.Println("🌍 downloading...", *wasmUrl)
+				err := downloadWasmFile(*wasmUrl, *wasmFile, *authHeaderName, *authHeaderValue)
+				if err != nil {
+					fmt.Println(err)
+					os.Exit(1)
+				}
+			}
+
 			if *maskVariables != true {
 				fmt.Println("🌍 NATS URL      :", *natsUrl)
 			} else {
@@ -154,9 +240,28 @@ func parseCommand(command string, args []string) error {
 
 		input := flagSet.String("input", "hello", "input data for the wasm plugin")
 
-		handler, wasmFile, logLevel, allowHosts, allowPaths, config := setCommonFlag(flagSet)
+		handler,
+			wasmFile,
+			logLevel,
+			allowHosts,
+			allowPaths,
+			config,
+			wasmUrl,
+			authHeaderName,
+			authHeaderValue := setCommonFlag(flagSet)
 
 		flagSet.Parse(args)
+
+		if *wasmUrl != "" { // we need to download the wasm file
+			fmt.Println("🌍 downloading...", *wasmUrl)
+			err := downloadWasmFile(*wasmUrl, *wasmFile, *authHeaderName, *authHeaderValue)
+			if err != nil {
+				fmt.Println(err)
+				os.Exit(1)
+			}
+		}
+
+
 		cmds.Execute(*wasmFile, *handler, *input, *logLevel, *allowHosts, *allowPaths, *config)
 
 		return nil
