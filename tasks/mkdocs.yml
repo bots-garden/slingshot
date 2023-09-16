@@ -3,11 +3,14 @@ version: '3'
 description: >
   # ...
 
+
 tasks:
   # task mkdocs:install
   install:
     cmds:
+      - sudo apt install pipx -y
       - pipx install mkdocs-material --include-deps
+      - pipx ensurepath
   # task mkdocs:serve
   serve:
     cmds:

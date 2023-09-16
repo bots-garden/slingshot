@@ -26,9 +26,20 @@ tasks:
 
   # task wasm-run
   wasm-run:
+    description: >
+      Log levels:
+        error, warn, info, debug, trace
     cmds:
       - | 
-        ./slingshot run --wasm=./print.wasm --handler=callHandler --input="🤓 I'm a geek"
+        ./slingshot run \
+          --wasm=./print.wasm \
+          --handler=callHandler \
+          --input="🤓 I'm a geek" \
+          --log-level info \
+          --allow-hosts *,*.google.com,yo.com \
+          --config '{"firstName":"Borane","lastName":"Morane"}' \
+          --allow-paths '{"testdata":"./"}'
+
 
   # task all
   all:
