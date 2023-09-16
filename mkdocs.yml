@@ -32,6 +32,8 @@ nav:
       - Slingdhot PDK: slingshot-pdk/intro.md
       - Go PDK: slingshot-pdk/go-pdk.md
       - Rust PDK: slingshot-pdk/rust-pdk.md
+    - 🚩 Extism flags: extism-flags.md
+
 
 
 theme:

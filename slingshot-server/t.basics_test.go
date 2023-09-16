@@ -16,8 +16,8 @@ func TestStorePlugin(t *testing.T) {
 	wasmFunctionName := "hello"
 
 	ctx := context.Background()
-	manifest := plg.GetManifest(wasmFilePath)
-	config := plg.GetPluginConfig()
+	manifest := plg.GetManifest(wasmFilePath, "*", "{}", "{}")
+	config := plg.GetPluginConfig("info")
 
 	pluginInst, err := extism.NewPlugin(ctx, manifest, config, nil)
 	if err != nil {
@@ -46,7 +46,7 @@ func TestStorePlugin(t *testing.T) {
 
 func TestGetPluginConfig(t *testing.T) {
 
-	config := plg.GetPluginConfig()
+	config := plg.GetPluginConfig("info")
 	if config.EnableWasi != true {
 		fmt.Println("🔴", "TestGetPluginConfig")
 		t.Errorf("Error EnableWasi should be set to true")
@@ -65,7 +65,7 @@ func TestGetManifest(t *testing.T) {
 		},
 	}
 
-	manifest := plg.GetManifest(wasmFilePath)
+	manifest := plg.GetManifest(wasmFilePath, "*", "{}", "{}")
 	fmt.Println("🟠", manifest.Wasm[0])
 	if manifest.Wasm[0] != manifestForTest.Wasm[0] {
 		fmt.Println("🔴", "TestGetManifest")
@@ -80,8 +80,8 @@ func TestInitializeWasmPlugin(t *testing.T) {
 	wasmFilePath := "../plugins/tests/some-functions/some-functions.wasm"
 	ctx := context.Background()
 
-	config := plg.GetPluginConfig()
-	manifest := plg.GetManifest(wasmFilePath)
+	config := plg.GetPluginConfig("info")
+	manifest := plg.GetManifest(wasmFilePath, "*", "{}", "{}")
 
 	err := plg.InitializePluging(ctx, "slingshotplug", manifest, config, nil)
 	if err != nil {

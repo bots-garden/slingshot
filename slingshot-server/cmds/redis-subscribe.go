@@ -11,7 +11,7 @@ import (
 )
 
 // RedisSubscribe is triggered by the `redis subscribe` command (from parseCommand)
-func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel string, redisUri string, redisClientId string) {
+func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel string, redisUri string, redisClientId string, logLevel string, allowHosts string, allowPaths string, config string) {
 
 	redisConfig := slingshot.RedisConfig{
 		Id:  redisClientId,
@@ -23,7 +23,7 @@ func RedisSubscribe(wasmFilePath string, wasmFunctionName string, redisChannel s
 		os.Exit(1)
 	}
 
-	ctx := plg.Initialize("slingshotplug", wasmFilePath)
+	ctx := 	plg.Initialize("slingshotplug", wasmFilePath, logLevel, allowHosts, allowPaths, config)
 
 	// There is no error because go-redis
 	// automatically reconnects on error.

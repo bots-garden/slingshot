@@ -27,7 +27,7 @@ func GetEnv(name string) string {
 	variableValue := pdk.FindMemory(offset)
 	buffer := make([]byte, variableValue.Length())
 	variableValue.Load(buffer)
-
+	
 	// cast the buffer to string and return the value
 	envVarValue := string(buffer)
 	return envVarValue

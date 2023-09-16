@@ -8,8 +8,10 @@ import (
 )
 
 // Execute is triggered by the `run` command (from parseCommand)
-func Execute(wasmFilePath string, wasmFunctionName string, data string) {
-	plg.Initialize("slingshotplug", wasmFilePath)
+func Execute(wasmFilePath string, wasmFunctionName string, data string, logLevel string, allowHosts string, allowPaths string, config string) {
+
+	plg.Initialize("slingshotplug", wasmFilePath, logLevel, allowHosts, allowPaths, config)
+
 	extismPlugin, err := plg.GetPlugin("slingshotplug")
 
 	if err != nil {
@@ -23,14 +25,14 @@ func Execute(wasmFilePath string, wasmFunctionName string, data string) {
 	}
 
 	/*
-	if extismPlugin.MainFunction == true {
-		_, _, err := extismPlugin.Plugin.Call("_start", nil)
-		if err != nil {
-			fmt.Println("🔴 Error:", err)
-			os.Exit(1)
-		}
+		if extismPlugin.MainFunction == true {
+			_, _, err := extismPlugin.Plugin.Call("_start", nil)
+			if err != nil {
+				fmt.Println("🔴 Error:", err)
+				os.Exit(1)
+			}
 
-	}
+		}
 	*/
 
 	_, output, err := extismPlugin.Plugin.Call(wasmFunctionName, []byte(data))
