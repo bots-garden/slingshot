@@ -50,6 +50,12 @@ func setCommonFlag(flagSet *flag.FlagSet) (*string, *string, *string, *string, *
 	return handler, wasmFile, logLevel, allowHosts, allowPaths, config
 }
 
+// Remote location
+/*
+--url (?)
+--output
+*/
+
 func parseCommand(command string, args []string) error {
 
 	switch command {
