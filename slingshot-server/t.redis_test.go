@@ -43,8 +43,8 @@ func TestCreateRedisClient(t *testing.T) {
 func initPluginForRedis(wasmFilePath string, pluginId string) {
 	ctx := context.Background()
 
-	config := plg.GetPluginConfig()
-	manifest := plg.GetManifest(wasmFilePath)
+	config := plg.GetPluginConfig("info")
+	manifest := plg.GetManifest(wasmFilePath, "*", "{}", "{}")
 
 	print_string := hof.DefineHostFunctionCallBack(
 		"hostPrint",

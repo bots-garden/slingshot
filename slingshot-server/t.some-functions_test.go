@@ -19,8 +19,8 @@ func TestCallHello(t *testing.T) {
 
 	ctx := context.Background()
 
-	config := plg.GetPluginConfig()
-	manifest := plg.GetManifest(wasmFilePath)
+	config := plg.GetPluginConfig("info")
+	manifest := plg.GetManifest(wasmFilePath, "*", "{}", "{}")
 
 	err := plg.InitializePluging(ctx, "slingshotplug", manifest, config, nil)
 	if err != nil {

@@ -10,6 +10,7 @@ use (
 	./07-redis-pub
 	./08-nats-sub
 	./09-nats-pub
+	./10-pdk-api
 )
 
 // go work sync

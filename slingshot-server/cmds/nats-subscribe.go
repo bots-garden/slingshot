@@ -13,7 +13,7 @@ import (
 )
 
 // NatsSubscribe is triggered by the `nats subscribe` command (from parseCommand)
-func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject string, natsUrl string, natsClientId string) {
+func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject string, natsUrl string, natsClientId string, logLevel string, allowHosts string, allowPaths string, config string) {
 	natsConfig := slingshot.NatsConfig{
 		Url: natsUrl,
 	}
@@ -28,7 +28,7 @@ func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject str
 		os.Exit(1)
 	}
 
-	ctx := plg.Initialize("slingshotplug", wasmFilePath)
+	ctx := plg.Initialize("slingshotplug", wasmFilePath, logLevel, allowHosts, allowPaths, config)
 
 	go func() {
 		// Simple Async Subscriber: natsSubscription
@@ -54,12 +54,12 @@ func NatsSubscribe(wasmFilePath string, wasmFunctionName string, natsSubject str
 			}
 
 			/*
-			if extismPlugin.MainFunction == true {
-				_, _, err := extismPlugin.Plugin.Call("_start", nil)
-				if err != nil {
-					log.Println("🔴 Error with _start function", err)
+				if extismPlugin.MainFunction == true {
+					_, _, err := extismPlugin.Plugin.Call("_start", nil)
+					if err != nil {
+						log.Println("🔴 Error with _start function", err)
+					}
 				}
-			}
 			*/
 
 			_, output, err := extismPlugin.Plugin.Call(wasmFunctionName, jsonBytes)

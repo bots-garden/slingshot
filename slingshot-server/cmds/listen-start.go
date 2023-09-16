@@ -13,12 +13,10 @@ import (
 )
 
 // Start the slingshot HTTP server (triggered by the `listen` command, from parseCommand)
-func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {
+func Start(wasmFilePath string, wasmFunctionName string, httpPort string, logLevel string, allowHosts string, allowPaths string, config string) {
 
-	// this is for tests
-	//var counter = 0
 
-	plg.Initialize("slingshotplug", wasmFilePath)
+	plg.Initialize("slingshotplug", wasmFilePath, logLevel, allowHosts, allowPaths, config)
 
 	/*
 		app := fiber.New(fiber.Config{
@@ -45,12 +43,12 @@ func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 		}
 
 		/*
-		if extismPlugin.MainFunction == true {
-			_, _, err := extismPlugin.Plugin.Call("_start", nil)
-			if err != nil {
-				log.Println("🔴 Error with _start function", err)
+			if extismPlugin.MainFunction == true {
+				_, _, err := extismPlugin.Plugin.Call("_start", nil)
+				if err != nil {
+					log.Println("🔴 Error with _start function", err)
+				}
 			}
-		}
 		*/
 
 		_, response, err := extismPlugin.Plugin.Call(wasmFunctionName, params)
@@ -85,7 +83,7 @@ func Start(wasmFilePath string, wasmFunctionName string, httpPort string) {
 				// test encoding of TextBody
 				decodedStrAsByteSlice, err := base64.StdEncoding.DecodeString(string(httpResponse.TextBody))
 				if err != nil {
-				  return c.SendString(httpResponse.TextBody)
+					return c.SendString(httpResponse.TextBody)
 				}
 				//return c.SendString(httpResponse.TextBody)
 				return c.SendString(string(decodedStrAsByteSlice))
