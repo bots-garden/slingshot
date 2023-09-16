@@ -3,7 +3,8 @@ version: '3'
 description: >
   task slingshot-build
   task wasm-build
-  task wasm-run
+  task serve-file
+  task wasm-download-run
   
 tasks:
   # task slingshot-build
@@ -18,20 +19,28 @@ tasks:
   wasm-build:
     cmds:
       - | 
+        cd ../10-pdk-api
         tinygo build -scheduler=none --no-debug \
           -o print.wasm \
           -target wasi main.go
 
         ls -lh *.wasm
 
-  # task wasm-run
-  wasm-run:
+  # task serve-file
+  serve-file:
+    cmds:
+      - | 
+        cd ../10-pdk-api
+        python3 -m http.server 9000
+
+  # task wasm-download-run
+  wasm-download-run:
     description: >
-      Log levels:
-        error, warn, info, debug, trace
+      http://0.0.0.0:9000/print.wasm
     cmds:
       - | 
         ./slingshot run \
+          --wasm-url="http://0.0.0.0:9000/print.wasm" \
           --wasm=./print.wasm \
           --handler=callHandler \
           --input="🤓 I'm a geek" \

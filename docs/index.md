@@ -24,6 +24,14 @@
 --subject=news
 ```
 
+```bash title="Execute a remote wasm file"
+./slingshot run \
+--wasm-url="http://0.0.0.0:9000/print.wasm" \
+--wasm=./print.wasm \
+--handler=callHandler \
+--input="🤓 I'm a geek"
+```
+
 ## How is Slingshot developed?
 
 Slingshot is developed in Go with **[Wazero](https://wazero.io/)**[^1] as the Wasm runtime and **[Extism](https://extism.org/)**[^2], which offers a Wazero-based Go SDK and a Wasm plugin system.

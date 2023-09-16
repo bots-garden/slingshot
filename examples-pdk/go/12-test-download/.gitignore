@@ -1,0 +1,4 @@
+*.wasm
+slingshot
+.env
+aiven.sh
