@@ -2,6 +2,7 @@ use extism_pdk::*;
 use serde::{Serialize, Deserialize};
 use thiserror::Error;
 
+
 extern "C" {
     fn hostPrint(ptr: u64) -> u64;
 }
@@ -41,9 +42,12 @@ extern "C" {
 pub fn write_file(file_path: String, content_file: String) -> Result<String, Error> {
     
     // TODO: encode content_file to 64b string
+
+
+
     let args = FileArguments {
         path: file_path,
-        content: content_file,
+        content:  content_file,
     };
     let json_str: String = serde_json::to_string(&args).unwrap();
 
