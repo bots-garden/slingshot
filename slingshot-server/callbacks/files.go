@@ -37,3 +37,7 @@ func ReadFile(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64)
 	}
 
 }
+
+func WriteFile(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
+	
+}
