@@ -68,8 +68,6 @@ pub fn write_file(file_path: String, content_file: String) -> Result<String, Err
 }
 
 
-
-
 #[plugin_fn]
 pub fn hello(_: String) -> FnResult<String> {
 
