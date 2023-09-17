@@ -16,6 +16,17 @@ func helloHandler(argHandler []byte) []byte {
 	}
 	slingshot.Print(content)
 
+	text := `
+	<html>
+	  <h1>"Hello World!!!"</h1>
+	</html>
+	`
+
+	errWrite := slingshot.WriteFile("./index.html", text)
+	if errWrite != nil {
+		slingshot.Log("😡 " + errWrite.Error())
+	}
+
 	return []byte("👋 Hello World 🌍")
 }
 
