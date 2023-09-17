@@ -150,7 +150,7 @@ func RedisDel(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64)
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 RedisDel, CopyJsonToMemory:", err)
+		log.Println("🔴 RedisDel, CopyJsonToMemory:", errResult.Error())
 	}
 }
 
@@ -187,7 +187,7 @@ func RedisFilter(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 RedisFilter, CopyJsonToMemory:", err)
+		log.Println("🔴 RedisFilter, CopyJsonToMemory:", errResult.Error())
 	}
 }
 
@@ -224,6 +224,6 @@ func RedisPublish(ctx context.Context, plugin *extism.CurrentPlugin, stack []uin
 	errResult := mem.CopyJsonToMemory(plugin, stack, result)
 
 	if errResult != nil {
-		log.Println("🔴 RedisPublish, CopyJsonToMemory:", err)
+		log.Println("🔴 RedisPublish, CopyJsonToMemory:", errResult.Error())
 	}
 }

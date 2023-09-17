@@ -11,6 +11,7 @@ use (
 	./08-nats-sub
 	./09-nats-pub
 	./10-pdk-api
+	./13-files
 )
 
 // go work sync

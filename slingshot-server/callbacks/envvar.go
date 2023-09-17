@@ -10,8 +10,6 @@ import (
 	"github.com/extism/extism"
 )
 
-// new signature: func(ctx context.Context, plugin *CurrentPlugin, stack []uint64)
-
 func GetEnv(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 
 	// Read data from the shared memory
@@ -29,3 +27,5 @@ func GetEnv(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
 		panic(errRet)
 	}
 }
+// TODO: return error (failure) instead of panic
+// TODO: 👀 files.go
