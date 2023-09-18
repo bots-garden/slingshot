@@ -1,3 +1,4 @@
 *.wasm
-slingshot
+slingshot*
+target
 index.html

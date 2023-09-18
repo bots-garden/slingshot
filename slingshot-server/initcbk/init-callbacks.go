@@ -79,6 +79,11 @@ func LoadHostFunctionCallBacks() {
 		callbacks.ReadFile,
 	)
 
+	write_file := hof.DefineHostFunctionCallBack(
+		"hostWriteFile",
+		callbacks.WriteFile,
+	)
+
 	hof.AppendHostFunction(get_message)
 	hof.AppendHostFunction(print_string)
 	hof.AppendHostFunction(log_string)
@@ -97,5 +102,7 @@ func LoadHostFunctionCallBacks() {
 	hof.AppendHostFunction(nats_publish)
 
 	hof.AppendHostFunction(read_file)
+	hof.AppendHostFunction(write_file)
+
 
 }
