@@ -12,28 +12,26 @@
         <meta name="author" content="Philippe Charrière (@k33g)">
       
       
-        <link rel="canonical" href="https://bots-garden.github.io/slingshot/host-functions/nats/">
+        <link rel="canonical" href="https://bots-garden.github.io/slingshot/extism-flags/">
       
       
-        <link rel="prev" href="../redis-pubsub/">
+        <link rel="prev" href="../slingshot-pdk/rust-pdk/">
       
       
-        <link rel="next" href="../files/">
       
-      
-      <link rel="icon" href="../../assets/images/favicon.png">
+      <link rel="icon" href="../assets/images/favicon.png">
       <meta name="generator" content="mkdocs-1.5.2, mkdocs-material-9.3.1">
     
     
       
-        <title>Nats - SlingShot</title>
+        <title>🚩 Extism flags - SlingShot</title>
       
     
     
-      <link rel="stylesheet" href="../../assets/stylesheets/main.046329b4.min.css">
+      <link rel="stylesheet" href="../assets/stylesheets/main.046329b4.min.css">
       
         
-        <link rel="stylesheet" href="../../assets/stylesheets/palette.85d0ee34.min.css">
+        <link rel="stylesheet" href="../assets/stylesheets/palette.85d0ee34.min.css">
       
       
 
@@ -52,9 +50,9 @@
       
     
     
-      <link rel="stylesheet" href="../../stylesheets/extra.css">
+      <link rel="stylesheet" href="../stylesheets/extra.css">
     
-    <script>__md_scope=new URL("../..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
     
       
 
@@ -79,7 +77,7 @@
     <div data-md-component="skip">
       
         
-        <a href="#host-functions" class="md-skip">
+        <a href="#extism-flags" class="md-skip">
           Skip to content
         </a>
       
@@ -95,7 +93,7 @@
 
 <header class="md-header md-header--shadow" data-md-component="header">
   <nav class="md-header__inner md-grid" aria-label="Header">
-    <a href="../.." title="SlingShot" class="md-header__button md-logo" aria-label="SlingShot" data-md-component="logo">
+    <a href=".." title="SlingShot" class="md-header__button md-logo" aria-label="SlingShot" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -115,7 +113,7 @@
         <div class="md-header__topic" data-md-component="header-topic">
           <span class="md-ellipsis">
             
-              Nats
+              🚩 Extism flags
             
           </span>
         </div>
@@ -201,7 +199,7 @@
 
 <nav class="md-nav md-nav--primary" aria-label="Navigation" data-md-level="0">
   <label class="md-nav__title" for="__drawer">
-    <a href="../.." title="SlingShot" class="md-nav__button md-logo" aria-label="SlingShot" data-md-component="logo">
+    <a href=".." title="SlingShot" class="md-nav__button md-logo" aria-label="SlingShot" data-md-component="logo">
       
   
   <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
@@ -230,7 +228,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../.." class="md-nav__link">
+      <a href=".." class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -283,7 +281,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../write-plug-in/" class="md-nav__link">
+      <a href="../write-plug-in/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -303,7 +301,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../write-service/" class="md-nav__link">
+      <a href="../write-service/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -323,7 +321,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../write-redis-subscriber/" class="md-nav__link">
+      <a href="../write-redis-subscriber/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -343,7 +341,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../write-redis-publisher/" class="md-nav__link">
+      <a href="../write-redis-publisher/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -363,7 +361,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../write-nats-subscriber/" class="md-nav__link">
+      <a href="../write-nats-subscriber/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -383,7 +381,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../write-nats-publisher/" class="md-nav__link">
+      <a href="../write-nats-publisher/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -408,19 +406,17 @@
       
   
   
-    
-  
   
     
     
     
-    <li class="md-nav__item md-nav__item--active md-nav__item--nested">
+    <li class="md-nav__item md-nav__item--nested">
       
         
         
         
         
-        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" checked>
+        <input class="md-nav__toggle md-toggle " type="checkbox" id="__nav_3" >
         
           <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="0">
             
@@ -433,7 +429,7 @@
             <span class="md-nav__icon md-icon"></span>
           </label>
         
-        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="true">
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
           <label class="md-nav__title" for="__nav_3">
             <span class="md-nav__icon md-icon"></span>
             🛠️ Host functions
@@ -446,7 +442,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../intro/" class="md-nav__link">
+      <a href="../host-functions/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -466,7 +462,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../display/" class="md-nav__link">
+      <a href="../host-functions/display/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -486,7 +482,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../env/" class="md-nav__link">
+      <a href="../host-functions/env/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -506,7 +502,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../mem/" class="md-nav__link">
+      <a href="../host-functions/mem/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -526,7 +522,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../redis/" class="md-nav__link">
+      <a href="../host-functions/redis/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -546,7 +542,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../redis-pubsub/" class="md-nav__link">
+      <a href="../host-functions/redis-pubsub/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -564,29 +560,9 @@
                 
   
   
-    
   
-  
-    <li class="md-nav__item md-nav__item--active">
-      
-      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
-      
-      
-        
-      
-      
-        <label class="md-nav__link md-nav__link--active" for="__toc">
-          
-  
-  <span class="md-ellipsis">
-    Nats
-  </span>
-  
-
-          <span class="md-nav__icon md-icon"></span>
-        </label>
-      
-      <a href="./" class="md-nav__link md-nav__link--active">
+    <li class="md-nav__item">
+      <a href="../host-functions/nats/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -595,33 +571,6 @@
   
 
       </a>
-      
-        
-
-<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
-  
-  
-  
-    
-  
-  
-    <label class="md-nav__title" for="__toc">
-      <span class="md-nav__icon md-icon"></span>
-      Table of contents
-    </label>
-    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
-      
-        <li class="md-nav__item">
-  <a href="#hostinitnatsconnection-hostnatspublish" class="md-nav__link">
-    hostInitNatsConnection &amp; hostNatsPublish
-  </a>
-  
-</li>
-      
-    </ul>
-  
-</nav>
-      
     </li>
   
 
@@ -633,7 +582,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../files/" class="md-nav__link">
+      <a href="../host-functions/files/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -694,7 +643,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../slingshot-pdk/intro/" class="md-nav__link">
+      <a href="../slingshot-pdk/intro/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -714,7 +663,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../slingshot-pdk/go-pdk/" class="md-nav__link">
+      <a href="../slingshot-pdk/go-pdk/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -734,7 +683,7 @@
   
   
     <li class="md-nav__item">
-      <a href="../../slingshot-pdk/rust-pdk/" class="md-nav__link">
+      <a href="../slingshot-pdk/rust-pdk/" class="md-nav__link">
         
   
   <span class="md-ellipsis">
@@ -759,9 +708,29 @@
       
   
   
+    
   
-    <li class="md-nav__item">
-      <a href="../../extism-flags/" class="md-nav__link">
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      <input class="md-nav__toggle md-toggle" type="checkbox" id="__toc">
+      
+      
+        
+      
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          
+  
+  <span class="md-ellipsis">
+    🚩 Extism flags
+  </span>
+  
+
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="./" class="md-nav__link md-nav__link--active">
         
   
   <span class="md-ellipsis">
@@ -770,6 +739,54 @@
   
 
       </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary" aria-label="Table of contents">
+  
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#-log-level" class="md-nav__link">
+    --log-level
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-allow-hosts" class="md-nav__link">
+    --allow-hosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-config" class="md-nav__link">
+    --config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-allow-paths" class="md-nav__link">
+    --allow-paths
+  </a>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
     </li>
   
 
@@ -801,8 +818,29 @@
     <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
       
         <li class="md-nav__item">
-  <a href="#hostinitnatsconnection-hostnatspublish" class="md-nav__link">
-    hostInitNatsConnection &amp; hostNatsPublish
+  <a href="#-log-level" class="md-nav__link">
+    --log-level
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-allow-hosts" class="md-nav__link">
+    --allow-hosts
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-config" class="md-nav__link">
+    --config
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#-allow-paths" class="md-nav__link">
+    --allow-paths
   </a>
   
 </li>
@@ -825,9 +863,77 @@
   
 
 
-<h1 id="host-functions">🛠️ Host functions</h1>
-<h2 id="hostinitnatsconnection-hostnatspublish">hostInitNatsConnection &amp; hostNatsPublish</h2>
-<p>👀 Look at this sample: <a href="../../write-nats-publisher/">Nats publisher plug-in</a></p>
+<h1 id="extism-flags">Extism flags</h1>
+<p>The Slingshot runner can use these additional flags:</p>
+<ul>
+<li><code>--log-level</code></li>
+<li><code>--allow-hosts</code></li>
+<li><code>--config</code></li>
+<li><code>--allow-paths</code></li>
+</ul>
+<p>These flags allow to use some specific Extism <strong>PDKs</strong> API.</p>
+<h2 id="-log-level"><code>--log-level</code></h2>
+<blockquote>
+<p>Possible values: error, warn, info, debug, trace</p>
+</blockquote>
+<p>Usage:
+<div class="highlight"><pre><span></span><code><span id="__span-0-1">./slingshot<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-2"><span class="w">    </span>--wasm<span class="o">=</span>./print.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-3"><span class="w">    </span>--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-4"><span class="w">    </span>--input<span class="o">=</span><span class="s2">&quot;🤓 I&#39;m a geek&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-0-5"><span class="w">    </span>--log-level<span class="w"> </span>info<span class="w"> </span>
+</span></code></pre></div></p>
+<p>Plugin source code:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="1:1"><input checked="checked" id="__tabbed_1_1" name="__tabbed_1" type="radio" /><div class="tabbed-labels"><label for="__tabbed_1_1">Go</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span id="__span-1-1"><span class="nx">pdk</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">pdk</span><span class="p">.</span><span class="nx">LogInfo</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;😀😃😄&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="-allow-hosts"><code>--allow-hosts</code></h2>
+<p>Usage:
+<div class="highlight"><pre><span></span><code><span id="__span-2-1">./slingshot<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-2"><span class="w">    </span>--wasm<span class="o">=</span>./print.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-3"><span class="w">    </span>--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-4"><span class="w">    </span>--input<span class="o">=</span><span class="s2">&quot;🤓 I&#39;m a geek&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-2-5"><span class="w">    </span>--allow-hosts<span class="w"> </span>*,*.google.com,yo.com
+</span></code></pre></div></p>
+<p>Plugin source code:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="2:1"><input checked="checked" id="__tabbed_2_1" name="__tabbed_2" type="radio" /><div class="tabbed-labels"><label for="__tabbed_2_1">Go</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span id="__span-3-1"><span class="nx">req</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">NewHTTPRequest</span><span class="p">(</span><span class="s">&quot;GET&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;https://jsonplaceholder.typicode.com/todos/1&quot;</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="-config"><code>--config</code></h2>
+<p>Usage:
+<div class="highlight"><pre><span></span><code><span id="__span-4-1">./slingshot<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-2"><span class="w">    </span>--wasm<span class="o">=</span>./print.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-3"><span class="w">    </span>--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-4"><span class="w">    </span>--input<span class="o">=</span><span class="s2">&quot;🤓 I&#39;m a geek&quot;</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-4-5"><span class="w">    </span>--config<span class="w"> </span><span class="s1">&#39;{&quot;firstName&quot;:&quot;Borane&quot;,&quot;lastName&quot;:&quot;Morane&quot;}&#39;</span>
+</span></code></pre></div></p>
+<p>Plugin source code:</p>
+<div class="tabbed-set tabbed-alternate" data-tabs="3:1"><input checked="checked" id="__tabbed_3_1" name="__tabbed_3" type="radio" /><div class="tabbed-labels"><label for="__tabbed_3_1">Go</label></div>
+<div class="tabbed-content">
+<div class="tabbed-block">
+<div class="highlight"><pre><span></span><code><span id="__span-5-1"><span class="nx">firstName</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">GetConfig</span><span class="p">(</span><span class="s">&quot;firstName&quot;</span><span class="p">)</span>
+</span><span id="__span-5-2"><span class="nx">lastName</span><span class="p">,</span><span class="w"> </span><span class="nx">_</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">GetConfig</span><span class="p">(</span><span class="s">&quot;lastName&quot;</span><span class="p">)</span>
+</span><span id="__span-5-3">
+</span><span id="__span-5-4"><span class="nx">pdk</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">pdk</span><span class="p">.</span><span class="nx">LogInfo</span><span class="p">,</span><span class="w"> </span><span class="nx">firstName</span><span class="p">)</span>
+</span><span id="__span-5-5"><span class="nx">pdk</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="nx">pdk</span><span class="p">.</span><span class="nx">LogInfo</span><span class="p">,</span><span class="w"> </span><span class="nx">lastName</span><span class="p">)</span>
+</span></code></pre></div>
+</div>
+</div>
+</div>
+<h2 id="-allow-paths"><code>--allow-paths</code></h2>
+<blockquote>
+<p>No implemented yet</p>
+</blockquote>
 
 
 
@@ -869,10 +975,10 @@
       <div class="md-dialog__inner md-typeset"></div>
     </div>
     
-    <script id="__config" type="application/json">{"base": "../..", "features": [], "search": "../../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
+    <script id="__config" type="application/json">{"base": "..", "features": [], "search": "../assets/javascripts/workers/search.dfff1995.min.js", "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}}</script>
     
     
-      <script src="../../assets/javascripts/bundle.dff1b7c8.min.js"></script>
+      <script src="../assets/javascripts/bundle.dff1b7c8.min.js"></script>
       
     
   </body>
