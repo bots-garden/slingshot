@@ -36,9 +36,3 @@ func callHandler() {
 }
 
 func main() {}
-/*
-    ./slingshot run --wasm=./print.wasm \
-	--handler=callHandler \
-	--input="🤓 I'm a geek"
-
-*/

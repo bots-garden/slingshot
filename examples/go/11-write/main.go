@@ -19,9 +19,7 @@ func Print(text string) {
 var parser = fastjson.Parser{}
 
 // GetJsonFromBytes
-/*
-	Convert a buffer (`[]byte`) into a JSON value
-*/
+// Convert a buffer (`[]byte`) into a JSON value
 func GetJsonFromBytes(buffer []byte) (*fastjson.Value, error) {
 	return parser.ParseBytes(buffer)
 }

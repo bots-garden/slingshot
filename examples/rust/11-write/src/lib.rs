@@ -43,8 +43,6 @@ pub fn write_file(file_path: String, content_file: String) -> Result<String, Err
     
     // TODO: encode content_file to 64b string
 
-
-
     let args = FileArguments {
         path: file_path,
         content:  content_file,

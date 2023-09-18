@@ -63,6 +63,8 @@ tinygo build -scheduler=none --no-debug \
 - `slingshot.RedisPublish(redisClientId string, channel string, payload string) (string, error)`
 - `slingshot.InitNatsConnection(natsConnectionId string, natsUrl string) (string, error)`
 - `slingshot.NatsPublish(natsConnectionId string, subject string, data string) (string, error)`
+- `slingshot.ReadFile(filePath string) (string, error)`
+- `slingshot.WriteFile(filePath string, text string) error`
 
 ## Other examples
 
@@ -114,7 +116,7 @@ func callHandler() {
 func main() {}
 ```
 
-#### Run
+**Run**:
 
 ```bash
 ./slingshot listen --wasm=./hello.wasm \
@@ -146,7 +148,7 @@ func callHandler() {
 func main() {}
 ```
 
-#### Run
+**Run**:
 
 ```bash
 ./slingshot redis subscribe \
@@ -187,7 +189,7 @@ func callHandler() {
 func main() {}
 ```
 
-#### Run
+**Run**:
 
 ```bash
 ./slingshot run --wasm=./redispub.wasm \
@@ -215,7 +217,7 @@ func callHandler() {
 func main() {}
 ```
 
-#### Run
+**Run**:
 
 ```bash
 ./slingshot nats subscribe \
@@ -264,10 +266,57 @@ func callHandler() {
 func main() {}
 ```
 
-#### Run
+**Run**:
 
 ```bash
 ./slingshot run --wasm=./natspub.wasm \
     --handler=callHandler \
     --input="I 💜 Wasm ✨"
+```
+
+### Read / Write a file
+
+```golang
+package main
+
+import (
+	slingshot "github.com/bots-garden/slingshot/go-pdk"
+)
+
+func helloHandler(argHandler []byte) []byte {
+
+	content, err := slingshot.ReadFile("./hello.txt")
+	if err != nil {
+		slingshot.Log("😡 " + err.Error())
+	}
+	slingshot.Print(content)
+
+	text := `
+	<html>
+	  <h1>"Hello World!!!"</h1>
+	</html>
+	`
+
+	errWrite := slingshot.WriteFile("./index.html", text)
+	if errWrite != nil {
+		slingshot.Log("😡 " + errWrite.Error())
+	}
+
+	return []byte("👋 Hello World 🌍")
+}
+
+//export callHandler
+func callHandler() {
+	slingshot.ExecHandler(helloHandler)
+}
+
+func main() {}
+
+```
+
+**Run**:
+
+```bash
+./slingshot run --wasm=./files.wasm \
+    --handler=callHandler
 ```

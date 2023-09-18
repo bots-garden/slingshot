@@ -12,7 +12,6 @@ pub fn print(text: String) {
     unsafe { hostPrint(memory_text.offset) };
 }
 
-
 #[derive(Serialize, Deserialize, Debug)]
 struct StringResult {
     pub success: String,
@@ -26,7 +25,6 @@ pub enum FileError {
     #[error("Not found")]
     NotFound,
 }
-
 
 extern "C" {
     fn hostReadFile(ptr: u64) -> u64;
@@ -50,9 +48,7 @@ pub fn read_file(file_path: String) -> Result<String, Error> {
     } else {
         return Err(FileError::ReadFailure.into());
     }
-
 }
-
 
 #[plugin_fn]
 pub fn hello(_: String) -> FnResult<String> {
