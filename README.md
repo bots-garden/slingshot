@@ -2,14 +2,17 @@
 
 **SlingShot** is a **Wasm** runner to run or serve **[Extism](https://extism.org/)** **Wasm** plug-ins
 
+**Run a wasm plug-in**:
 ```bash title="Run a wasm plug-in"
 ./slingshot run --wasm=./hello.wasm --handler=hello --input="Bob 🤓"
 ```
 
+**Serve a wasm plug-in as a function**:
 ```bash title="Serve a wasm plug-in as a function"
 ./slingshot listen --wasm=./hello.wasm --handler=handle --http-port=7070
 ```
 
+**Trigger a wasm plug-in with Redis messages**:
 ```bash title="Trigger a wasm plug-in with Redis messages"
 ./slingshot redis subscribe --wasm=./hello.wasm --handler=message \
 --uri=${REDIS_URI} \
@@ -17,6 +20,7 @@
 --channel=news
 ```
 
+**title="Trigger a wasm plug-in with NATS messages (✋ experimental 🚧 WIP)**:
 ```bash title="Trigger a wasm plug-in with NATS messages (✋ experimental 🚧 WIP)"
 ./slingshot nats subscribe --wasm=./hello.wasm --handler=message \
 --url=${NATS_SERVER_URL} \
@@ -24,6 +28,7 @@
 --subject=news
 ```
 
+**Execute a remote wasm file**:
 ```bash title="Execute a remote wasm file"
 ./slingshot run \
 --wasm-url="http://0.0.0.0:9000/print.wasm" \
