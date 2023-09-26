@@ -69,10 +69,10 @@ func setCommonFlag(flagSet *flag.FlagSet) (*string, *string, *string, *string, *
 	//fmt.Println("📝 file", *wasmFile)
 
 	// Specific to Extism
-	logLevel := flagSet.String("log-level", "", "Log level")
-	allowHosts := flagSet.String("allow-hosts", "*", "")
-	allowPaths := flagSet.String("allow-paths", "{}", "use a json string to define the allowed paths")
-	config := flagSet.String("config", "{}", "use a json string to define the config data")
+	logLevel := flagSet.String("log-level", "", "Log level to print message")
+	allowHosts := flagSet.String("allow-hosts", `["*"]`, "Hosts for HTTP request (json array)")
+	allowPaths := flagSet.String("allow-paths", "{}", "Allowed paths to write and read files (json string)")
+	config := flagSet.String("config", "{}", "Configuration data (json string)")
 
 	authHeaderName := flagSet.String("auth-header-name", "", "ex: PRIVATE-TOKEN")
 	authHeaderValue := flagSet.String("auth-header-value", "", "ex: IlovePandas")
@@ -155,7 +155,6 @@ func parseCommand(command string, args []string) error {
 					os.Exit(1)
 				}
 			}
-
 
 			if *maskVariables != true {
 				fmt.Println("🌍 redis URI      :", *redisUri)
@@ -260,7 +259,6 @@ func parseCommand(command string, args []string) error {
 				os.Exit(1)
 			}
 		}
-
 
 		cmds.Execute(*wasmFile, *handler, *input, *logLevel, *allowHosts, *allowPaths, *config)
 

@@ -4,15 +4,46 @@ import (
 	"context"
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
 	"os"
 	"slingshot-server/hof"
 	"slingshot-server/initcbk"
-	"strings"
 
 	"github.com/extism/extism"
 	"github.com/tetratelabs/wazero"
 )
+
+func getHostsFromString(allowHosts string) []string {
+	var hosts []string
+	unmarshallError := json.Unmarshal([]byte(allowHosts), &hosts)
+	if unmarshallError != nil {
+		fmt.Println(unmarshallError)
+		os.Exit(1)
+	}
+	return hosts
+
+}
+
+func getPathsFromJsonString(allowPaths string) map[string]string {
+	var paths map[string]string
+	unmarshallError := json.Unmarshal([]byte(allowPaths), &paths)
+	if unmarshallError != nil {
+		fmt.Println(unmarshallError)
+		os.Exit(1)
+	}
+	return paths
+}
+
+func getConfigFromJsonString(config string) map[string]string {
+	var manifestConfig map[string]string
+	unmarshallError := json.Unmarshal([]byte(config), &manifestConfig)
+	if unmarshallError != nil {
+		fmt.Println(unmarshallError)
+		os.Exit(1)
+	}
+	return manifestConfig
+}
 
 /*
 With Wasm, the main function of a wasm module is considered
@@ -88,21 +119,11 @@ func GetPluginConfig(logLevel string) extism.PluginConfig {
 
 func GetManifest(wasmFilePath string, allowHosts string, allowPaths string, config string) extism.Manifest {
 
-	hosts := strings.Split(strings.ReplaceAll(allowHosts, " ", ""), ",")
+	//hosts := strings.Split(strings.ReplaceAll(allowHosts, " ", ""), ",")
 
-	var paths map[string]string
-	unmarshallError := json.Unmarshal([]byte(allowPaths), &paths)
-	if unmarshallError != nil {
-		log.Println("🔴 (GetManifest/paths) Error:", unmarshallError.Error())
-		os.Exit(1)
-	}
-
-	var manifestConfig map[string]string
-	unmarshallError = json.Unmarshal([]byte(config), &manifestConfig)
-	if unmarshallError != nil {
-		log.Println("🔴 (GetManifest/manifestConfig) Error:", unmarshallError.Error())
-		os.Exit(1)
-	}
+	hosts := getHostsFromString(allowHosts)
+	paths := getPathsFromJsonString(allowPaths)
+	manifestConfig := getConfigFromJsonString(config)
 
 	manifest := extism.Manifest{
 		Wasm: []extism.Wasm{

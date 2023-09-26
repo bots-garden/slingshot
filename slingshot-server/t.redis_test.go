@@ -44,7 +44,7 @@ func initPluginForRedis(wasmFilePath string, pluginId string) {
 	ctx := context.Background()
 
 	config := plg.GetPluginConfig("info")
-	manifest := plg.GetManifest(wasmFilePath, "*", "{}", "{}")
+	manifest := plg.GetManifest(wasmFilePath, `["*"]`, "{}", "{}")
 
 	print_string := hof.DefineHostFunctionCallBack(
 		"hostPrint",

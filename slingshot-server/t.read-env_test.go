@@ -15,7 +15,7 @@ func initPlugin(wasmFilePath string, pluginId string) {
 	ctx := context.Background()
 
 	config := plg.GetPluginConfig("info")
-	manifest := plg.GetManifest(wasmFilePath, "*", "{}", "{}")
+	manifest := plg.GetManifest(wasmFilePath, `["*"]`, "{}", "{}")
 
 	// Add an host function
 	get_env := hof.DefineHostFunctionCallBack(
