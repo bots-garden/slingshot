@@ -7,12 +7,12 @@ import (
 	"github.com/valyala/fastjson"
 )
 
-//export hostPrint
-func hostPrint(offset uint64) uint64
+//export hostPrintln
+func hostPrintln(offset uint64) uint64
 
-func Print(text string) {
+func Println(text string) {
 	memoryText := pdk.AllocateString(text)
-	hostPrint(memoryText.Offset())
+	hostPrintln(memoryText.Offset())
 }
 
 var parser = fastjson.Parser{}
@@ -54,9 +54,9 @@ func hello() uint64 {
 
 	content, err := ReadFile("./hello.txt")
 	if err != nil {
-		Print("😡 " + err.Error())
+		Println("😡 " + err.Error())
 	} else {
-		Print(content)
+		Println(content)
 	}
 
 	return 0

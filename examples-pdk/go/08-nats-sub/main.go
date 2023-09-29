@@ -4,14 +4,14 @@ import slingshot "github.com/bots-garden/slingshot/go-pdk"
 
 func messageHandler(input []byte) []byte {
 
-	slingshot.Print("👋 NATS message: " + string(input))
+	slingshot.Println("👋 NATS message: " + string(input))
 	return nil
 
 }
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(messageHandler)
 }
 

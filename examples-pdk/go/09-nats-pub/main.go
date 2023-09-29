@@ -7,27 +7,27 @@ import (
 func publishHandler(input []byte) []byte {
 
 	natsURL := slingshot.GetEnv("NATS_URL")
-	slingshot.Print("💜 NATS_URL: " + natsURL)
+	slingshot.Println("💜 NATS_URL: " + natsURL)
 	idNatsConnection, errInit := slingshot.InitNatsConnection("natsconn01", natsURL)
 	if errInit != nil {
-		slingshot.Print("😡 " + errInit.Error())
+		slingshot.Println("😡 " + errInit.Error())
 	} else {
-		slingshot.Print("🙂 " + idNatsConnection)
+		slingshot.Println("🙂 " + idNatsConnection)
 	}
 
 	res, err := slingshot.NatsPublish("natsconn01", "news", string(input))
 
 	if err != nil {
-		slingshot.Print("😡 " + err.Error())
+		slingshot.Println("😡 " + err.Error())
 	} else {
-		slingshot.Print("🙂 " + res)
+		slingshot.Println("🙂 " + res)
 	}
 	return nil
 }
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(publishHandler)
 }
 

@@ -8,12 +8,12 @@ import (
 	"github.com/valyala/fastjson"
 )
 
-//export hostPrint
-func hostPrint(offset uint64) uint64
+//export hostPrintln
+func hostPrintln(offset uint64) uint64
 
-func Print(text string) {
+func Println(text string) {
 	memoryText := pdk.AllocateString(text)
-	hostPrint(memoryText.Offset())
+	hostPrintln(memoryText.Offset())
 }
 
 //export hostGetEnv
@@ -244,9 +244,9 @@ func hello() uint64 {
 	redisURI := GetEnv("REDIS_URI")
 	idRedisClient, errInit := InitRedisClient("redisDb", redisURI)
 	if errInit!= nil {
-		Print("😡 " + errInit.Error())
+		Println("😡 " + errInit.Error())
 	} else {
-		Print("🙂 " + idRedisClient)
+		Println("🙂 " + idRedisClient)
 	}
 
 	k1, errSet1 := RedisSet("redisDb", "001", "Huey")
@@ -255,9 +255,9 @@ func hello() uint64 {
 
 	allSetErrs := errors.Join(errSet1, errSet2, errSet3) 
 	if allSetErrs != nil {
-		Print("😡 " + allSetErrs.Error())
+		Println("😡 " + allSetErrs.Error())
 	} else {
-		Print("🙂 " + strings.Join([]string{k1,k2,k3}, ","))
+		Println("🙂 " + strings.Join([]string{k1,k2,k3}, ","))
 	}
 
 	v1, errGet1 := RedisGet("redisDb", "001")
@@ -266,23 +266,23 @@ func hello() uint64 {
 
 	allGetErrs := errors.Join(errGet1, errGet2, errGet3) 
 	if allGetErrs != nil {
-		Print("😡 " + allSetErrs.Error())
+		Println("😡 " + allSetErrs.Error())
 	} else {
-		Print("🙂 " + strings.Join([]string{v1,v2,v3}, ","))
+		Println("🙂 " + strings.Join([]string{v1,v2,v3}, ","))
 	}
 
 	key, errDel := RedisDel("redisDb", "002")
 	if errDel != nil {
-		Print("😡 " + errDel.Error())
+		Println("😡 " + errDel.Error())
 	} else {
-		Print("🙂 " + key)
+		Println("🙂 " + key)
 	}
 
 	keys, errKeys := RedisFilter("redisDb", "00*")
 	if errKeys != nil {
-		Print("😡 " + errKeys.Error())
+		Println("😡 " + errKeys.Error())
 	} else {
-		Print("🙂 " + keys)
+		Println("🙂 " + keys)
 	}
 
 	/* output:

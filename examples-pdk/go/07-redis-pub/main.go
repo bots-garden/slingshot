@@ -7,9 +7,9 @@ func publishHandler(input []byte) []byte {
 	redisURI := slingshot.GetEnv("REDIS_URI")
 	idRedisClient, errInit := slingshot.InitRedisClient("pubsubcli", redisURI)
 	if errInit != nil {
-		slingshot.Print("😡 " + errInit.Error())
+		slingshot.Println("😡 " + errInit.Error())
 	} else {
-		slingshot.Print("🙂 " + idRedisClient)
+		slingshot.Println("🙂 " + idRedisClient)
 	}
 
 	slingshot.RedisPublish("pubsubcli", "news", string(input))
@@ -19,7 +19,7 @@ func publishHandler(input []byte) []byte {
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(publishHandler)
 }
 

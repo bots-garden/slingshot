@@ -3,13 +3,13 @@ use serde::{Serialize, Deserialize};
 use thiserror::Error;
 
 extern "C" {
-    fn hostPrint(ptr: u64) -> u64;
+    fn hostPrintln(ptr: u64) -> u64;
 }
 
-pub fn print(text: String) {
+pub fn println(text: String) {
     let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
     memory_text.store(text);
-    unsafe { hostPrint(memory_text.offset) };
+    unsafe { hostPrintln(memory_text.offset) };
 }
 
 extern "C" {
@@ -156,13 +156,13 @@ pub fn publish(input: String) -> FnResult<u64> {
     let nats_connection : Result<String, Error> = init_nats_connection("natsconn01".to_string(), nats_url);
 
     match nats_connection {
-        Ok(value) => print("🦀 nats connection: ".to_string() + &value),
-        Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+        Ok(value) => println("🦀 nats connection: ".to_string() + &value),
+        Err(error) => println("😡 error: ".to_string() + &error.to_string()),
     }
 
     match nats_publish("natsconn01".to_string(), "news".to_string(), input.to_string()) {
-        Ok(value)  => print("🦀 🙂 ".to_string() + &value),
-        Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+        Ok(value)  => println("🦀 🙂 ".to_string() + &value),
+        Err(error) => println("😡 error: ".to_string() + &error.to_string()),
     }
     
     Ok(0)

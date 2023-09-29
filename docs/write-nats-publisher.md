@@ -13,12 +13,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export hostGetEnv
@@ -123,20 +123,20 @@
         input := pdk.Input()
 
         natsURL := GetEnv("NATS_URL")
-        Print("💜 NATS_URL: " + natsURL)
+        Println("💜 NATS_URL: " + natsURL)
         idNatsConnection, errInit := InitNatsConnection("natsconn01", natsURL)
         if errInit != nil {
-            Print("😡 " + errInit.Error())
+            Println("😡 " + errInit.Error())
         } else {
-            Print("🙂 " + idNatsConnection)
+            Println("🙂 " + idNatsConnection)
         }
 
         res, err := NatsPublish("natsconn01", "news", string(input))
 
         if err != nil {
-            Print("😡 " + err.Error())
+            Println("😡 " + err.Error())
         } else {
-            Print("🙂 " + res)
+            Println("🙂 " + res)
         }
         return 0
     }
@@ -151,13 +151,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     extern "C" {
@@ -303,13 +303,13 @@
         let nats_connection : Result<String, Error> = init_nats_connection("natsconn01".to_string(), nats_url);
 
         match nats_connection {
-            Ok(value) => print("🦀 nats connection: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value) => println("🦀 nats connection: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         match nats_publish("natsconn01".to_string(), "news".to_string(), input.to_string()) {
-            Ok(value)  => print("🦀 🙂 ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 🙂 ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
         
         Ok(0)

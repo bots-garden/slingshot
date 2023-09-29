@@ -16,12 +16,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export hostGetEnv
@@ -90,9 +90,9 @@
         redisURI := GetEnv("REDIS_URI")
         idRedisClient, errInit := InitRedisClient("redisDb", redisURI)
         if errInit!= nil {
-            Print("😡 " + errInit.Error())
+            Println("😡 " + errInit.Error())
         } else {
-            Print("🙂 " + idRedisClient)
+            Println("🙂 " + idRedisClient)
         }
 
         return 0
@@ -108,13 +108,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     extern "C" {
@@ -207,8 +207,8 @@
         let redis_client : Result<String, Error> = init_redis_client("redisDb".to_string(), redis_uri);
 
         match redis_client {
-            Ok(value) => print("🦀 redis client: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value) => println("🦀 redis client: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         Ok(0)
@@ -231,12 +231,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export hostGetEnv
@@ -353,9 +353,9 @@
 
         allSetErrs := errors.Join(errSet1, errSet2, errSet3) 
         if allSetErrs != nil {
-            Print("😡 " + allSetErrs.Error())
+            Println("😡 " + allSetErrs.Error())
         } else {
-            Print("🙂 " + strings.Join([]string{k1,k2,k3}, ","))
+            Println("🙂 " + strings.Join([]string{k1,k2,k3}, ","))
         }
 
         /* output:
@@ -375,13 +375,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     extern "C" {
@@ -525,16 +525,16 @@
         let redis_client : Result<String, Error> = init_redis_client("redisDb".to_string(), redis_uri);
 
         match redis_set("redisDb".to_string(), "100".to_string(), "Huey".to_string()) {
-            Ok(value)  => print("🦀 saved value: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 saved value: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
         match redis_set("redisDb".to_string(), "200".to_string(), "Dewey".to_string()) {
-            Ok(value)  => print("🦀 saved value: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 saved value: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
         match redis_set("redisDb".to_string(), "300".to_string(), "Louie".to_string()) {
-            Ok(value)  => print("🦀 saved value: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 saved value: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         Ok(0)
@@ -557,12 +557,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export hostGetEnv
@@ -678,9 +678,9 @@
 
         allGetErrs := errors.Join(errGet1, errGet2, errGet3) 
         if allGetErrs != nil {
-            Print("😡 " + allSetErrs.Error())
+            Println("😡 " + allSetErrs.Error())
         } else {
-            Print("🙂 " + strings.Join([]string{v1,v2,v3}, ","))
+            Println("🙂 " + strings.Join([]string{v1,v2,v3}, ","))
         }
 
         /* output:
@@ -700,13 +700,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     extern "C" {
@@ -849,23 +849,23 @@
         let redis_client : Result<String, Error> = init_redis_client("redisDb".to_string(), redis_uri);
 
         match redis_get("redisDb".to_string(), "100".to_string()) {
-            Ok(value)  => print("🦀 value: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 value: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         match redis_get("redisDb".to_string(), "200".to_string()) {
-            Ok(value)  => print("🦀 value: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 value: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         match redis_get("redisDb".to_string(), "300".to_string()) {
-            Ok(value)  => print("🦀 value: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 value: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         match redis_get("redisDb".to_string(), "400".to_string()) {
-            Ok(value)  => print("🦀 value: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 value: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         Ok(0)
@@ -888,12 +888,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export hostGetEnv
@@ -1005,9 +1005,9 @@
 
         key, errDel := RedisDel("redisDb", "002")
         if errDel != nil {
-            Print("😡 " + errDel.Error())
+            Println("😡 " + errDel.Error())
         } else {
-            Print("🙂 " + key)
+            Println("🙂 " + key)
         }
 
         /* output:
@@ -1027,13 +1027,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     extern "C" {
@@ -1176,8 +1176,8 @@
         let redis_client : Result<String, Error> = init_redis_client("redisDb".to_string(), redis_uri);
 
         match redis_del("redisDb".to_string(), "200".to_string()) {
-            Ok(value)  => print("🦀 deleted key: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 deleted key: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         Ok(0)
@@ -1200,12 +1200,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export hostGetEnv
@@ -1317,9 +1317,9 @@
 
         keys, errKeys := RedisFilter("redisDb", "00*")
         if errKeys != nil {
-            Print("😡 " + errKeys.Error())
+            Println("😡 " + errKeys.Error())
         } else {
-            Print("🙂 " + keys)
+            Println("🙂 " + keys)
         }
 
         /* output:
@@ -1339,13 +1339,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     extern "C" {
@@ -1488,8 +1488,8 @@
         let redis_client : Result<String, Error> = init_redis_client("redisDb".to_string(), redis_uri);
 
         match redis_filter("redisDb".to_string(), "*00".to_string()) {
-            Ok(value)  => print("🦀 keys: ".to_string() + &value),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value)  => println("🦀 keys: ".to_string() + &value),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         Ok(0)

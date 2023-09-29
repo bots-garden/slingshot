@@ -15,12 +15,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     var parser = fastjson.Parser{}
@@ -62,9 +62,9 @@
 
         content, err := ReadFile("./hello.txt")
         if err != nil {
-            Print("😡 " + err.Error())
+            Println("😡 " + err.Error())
         } else {
-            Print(content)
+            Println(content)
         }
 
         return 0
@@ -80,13 +80,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     #[derive(Serialize, Deserialize, Debug)]
@@ -131,8 +131,8 @@
     pub fn hello(_: String) -> FnResult<String> {
 
         match read_file("./hello.txt".to_string()) {
-            Ok(value) => print(value.to_string()),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value) => println(value.to_string()),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         let output : String = "👋 Hello ".to_string();
@@ -157,12 +157,12 @@
         "github.com/valyala/fastjson"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     var parser = fastjson.Parser{}
@@ -215,7 +215,7 @@
 
         err := WriteFile("./index.html", text)
         if err != nil {
-            Print("😡 " + err.Error())
+            Println("😡 " + err.Error())
         }
 
         return 0
@@ -231,13 +231,13 @@
     use thiserror::Error;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     #[derive(Serialize, Deserialize, Debug)]
@@ -299,8 +299,8 @@
         let text = "<html><h1>Hello World!!!</h1></html>".to_string();
 
         match write_file("./index.html".to_string(), text) {
-            Ok(value) => print(value.to_string()),
-            Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+            Ok(value) => println(value.to_string()),
+            Err(error) => println("😡 error: ".to_string() + &error.to_string()),
         }
 
         let output : String = "👋 Hello ".to_string();

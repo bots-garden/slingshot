@@ -7,12 +7,12 @@ import (
 	"github.com/valyala/fastjson"
 )
 
-//export hostPrint
-func hostPrint(offset uint64) uint64
+//export hostPrintln
+func hostPrintln(offset uint64) uint64
 
-func Print(text string) {
+func Println(text string) {
 	memoryText := pdk.AllocateString(text)
-	hostPrint(memoryText.Offset())
+	hostPrintln(memoryText.Offset())
 }
 
 //export hostGetEnv
@@ -117,20 +117,20 @@ func publish() uint64 {
 	input := pdk.Input()
 
 	natsURL := GetEnv("NATS_URL")
-	Print("💜 NATS_URL: " + natsURL)
+	Println("💜 NATS_URL: " + natsURL)
 	idNatsConnection, errInit := InitNatsConnection("natsconn01", natsURL)
 	if errInit != nil {
-		Print("😡 " + errInit.Error())
+		Println("😡 " + errInit.Error())
 	} else {
-		Print("🙂 " + idNatsConnection)
+		Println("🙂 " + idNatsConnection)
 	}
 
 	res, err := NatsPublish("natsconn01", "news", string(input))
 
 	if err != nil {
-		Print("😡 " + err.Error())
+		Println("😡 " + err.Error())
 	} else {
-		Print("🙂 " + res)
+		Println("🙂 " + res)
 	}
 	return 0
 }

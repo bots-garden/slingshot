@@ -4,10 +4,10 @@ import slingshot "github.com/bots-garden/slingshot/go-pdk"
 
 func helloHandler(input []byte) []byte {
 	message := slingshot.GetEnv("MESSAGE")
-	slingshot.Print("🤖 MESSAGE=" + message)
+	slingshot.Println("🤖 MESSAGE=" + message)
 	
-	//return []byte("hello") // will print hello
-	return nil // will print nothing
+	//return []byte("hello") // will println hello
+	return nil // will println nothing
 
 }
 // TODO: void handler?
@@ -15,7 +15,7 @@ func helloHandler(input []byte) []byte {
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(helloHandler)
 }
 

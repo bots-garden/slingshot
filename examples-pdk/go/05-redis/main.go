@@ -12,9 +12,9 @@ func redisHandler(input []byte) []byte {
 	redisURI := slingshot.GetEnv("REDIS_URI")
 	idRedisClient, errInit := slingshot.InitRedisClient("redisDb", redisURI)
 	if errInit != nil {
-		slingshot.Print("😡 " + errInit.Error())
+		slingshot.Println("😡 " + errInit.Error())
 	} else {
-		slingshot.Print("🙂 " + idRedisClient)
+		slingshot.Println("🙂 " + idRedisClient)
 	}
 
 	k1, errSet1 := slingshot.RedisSet("redisDb", "001", "Huey 😀")
@@ -23,9 +23,9 @@ func redisHandler(input []byte) []byte {
 
 	allSetErrs := errors.Join(errSet1, errSet2, errSet3)
 	if allSetErrs != nil {
-		slingshot.Print("😡 " + allSetErrs.Error())
+		slingshot.Println("😡 " + allSetErrs.Error())
 	} else {
-		slingshot.Print("🙂 " + strings.Join([]string{k1, k2, k3}, ","))
+		slingshot.Println("🙂 " + strings.Join([]string{k1, k2, k3}, ","))
 	}
 
 	v1, errGet1 := slingshot.RedisGet("redisDb", "001")
@@ -34,23 +34,23 @@ func redisHandler(input []byte) []byte {
 
 	allGetErrs := errors.Join(errGet1, errGet2, errGet3)
 	if allGetErrs != nil {
-		slingshot.Print("😡 " + allSetErrs.Error())
+		slingshot.Println("😡 " + allSetErrs.Error())
 	} else {
-		slingshot.Print("🙂 " + strings.Join([]string{v1, v2, v3}, ","))
+		slingshot.Println("🙂 " + strings.Join([]string{v1, v2, v3}, ","))
 	}
 
 	key, errDel := slingshot.RedisDel("redisDb", "002")
 	if errDel != nil {
-		slingshot.Print("😡 " + errDel.Error())
+		slingshot.Println("😡 " + errDel.Error())
 	} else {
-		slingshot.Print("🙂 " + key)
+		slingshot.Println("🙂 " + key)
 	}
 
 	keys, errKeys := slingshot.RedisFilter("redisDb", "00*")
 	if errKeys != nil {
-		slingshot.Print("😡 " + errKeys.Error())
+		slingshot.Println("😡 " + errKeys.Error())
 	} else {
-		slingshot.Print("🙂 " + keys)
+		slingshot.Println("🙂 " + keys)
 	}
 
 	/* output:
@@ -65,7 +65,7 @@ func redisHandler(input []byte) []byte {
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(redisHandler)
 }
 

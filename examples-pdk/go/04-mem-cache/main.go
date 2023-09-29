@@ -7,23 +7,23 @@ func helloHandler(input []byte) []byte {
 
 	value, err := slingshot.MemoryGet("bob")
 	if err != nil {
-		slingshot.Print("😡 ouch! " + err.Error())
+		slingshot.Println("😡 ouch! " + err.Error())
 	} else {
-		slingshot.Print("🙂 value: " + value)
+		slingshot.Println("🙂 value: " + value)
 	}
 
 	value, err = slingshot.MemoryGet("bobby")
 	if err != nil {
-		slingshot.Print("😡 ouch! " + err.Error())
+		slingshot.Println("😡 ouch! " + err.Error())
 	} else {
-		slingshot.Print("🙂 value: " + value)
+		slingshot.Println("🙂 value: " + value)
 	}
 	return nil
 }
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(helloHandler)
 }
 

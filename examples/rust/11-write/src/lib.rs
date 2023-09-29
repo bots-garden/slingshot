@@ -4,13 +4,13 @@ use thiserror::Error;
 
 
 extern "C" {
-    fn hostPrint(ptr: u64) -> u64;
+    fn hostPrintln(ptr: u64) -> u64;
 }
 
-pub fn print(text: String) {
+pub fn println(text: String) {
     let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
     memory_text.store(text);
-    unsafe { hostPrint(memory_text.offset) };
+    unsafe { hostPrintln(memory_text.offset) };
 }
 
 
@@ -76,8 +76,8 @@ pub fn hello(_: String) -> FnResult<String> {
     let text = "<html><h1>Hello World!!!</h1></html>".to_string();
 
     match write_file("./index.html".to_string(), text) {
-        Ok(value) => print(value.to_string()),
-        Err(error) => print("😡 error: ".to_string() + &error.to_string()),
+        Ok(value) => println(value.to_string()),
+        Err(error) => println("😡 error: ".to_string() + &error.to_string()),
     }
 
     let output : String = "👋 Hello ".to_string();

@@ -6,14 +6,14 @@ import (
 
 func messageHandler(input []byte) []byte {
 
-	slingshot.Print("👋 message: " + string(input))
+	slingshot.Println("👋 message: " + string(input))
 	return nil
 
 }
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(messageHandler)
 }
 

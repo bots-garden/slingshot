@@ -42,7 +42,7 @@ func helloHandler(http_request_data []byte) []byte {
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(helloHandler)
 }
 

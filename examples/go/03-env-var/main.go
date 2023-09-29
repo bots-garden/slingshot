@@ -4,12 +4,12 @@ import (
 	"github.com/extism/go-pdk"
 )
 
-//export hostPrint
-func hostPrint(offset uint64) uint64
+//export hostPrintln
+func hostPrintln(offset uint64) uint64
 
-func Print(text string) {
+func Println(text string) {
 	memoryText := pdk.AllocateString(text)
-	hostPrint(memoryText.Offset())
+	hostPrintln(memoryText.Offset())
 }
 
 //export hostGetEnv
@@ -34,7 +34,7 @@ func GetEnv(name string) string {
 //export hello
 func hello() uint64 {
 	message := GetEnv("MESSAGE")
-	Print("🤖 MESSAGE=" + message)
+	Println("🤖 MESSAGE=" + message)
 
 	return 0
 }

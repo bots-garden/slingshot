@@ -12,12 +12,12 @@
         "github.com/extism/go-pdk"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export hostGetEnv
@@ -42,7 +42,7 @@
     //export hello
     func hello() uint64 {
         message := GetEnv("MESSAGE")
-        Print("🤖 MESSAGE=" + message)
+        Println("🤖 MESSAGE=" + message)
 
         return 0
     }
@@ -56,13 +56,13 @@
     use extism_pdk::*;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     extern "C" {
@@ -89,7 +89,7 @@
 
         let message : String = get_env("MESSAGE".to_string());
 
-        print("🦀 MESSAGE=".to_string() + &message);
+        println("🦀 MESSAGE=".to_string() + &message);
         
         Ok(0)
     }

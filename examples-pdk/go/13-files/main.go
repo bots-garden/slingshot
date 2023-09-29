@@ -6,7 +6,7 @@ import (
 
 func helloHandler(argHandler []byte) []byte {
 	input := string(argHandler)
-	slingshot.Print("👋 hello world 🌍 " + string(input))
+	slingshot.Println("👋 hello world 🌍 " + string(input))
 	
 	slingshot.Log("🙂 have a nice day 🏖️")
 
@@ -14,7 +14,7 @@ func helloHandler(argHandler []byte) []byte {
 	if err != nil {
 		slingshot.Log("😡 " + err.Error())
 	}
-	slingshot.Print(content)
+	slingshot.Println(content)
 
 	text := `
 	<html>

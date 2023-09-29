@@ -10,12 +10,12 @@
         "github.com/extism/go-pdk"
     )
 
-    //export hostPrint
-    func hostPrint(offset uint64) uint64
+    //export hostPrintln
+    func hostPrintln(offset uint64) uint64
 
-    func Print(text string) {
+    func Println(text string) {
         memoryText := pdk.AllocateString(text)
-        hostPrint(memoryText.Offset())
+        hostPrintln(memoryText.Offset())
     }
 
     //export message
@@ -23,7 +23,7 @@
         // read function argument from the memory
         input := pdk.Input()
 
-        Print("👋 message: " + string(input))
+        Println("👋 message: " + string(input))
         
         return 0
     }
@@ -37,19 +37,19 @@
     use extism_pdk::*;
 
     extern "C" {
-        fn hostPrint(ptr: u64) -> u64;
+        fn hostPrintln(ptr: u64) -> u64;
     }
 
-    pub fn print(text: String) {
+    pub fn println(text: String) {
         let mut memory_text: Memory = extism_pdk::Memory::new(text.len());
         memory_text.store(text);
-        unsafe { hostPrint(memory_text.offset) };
+        unsafe { hostPrintln(memory_text.offset) };
     }
 
     #[plugin_fn]
     pub fn message(input: String) -> FnResult<u64> {
 
-        print("👋 message: ".to_string() + &input);
+        println("👋 message: ".to_string() + &input);
         
         Ok(0)
     }
@@ -111,14 +111,14 @@ func main() {
 	nc, err := nats.Connect(nats.DefaultURL)
 
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Printlnln(err.Error())
 	}
 	defer nc.Close()
 
 	err = nc.Publish("news", []byte("Hello World"))
 
 	if err != nil {
-		fmt.Println(err.Error())
+		fmt.Printlnln(err.Error())
 	}
 }
 

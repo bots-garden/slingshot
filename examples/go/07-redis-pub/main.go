@@ -7,12 +7,12 @@ import (
 	"github.com/valyala/fastjson"
 )
 
-//export hostPrint
-func hostPrint(offset uint64) uint64
+//export hostPrintln
+func hostPrintln(offset uint64) uint64
 
-func Print(text string) {
+func Println(text string) {
 	memoryText := pdk.AllocateString(text)
-	hostPrint(memoryText.Offset())
+	hostPrintln(memoryText.Offset())
 }
 
 //export hostGetEnv
@@ -125,9 +125,9 @@ func publish() uint64 {
 	redisURI := GetEnv("REDIS_URI")
 	idRedisClient, errInit := InitRedisClient("pubsubcli", redisURI)
 	if errInit != nil {
-		Print("😡 " + errInit.Error())
+		Println("😡 " + errInit.Error())
 	} else {
-		Print("🙂 " + idRedisClient)
+		Println("🙂 " + idRedisClient)
 	}
 
 	RedisPublish("pubsubcli", "news", string(input))

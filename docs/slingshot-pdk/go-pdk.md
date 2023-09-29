@@ -14,7 +14,7 @@ import (
 
 func helloHandler(argHandler []byte) []byte {
 	input := string(argHandler)
-	slingshot.Print("👋 hello world 🌍 " + string(input))
+	slingshot.Println("👋 hello world 🌍 " + string(input))
 	
 	return []byte("👋 Hello World 🌍")
 }
@@ -36,14 +36,14 @@ func main() {}
 
 ```bash
 tinygo build -scheduler=none --no-debug \
-    -o print.wasm \
+    -o println.wasm \
     -target wasi main.go
 ```
 
 #### Run the Slingshot plugin
 
 ```bash
-./slingshot run --wasm=./print.wasm \
+./slingshot run --wasm=./println.wasm \
 --handler=callHandler \
 --input="🤓 I'm a geek"
 ```
@@ -52,6 +52,7 @@ tinygo build -scheduler=none --no-debug \
 > 🚧 This is a work in progress
 
 - `slingshot.Print(text string)`
+- `slingshot.Println(text string)`
 - `slingshot.Log(text string)`
 - `slingshot.MemorySet(key string, value string) (string, error)`
 - `slingshot.MemoryGet(key string) (string, error)`
@@ -135,7 +136,7 @@ import (
 
 func messageHandler(input []byte) []byte {
 
-	slingshot.Print("👋 message: " + string(input))
+	slingshot.Println("👋 message: " + string(input))
 	return nil
 
 }
@@ -171,9 +172,9 @@ func publishHandler(input []byte) []byte {
 	redisURI := slingshot.GetEnv("REDIS_URI")
 	idRedisClient, errInit := slingshot.InitRedisClient("pubsubcli", redisURI)
 	if errInit != nil {
-		slingshot.Print("😡 " + errInit.Error())
+		slingshot.Println("😡 " + errInit.Error())
 	} else {
-		slingshot.Print("🙂 " + idRedisClient)
+		slingshot.Println("🙂 " + idRedisClient)
 	}
 
 	slingshot.RedisPublish("pubsubcli", "news", string(input))
@@ -205,7 +206,7 @@ package main
 import slingshot "github.com/bots-garden/slingshot/go-pdk"
 
 func messageHandler(input []byte) []byte {
-	slingshot.Print("👋 NATS message: " + string(input))
+	slingshot.Println("👋 NATS message: " + string(input))
 	return nil
 }
 
@@ -240,20 +241,20 @@ import (
 func publishHandler(input []byte) []byte {
 
 	natsURL := slingshot.GetEnv("NATS_URL")
-	slingshot.Print("💜 NATS_URL: " + natsURL)
+	slingshot.Println("💜 NATS_URL: " + natsURL)
 	idNatsConnection, errInit := slingshot.InitNatsConnection("natsconn01", natsURL)
 	if errInit != nil {
-		slingshot.Print("😡 " + errInit.Error())
+		slingshot.Println("😡 " + errInit.Error())
 	} else {
-		slingshot.Print("🙂 " + idNatsConnection)
+		slingshot.Println("🙂 " + idNatsConnection)
 	}
 
 	res, err := slingshot.NatsPublish("natsconn01", "news", string(input))
 
 	if err != nil {
-		slingshot.Print("😡 " + err.Error())
+		slingshot.Println("😡 " + err.Error())
 	} else {
-		slingshot.Print("🙂 " + res)
+		slingshot.Println("🙂 " + res)
 	}
 	return nil
 }
@@ -289,7 +290,7 @@ func helloHandler(argHandler []byte) []byte {
 	if err != nil {
 		slingshot.Log("😡 " + err.Error())
 	}
-	slingshot.Print(content)
+	slingshot.Println(content)
 
 	text := `
 	<html>

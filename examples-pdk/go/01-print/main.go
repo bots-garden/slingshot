@@ -6,7 +6,7 @@ import (
 
 func helloHandler(argHandler []byte) []byte {
 	input := string(argHandler)
-	slingshot.Print("👋 hello world 🌍 " + string(input))
+	slingshot.Println("👋 hello world 🌍 " + string(input))
 	
 	slingshot.Log("🙂 have a nice day 🏖️")
 
@@ -15,13 +15,13 @@ func helloHandler(argHandler []byte) []byte {
 
 //export callHandler
 func callHandler() {
-	slingshot.Print("👋 callHandler function")
+	slingshot.Println("👋 callHandler function")
 	slingshot.ExecHandler(helloHandler)
 }
 
 func main() {}
 /*
-    ./slingshot run --wasm=./print.wasm \
+    ./slingshot run --wasm=./println.wasm \
 	--handler=callHandler \
 	--input="🤓 I'm a geek"
 
