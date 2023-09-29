@@ -22,6 +22,11 @@ func LoadHostFunctionCallBacks() {
 		callbacks.Log,
 	)
 
+	input_string := hof.DefineHostFunctionCallBack(
+		"hostInput",
+		callbacks.Input,
+	)
+
 	get_message := hof.DefineHostFunctionCallBack(
 		"hostGetMessage",
 		callbacks.GetMessage,
@@ -93,6 +98,7 @@ func LoadHostFunctionCallBacks() {
 	hof.AppendHostFunction(print_string)
 	hof.AppendHostFunction(println_string)
 	hof.AppendHostFunction(log_string)
+	hof.AppendHostFunction(input_string)
 	hof.AppendHostFunction(memory_set)
 	hof.AppendHostFunction(memory_get)
 	hof.AppendHostFunction(get_env)
