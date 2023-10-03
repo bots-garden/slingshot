@@ -14,3 +14,10 @@ func ExecHandler(handlerFunction func(param []byte) []byte) {
 	pdk.OutputMemory(mem)
 	//return 0
 }
+
+func ExecVoidHandler(handlerFunction func(param []byte)) {
+	functionParameters := pdk.Input()
+
+	handlerFunction(functionParameters)
+
+}

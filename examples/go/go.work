@@ -13,6 +13,7 @@ use (
 	./09-nats-pub
 	./10-read
 	./11-write
+	./12-input-string
 )
 
 // go work sync

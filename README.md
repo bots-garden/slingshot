@@ -37,6 +37,18 @@
 --input="🤓 I'm a geek"
 ```
 
+**Run Slingshot with Docker (multi arch image 🐳)**:
+```bash title="Run Slingshot with Docker (multi arch image 🐳)"
+HTTP_PORT=8080
+docker run \
+    -p ${HTTP_PORT}:${HTTP_PORT} \
+    -v $(pwd)/hello-service:/app --rm botsgarden/slingshot:0.0.5 \
+    /slingshot start \
+    --wasm=./app/hello.wasm \
+    --handler=callHandler \
+    --http-port=${HTTP_PORT} 
+```
+
 ## How is Slingshot developed?
 
 Slingshot is developed in Go with **[Wazero](https://wazero.io/)**[^1] as the Wasm runtime and **[Extism](https://extism.org/)**[^2], which offers a Wazero-based Go SDK and a Wasm plugin system.
