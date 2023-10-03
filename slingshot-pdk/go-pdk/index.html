@@ -1029,7 +1029,7 @@
 </span><span id="__span-0-6">
 </span><span id="__span-0-7"><span class="kd">func</span><span class="w"> </span><span class="nx">helloHandler</span><span class="p">(</span><span class="nx">argHandler</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-8"><span class="w">    </span><span class="nx">input</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">argHandler</span><span class="p">)</span>
-</span><span id="__span-0-9"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;👋 hello world 🌍 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-0-9"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;👋 hello world 🌍 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
 </span><span id="__span-0-10">
 </span><span id="__span-0-11"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="p">[]</span><span class="nb">byte</span><span class="p">(</span><span class="s">&quot;👋 Hello World 🌍&quot;</span><span class="p">)</span>
 </span><span id="__span-0-12"><span class="p">}</span>
@@ -1049,11 +1049,11 @@
 </ol>
 <h4 id="build-the-slingshot-plugin">Build the Slingshot plugin</h4>
 <div class="highlight"><pre><span></span><code><span id="__span-1-1">tinygo<span class="w"> </span>build<span class="w"> </span>-scheduler<span class="o">=</span>none<span class="w"> </span>--no-debug<span class="w"> </span><span class="se">\</span>
-</span><span id="__span-1-2"><span class="w">    </span>-o<span class="w"> </span>print.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-1-2"><span class="w">    </span>-o<span class="w"> </span>println.wasm<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-1-3"><span class="w">    </span>-target<span class="w"> </span>wasi<span class="w"> </span>main.go
 </span></code></pre></div>
 <h4 id="run-the-slingshot-plugin">Run the Slingshot plugin</h4>
-<div class="highlight"><pre><span></span><code><span id="__span-2-1">./slingshot<span class="w"> </span>run<span class="w"> </span>--wasm<span class="o">=</span>./print.wasm<span class="w"> </span><span class="se">\</span>
+<div class="highlight"><pre><span></span><code><span id="__span-2-1">./slingshot<span class="w"> </span>run<span class="w"> </span>--wasm<span class="o">=</span>./println.wasm<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-2">--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-2-3">--input<span class="o">=</span><span class="s2">&quot;🤓 I&#39;m a geek&quot;</span>
 </span></code></pre></div>
@@ -1063,6 +1063,7 @@
 </blockquote>
 <ul>
 <li><code>slingshot.Print(text string)</code></li>
+<li><code>slingshot.Println(text string)</code></li>
 <li><code>slingshot.Log(text string)</code></li>
 <li><code>slingshot.MemorySet(key string, value string) (string, error)</code></li>
 <li><code>slingshot.MemoryGet(key string) (string, error)</code></li>
@@ -1137,7 +1138,7 @@
 </span><span id="__span-5-6">
 </span><span id="__span-5-7"><span class="kd">func</span><span class="w"> </span><span class="nx">messageHandler</span><span class="p">(</span><span class="nx">input</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-5-8">
-</span><span id="__span-5-9"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;👋 message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-5-9"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;👋 message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
 </span><span id="__span-5-10"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
 </span><span id="__span-5-11">
 </span><span id="__span-5-12"><span class="p">}</span>
@@ -1167,9 +1168,9 @@
 </span><span id="__span-7-7"><span class="w">    </span><span class="nx">redisURI</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">GetEnv</span><span class="p">(</span><span class="s">&quot;REDIS_URI&quot;</span><span class="p">)</span>
 </span><span id="__span-7-8"><span class="w">    </span><span class="nx">idRedisClient</span><span class="p">,</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">InitRedisClient</span><span class="p">(</span><span class="s">&quot;pubsubcli&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">redisURI</span><span class="p">)</span>
 </span><span id="__span-7-9"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-7-10"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-7-10"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
 </span><span id="__span-7-11"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-7-12"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idRedisClient</span><span class="p">)</span>
+</span><span id="__span-7-12"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idRedisClient</span><span class="p">)</span>
 </span><span id="__span-7-13"><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-7-14">
 </span><span id="__span-7-15"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">RedisPublish</span><span class="p">(</span><span class="s">&quot;pubsubcli&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;news&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
@@ -1195,7 +1196,7 @@
 </span><span id="__span-9-3"><span class="kn">import</span><span class="w"> </span><span class="nx">slingshot</span><span class="w"> </span><span class="s">&quot;github.com/bots-garden/slingshot/go-pdk&quot;</span>
 </span><span id="__span-9-4">
 </span><span id="__span-9-5"><span class="kd">func</span><span class="w"> </span><span class="nx">messageHandler</span><span class="p">(</span><span class="nx">input</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-9-6"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;👋 NATS message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
+</span><span id="__span-9-6"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;👋 NATS message: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
 </span><span id="__span-9-7"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
 </span><span id="__span-9-8"><span class="p">}</span>
 </span><span id="__span-9-9">
@@ -1224,20 +1225,20 @@
 </span><span id="__span-11-7"><span class="kd">func</span><span class="w"> </span><span class="nx">publishHandler</span><span class="p">(</span><span class="nx">input</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="p">)</span><span class="w"> </span><span class="p">[]</span><span class="kt">byte</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-11-8">
 </span><span id="__span-11-9"><span class="w">    </span><span class="nx">natsURL</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">GetEnv</span><span class="p">(</span><span class="s">&quot;NATS_URL&quot;</span><span class="p">)</span>
-</span><span id="__span-11-10"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;💜 NATS_URL: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">natsURL</span><span class="p">)</span>
+</span><span id="__span-11-10"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;💜 NATS_URL: &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">natsURL</span><span class="p">)</span>
 </span><span id="__span-11-11"><span class="w">    </span><span class="nx">idNatsConnection</span><span class="p">,</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">InitNatsConnection</span><span class="p">(</span><span class="s">&quot;natsconn01&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">natsURL</span><span class="p">)</span>
 </span><span id="__span-11-12"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-13"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-11-13"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
 </span><span id="__span-11-14"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-15"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idNatsConnection</span><span class="p">)</span>
+</span><span id="__span-11-15"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idNatsConnection</span><span class="p">)</span>
 </span><span id="__span-11-16"><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-11-17">
 </span><span id="__span-11-18"><span class="w">    </span><span class="nx">res</span><span class="p">,</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">NatsPublish</span><span class="p">(</span><span class="s">&quot;natsconn01&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;news&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
 </span><span id="__span-11-19">
 </span><span id="__span-11-20"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-21"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-11-21"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
 </span><span id="__span-11-22"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-11-23"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span>
+</span><span id="__span-11-23"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">res</span><span class="p">)</span>
 </span><span id="__span-11-24"><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-11-25"><span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="kc">nil</span>
 </span><span id="__span-11-26"><span class="p">}</span>
@@ -1267,7 +1268,7 @@
 </span><span id="__span-13-10"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">err</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-13-11"><span class="w">        </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Log</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">err</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
 </span><span id="__span-13-12"><span class="w">    </span><span class="p">}</span>
-</span><span id="__span-13-13"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Print</span><span class="p">(</span><span class="nx">content</span><span class="p">)</span>
+</span><span id="__span-13-13"><span class="w">    </span><span class="nx">slingshot</span><span class="p">.</span><span class="nx">Println</span><span class="p">(</span><span class="nx">content</span><span class="p">)</span>
 </span><span id="__span-13-14">
 </span><span id="__span-13-15"><span class="w">    </span><span class="nx">text</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="s">`</span>
 </span><span id="__span-13-16"><span class="s">    &lt;html&gt;</span>

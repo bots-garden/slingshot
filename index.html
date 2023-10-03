@@ -897,6 +897,15 @@
 </span><span id="__span-4-4">--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
 </span><span id="__span-4-5">--input<span class="o">=</span><span class="s2">&quot;🤓 I&#39;m a geek&quot;</span>
 </span></code></pre></div>
+<div class="highlight"><span class="filename">Run Slingshot with Docker (multi arch image 🐳)</span><pre><span></span><code><span id="__span-5-1"><span class="nv">HTTP_PORT</span><span class="o">=</span><span class="m">8080</span>
+</span><span id="__span-5-2">docker<span class="w"> </span>run<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-3"><span class="w">    </span>-p<span class="w"> </span><span class="si">${</span><span class="nv">HTTP_PORT</span><span class="si">}</span>:<span class="si">${</span><span class="nv">HTTP_PORT</span><span class="si">}</span><span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-4"><span class="w">    </span>-v<span class="w"> </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span>/hello-service:/app<span class="w"> </span>--rm<span class="w"> </span>botsgarden/slingshot:0.0.5<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-5"><span class="w">    </span>/slingshot<span class="w"> </span>start<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-6"><span class="w">    </span>--wasm<span class="o">=</span>./app/hello.wasm<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-7"><span class="w">    </span>--handler<span class="o">=</span>callHandler<span class="w"> </span><span class="se">\</span>
+</span><span id="__span-5-8"><span class="w">    </span>--http-port<span class="o">=</span><span class="si">${</span><span class="nv">HTTP_PORT</span><span class="si">}</span><span class="w"> </span>
+</span></code></pre></div>
 <h2 id="how-is-slingshot-developed">How is Slingshot developed?</h2>
 <p>Slingshot is developed in Go with <strong><a href="https://wazero.io/">Wazero</a></strong><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup> as the Wasm runtime and <strong><a href="https://extism.org/">Extism</a></strong><sup id="fnref:2"><a class="footnote-ref" href="#fn:2">2</a></sup>, which offers a Wazero-based Go SDK and a Wasm plugin system.</p>
 <h2 id="install-slingshot">Install SlingShot</h2>

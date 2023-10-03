@@ -992,12 +992,12 @@
 </span><span id="__span-0-7"><span class="w">    </span><span class="s">&quot;github.com/valyala/fastjson&quot;</span>
 </span><span id="__span-0-8"><span class="p">)</span>
 </span><span id="__span-0-9">
-</span><span id="__span-0-10"><span class="c1">//export hostPrint</span>
-</span><span id="__span-0-11"><span class="kd">func</span><span class="w"> </span><span class="nx">hostPrint</span><span class="p">(</span><span class="nx">offset</span><span class="w"> </span><span class="kt">uint64</span><span class="p">)</span><span class="w"> </span><span class="kt">uint64</span>
+</span><span id="__span-0-10"><span class="c1">//export hostPrintln</span>
+</span><span id="__span-0-11"><span class="kd">func</span><span class="w"> </span><span class="nx">hostPrintln</span><span class="p">(</span><span class="nx">offset</span><span class="w"> </span><span class="kt">uint64</span><span class="p">)</span><span class="w"> </span><span class="kt">uint64</span>
 </span><span id="__span-0-12">
-</span><span id="__span-0-13"><span class="kd">func</span><span class="w"> </span><span class="nx">Print</span><span class="p">(</span><span class="nx">text</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
+</span><span id="__span-0-13"><span class="kd">func</span><span class="w"> </span><span class="nx">Println</span><span class="p">(</span><span class="nx">text</span><span class="w"> </span><span class="kt">string</span><span class="p">)</span><span class="w"> </span><span class="p">{</span>
 </span><span id="__span-0-14"><span class="w">    </span><span class="nx">memoryText</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">pdk</span><span class="p">.</span><span class="nx">AllocateString</span><span class="p">(</span><span class="nx">text</span><span class="p">)</span>
-</span><span id="__span-0-15"><span class="w">    </span><span class="nx">hostPrint</span><span class="p">(</span><span class="nx">memoryText</span><span class="p">.</span><span class="nx">Offset</span><span class="p">())</span>
+</span><span id="__span-0-15"><span class="w">    </span><span class="nx">hostPrintln</span><span class="p">(</span><span class="nx">memoryText</span><span class="p">.</span><span class="nx">Offset</span><span class="p">())</span>
 </span><span id="__span-0-16"><span class="p">}</span>
 </span><span id="__span-0-17">
 </span><span id="__span-0-18"><span class="c1">//export hostGetEnv</span>
@@ -1110,9 +1110,9 @@
 </span><span id="__span-0-125"><span class="w">    </span><span class="nx">redisURI</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">GetEnv</span><span class="p">(</span><span class="s">&quot;REDIS_URI&quot;</span><span class="p">)</span>
 </span><span id="__span-0-126"><span class="w">    </span><span class="nx">idRedisClient</span><span class="p">,</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="nx">InitRedisClient</span><span class="p">(</span><span class="s">&quot;pubsubcli&quot;</span><span class="p">,</span><span class="w"> </span><span class="nx">redisURI</span><span class="p">)</span>
 </span><span id="__span-0-127"><span class="w">    </span><span class="k">if</span><span class="w"> </span><span class="nx">errInit</span><span class="w"> </span><span class="o">!=</span><span class="w"> </span><span class="kc">nil</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-128"><span class="w">        </span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
+</span><span id="__span-0-128"><span class="w">        </span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;😡 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">errInit</span><span class="p">.</span><span class="nx">Error</span><span class="p">())</span>
 </span><span id="__span-0-129"><span class="w">    </span><span class="p">}</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="p">{</span>
-</span><span id="__span-0-130"><span class="w">        </span><span class="nx">Print</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idRedisClient</span><span class="p">)</span>
+</span><span id="__span-0-130"><span class="w">        </span><span class="nx">Println</span><span class="p">(</span><span class="s">&quot;🙂 &quot;</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="nx">idRedisClient</span><span class="p">)</span>
 </span><span id="__span-0-131"><span class="w">    </span><span class="p">}</span>
 </span><span id="__span-0-132">
 </span><span id="__span-0-133"><span class="w">    </span><span class="nx">RedisPublish</span><span class="p">(</span><span class="s">&quot;pubsubcli&quot;</span><span class="p">,</span><span class="w"> </span><span class="s">&quot;news&quot;</span><span class="p">,</span><span class="w"> </span><span class="nb">string</span><span class="p">(</span><span class="nx">input</span><span class="p">))</span>
