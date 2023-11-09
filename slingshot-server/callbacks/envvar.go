@@ -7,7 +7,8 @@ import (
 	"os"
 	"slingshot-server/mem"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 )
 
 func GetEnv(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {

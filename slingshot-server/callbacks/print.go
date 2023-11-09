@@ -7,7 +7,8 @@ import (
 	"slingshot-server/mem"
 	"time"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 )
 
 func Print(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {

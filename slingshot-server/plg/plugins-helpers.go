@@ -10,7 +10,8 @@ import (
 	"slingshot-server/hof"
 	"slingshot-server/initcbk"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 	"github.com/tetratelabs/wazero"
 )
 
@@ -74,6 +75,7 @@ func GetPlugin(key string) (ExtismPlugin, error) {
 		return ExtismPlugin{}, errors.New("🔴 no plugin")
 	}
 }
+
 
 /*
 func SelectPlugin() (extism.Plugin, error) {

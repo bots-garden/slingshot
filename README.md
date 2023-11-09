@@ -1,6 +1,8 @@
 # SlingShot
 
-**SlingShot** is a **Wasm** runner to run or serve **[Extism](https://extism.org/)** **Wasm** plug-ins
+> How to run serverless applications augmented by Wasm
+
+**SlingShot** is a **Wasm** runner to run or serve **[Extism](https://extism.org/)** **Wasm** plug-ins.
 
 **Run a wasm plug-in**:
 ```bash title="Run a wasm plug-in"

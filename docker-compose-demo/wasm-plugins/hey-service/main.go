@@ -22,7 +22,7 @@ func handle()  {
 		text = "😡 Error: " + err.Error()
 		code = "500"
 	} else {
-		text = "🩵 Hello " + string(JSONData.GetStringBytes("body"))
+		text = "💜 Hey " + string(JSONData.GetStringBytes("body"))
 		code = "200"
 	}
 
@@ -30,12 +30,12 @@ func handle()  {
 		`"Content-Type": "text/plain; charset=utf-8"`,
 		`"X-Slingshot-version": "0.0.0"`,
 	}
-	
-	headersStr := strings.Join(headers, ",")
 
+	headersStr := strings.Join(headers, ",")
+	
 	// if "Content-Type": "text/plain; charset=utf-8" => use textBody
 	// if "Content-Type": "application/json; charset=utf-8" => use jsonBody
-
+	
 	response := `{"headers":{` + headersStr + `}, "textBody": "` + text + `", "statusCode": `+ code +`}`
 
 	mem := pdk.AllocateString(response)

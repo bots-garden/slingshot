@@ -25,11 +25,11 @@ description: >
   ```
 
 env:
-  TAG: "v0.0.5" # for git
-  IMAGE_TAG: "0.0.5"
+  TAG: "v0.0.6" # for git
+  IMAGE_TAG: "0.0.6"
   IMAGE_BASE_NAME: "slingshot"
   APPLICATION_NAME: "slingshot"
-  NICK_NAME: "🐳 [spouting whale]"
+  NICK_NAME: "🐋 [whale]"
 
 tasks:
 

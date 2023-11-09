@@ -27,16 +27,16 @@ func handle()  {
 	}
 
 	headers := []string{
-		`"Content-Type": "text/plain; charset=utf-8"`,
+		`"Content-Type": "application/json; charset=utf-8"`,
 		`"X-Slingshot-version": "0.0.0"`,
 	}
-	
+
 	headersStr := strings.Join(headers, ",")
 
 	// if "Content-Type": "text/plain; charset=utf-8" => use textBody
 	// if "Content-Type": "application/json; charset=utf-8" => use jsonBody
-
-	response := `{"headers":{` + headersStr + `}, "textBody": "` + text + `", "statusCode": `+ code +`}`
+	
+	response := `{"headers":{` + headersStr + `}, "jsonBody": {"message":"` + text + `"}, "statusCode": `+ code +`}`
 
 	mem := pdk.AllocateString(response)
 	// copy output to host memory
@@ -45,3 +45,4 @@ func handle()  {
 
 func main() {}
 
+//jsonBody

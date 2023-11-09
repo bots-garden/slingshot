@@ -6,7 +6,8 @@ import (
 	"fmt"
 	"slingshot-server/mem"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 )
 
 var messagesMap = map[string]string{

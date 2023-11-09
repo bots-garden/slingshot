@@ -15,7 +15,6 @@ import (
 // Start the slingshot HTTP server (triggered by the `listen` command, from parseCommand)
 func Start(wasmFilePath string, wasmFunctionName string, httpPort string, logLevel string, allowHosts string, allowPaths string, config string) {
 
-
 	plg.Initialize("slingshotplug", wasmFilePath, logLevel, allowHosts, allowPaths, config)
 
 	/*
@@ -33,15 +32,14 @@ func Start(wasmFilePath string, wasmFunctionName string, httpPort string, logLev
 		mutex.Lock()
 		// don't forget to release the lock on the Mutex, sometimes its best to `defer m.Unlock()` right after yout get the lock
 		defer mutex.Unlock()
-
+		
 		extismPlugin, err := plg.GetPlugin("slingshotplug")
-
 		if err != nil {
 			log.Println("🔴 Error when getting the plugin", err)
 			c.Status(http.StatusInternalServerError)
 			return c.SendString(err.Error())
 		}
-
+		
 		/*
 			if extismPlugin.MainFunction == true {
 				_, _, err := extismPlugin.Plugin.Call("_start", nil)

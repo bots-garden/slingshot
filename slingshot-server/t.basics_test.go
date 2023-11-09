@@ -8,7 +8,8 @@ import (
 	"slingshot-server/plg"
 	"testing"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 )
 
 func TestStorePlugin(t *testing.T) {

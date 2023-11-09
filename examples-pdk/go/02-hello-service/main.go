@@ -28,12 +28,15 @@ func helloHandler(http_request_data []byte) []byte {
 	}
 
 	headers := []string{
-		`"Content-Type": "application/json; charset=utf-8"`,
+		`"Content-Type": "text/plain; charset=utf-8"`,
 		`"X-Slingshot-version": "0.0.0"`,
 	}
 
 	headersStr := strings.Join(headers, ",")
 
+	// if "Content-Type": "text/plain; charset=utf-8" => use textBody
+	// if "Content-Type": "application/json; charset=utf-8" => use jsonBody
+	
 	response := `{"headers":{` + headersStr + `}, "textBody": "` + text + `", "statusCode": ` + code + `}`
 
 	return []byte(response)

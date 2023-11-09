@@ -1,7 +1,7 @@
 package hof
 
 import (
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
 	"github.com/tetratelabs/wazero/api"
 )
 
@@ -25,7 +25,7 @@ func DefineHostFunctionCallBack(wasmName string, callBack extism.HostFunctionSta
 		"env",
 		callBack,
 		[]api.ValueType{api.ValueTypeI64},
-		api.ValueTypeI64,
+		[]api.ValueType{api.ValueTypeI64},
 	)
 
 	return host_function

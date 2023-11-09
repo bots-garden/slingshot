@@ -1,0 +1,65 @@
+services:
+  hello-world:
+    image: "botsgarden/slingshot:0.0.5"
+    command: |
+      /slingshot start
+        --wasm=./wasm-plugins/hello-service/hello.wasm 
+        --handler=handle 
+        --http-port=7071
+    ports:
+      - target: 7071
+        published: 7071
+    networks:
+      - slingshot-net
+    volumes:
+      - ./wasm-plugins:/wasm-plugins
+
+  hey-people:
+    image: "botsgarden/slingshot:0.0.5"
+    command: |
+      /slingshot start
+        --wasm=./wasm-plugins/hey-service/hey.wasm 
+        --handler=handle 
+        --http-port=7072
+    ports:
+      - target: 7072
+        published: 7072
+    networks:
+      - slingshot-net
+    volumes:
+      - ./wasm-plugins:/wasm-plugins
+
+  test-hello-service:
+    image: yauritux/busybox-curl
+    #image: ubuntu:latest
+    depends_on:
+      - hello-world
+    networks:
+      - slingshot-net
+    command:
+      - /bin/sh 
+      - -c 
+      - |
+        curl http://hello-world:7071 \
+          -H 'content-type: text/plain; charset=utf-8' \
+          -d '😄 Bob Morane 🤖'
+
+  test-hey-service:
+    image: yauritux/busybox-curl
+    #image: ubuntu:latest
+    depends_on:
+      - hey-people
+    networks:
+      - slingshot-net
+    command:
+      - /bin/sh 
+      - -c 
+      - |
+        curl http://hey-people:7072 \
+          -H 'content-type: text/plain; charset=utf-8' \
+          -d '😄 Bob Morane 🤖'
+
+networks:
+  slingshot-net:
+    #driver: bridge
+    #external: true

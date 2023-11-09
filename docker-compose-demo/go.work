@@ -1,0 +1,8 @@
+go 1.20
+
+use (
+	./wasm-plugins/hello-service
+	./wasm-plugins/hey-service
+)
+
+// go work sync

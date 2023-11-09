@@ -54,3 +54,11 @@ tasks:
         hey -n 300 -c 100 -m POST \
         -d '👋 John Doe' \
         "http://localhost:7070" 
+
+  # task stress-report
+  stress-report:
+    cmds:
+      - |
+        hey -n 300 -c 100 -m POST \
+        -d '👋 John Doe' \
+        "http://localhost:7070" > $(./slingshot version).txt

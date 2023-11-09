@@ -3,7 +3,8 @@ package mem
 import (
 	"encoding/json"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 )
 
 // Read bytes from the shared memory. The bytes were copied by the wasm plugin

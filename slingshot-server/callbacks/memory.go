@@ -7,7 +7,8 @@ import (
 	"slingshot-server/slingshot"
 	"sync"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 )
 
 var memCache sync.Map

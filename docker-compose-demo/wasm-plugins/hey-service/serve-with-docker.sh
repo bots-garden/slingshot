@@ -9,7 +9,7 @@ docker run \
   -p ${HTTP_PORT}:${HTTP_PORT} \
   -v $(pwd):/app --rm ${DOCKER_USER}/${IMAGE_NAME}:${IMAGE_TAG} \
   /slingshot start \
-  --wasm=./app/hello.wasm \
-  --handler=callHandler \
+  --wasm=./app/hey.wasm \
+  --handler=handle \
   --http-port=${HTTP_PORT} 
 

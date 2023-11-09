@@ -8,7 +8,8 @@ import (
 	"slingshot-server/mem"
 	"slingshot-server/slingshot"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
+
 )
 
 func ReadFile(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {

@@ -7,7 +7,7 @@ import (
 	"os"
 	"strings"
 
-	"github.com/extism/extism"
+	extism "github.com/extism/go-sdk"
 )
 
 func Input(ctx context.Context, plugin *extism.CurrentPlugin, stack []uint64) {
